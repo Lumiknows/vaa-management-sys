@@ -39,7 +39,7 @@ export async function syncWorkLogsToSheet() {
   const rows = logs.map((l) => [
     l.workDate.toISOString().split('T')[0],
     l.assignment.client.name,
-    l.vaProfile.user.name || l.vaProfile.user.email,
+    l.vaProfile.user.firstName || l.vaProfile.user.email,
     Number(l.hours).toFixed(2),
     l.description ?? '',
   ])

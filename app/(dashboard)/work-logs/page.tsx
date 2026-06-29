@@ -17,7 +17,7 @@ export default async function WorkLogsPage({
 
   const where: Record<string, unknown> = {}
   if (assignmentId) where.assignmentId = assignmentId
-  if (user?.role === 'VA') where.vaProfileId = user.vaProfile?.id
+  if (user?.userType === 'VIRTUAL_ASSISTANT') where.vaProfileId = user.vaProfile?.id
 
   const logs = await prisma.workLog.findMany({
     where,
@@ -81,7 +81,7 @@ export default async function WorkLogsPage({
                       {log.assignment.client.name}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {log.vaProfile.user.name || log.vaProfile.user.email} •{' '}
+                      {log.vaProfile.user.firstName || log.vaProfile.user.email} •{' '}
                       {format(log.workDate, 'EEE, MMM dd, yyyy')}
                     </p>
                     {log.description && (

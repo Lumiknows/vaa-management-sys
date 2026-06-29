@@ -15,6 +15,7 @@ import {
   UserCog,
   BarChart3,
   ListTodo,
+  Shield,
 } from 'lucide-react'
 import Image from 'next/image'
 
@@ -34,7 +35,7 @@ const vaRoutes = [
   { label: 'My Assignments', href: '/assignments', icon: Briefcase },
 ]
 
-export function Sidebar({ role = 'MANAGER' }: { role?: 'MANAGER' | 'VA' }) {
+export function Sidebar({ role = 'MANAGER', isAdmin = false }: { role?: 'MANAGER' | 'VA'; isAdmin?: boolean }) {
   const pathname = usePathname()
   const router = useRouter()
   const routes = role === 'VA' ? vaRoutes : managerRoutes
@@ -89,6 +90,40 @@ export function Sidebar({ role = 'MANAGER' }: { role?: 'MANAGER' | 'VA' }) {
               </Link>
             )
           })}
+
+          {isAdmin && (
+            <>
+              <div className="my-2 border-t" />
+              <Link href="/departments">
+                <Button
+                  variant="ghost"
+                  className={cn(
+                    'w-full justify-start gap-3 rounded-lg text-sm font-medium transition-colors',
+                    pathname === '/departments'
+                      ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+                      : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground'
+                  )}
+                >
+                  <Building2 className="h-4 w-4 shrink-0" />
+                  Departments
+                </Button>
+              </Link>
+              <Link href="/admin/users">
+                <Button
+                  variant="ghost"
+                  className={cn(
+                    'w-full justify-start gap-3 rounded-lg text-sm font-medium transition-colors',
+                    pathname.startsWith('/admin')
+                      ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+                      : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground'
+                  )}
+                >
+                  <Shield className="h-4 w-4 shrink-0" />
+                  Admin Panel
+                </Button>
+              </Link>
+            </>
+          )}
         </nav>
       </ScrollArea>
       <div className="border-t p-3">

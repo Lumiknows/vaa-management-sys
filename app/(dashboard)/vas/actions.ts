@@ -6,7 +6,9 @@ import { redirect } from 'next/navigation'
 
 export async function createVA(formData: FormData) {
   const email = formData.get('email') as string
-  const name = (formData.get('name') as string) || null
+  const nameVal = (formData.get('name') as string) || null
+  const firstName = nameVal?.split(' ')[0] || null
+  const lastName = nameVal?.split(' ').slice(1).join(' ') || null
   const phone = (formData.get('phone') as string) || null
   const hourlyRate = formData.get('hourlyRate') as string
   const notes = (formData.get('notes') as string) || null
@@ -15,8 +17,10 @@ export async function createVA(formData: FormData) {
   const user = await prisma.user.create({
     data: {
       email,
-      name,
-      role: 'VA',
+      firstName,
+      lastName,
+      systemRole: 'VA',
+      userType: 'VIRTUAL_ASSISTANT',
       vaProfile: {
         create: {
           phone,

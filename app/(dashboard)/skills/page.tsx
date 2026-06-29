@@ -3,7 +3,7 @@ import { SkillManager } from '@/components/skills/SkillManager'
 
 export default async function SkillsPage() {
   const skills = await prisma.skill.findMany({
-    include: { _count: { select: { vas: true } } },
+    include: { _count: { select: { vaSkills: true } } },
     orderBy: [{ category: 'asc' }, { name: 'asc' }],
   })
 
@@ -20,7 +20,7 @@ export default async function SkillsPage() {
           id: s.id,
           name: s.name,
           category: s.category,
-          vaCount: s._count.vas,
+          vaCount: s._count.vaSkills,
         }))}
       />
     </div>

@@ -7,10 +7,92 @@ datasource db {
   provider = "postgresql"
 }
 
-enum UserRole {
-  MANAGER
+// ── Phase 0-1: System Access & Organization ──────────────────────
+
+enum SystemRole {
+  SUPER_ADMIN
+  SYSTEM_ADMIN
+  EXECUTIVE
+  DEPT_MANAGER
+  STAFF
   VA
 }
+
+enum UserType {
+  INTERNAL_STAFF
+  VIRTUAL_ASSISTANT
+}
+
+enum TemporaryRole {
+  CONTRIBUTOR
+  VIEWER
+  APPROVER
+}
+
+// ── Phase 2: VA Workforce ────────────────────────────────────────
+
+enum ContractType {
+  REGULAR
+  PROJECT_BASED
+  PROBATIONARY
+}
+
+enum EmploymentStatus {
+  EMPLOYED
+  ENGAGED
+  CONTRACTED
+  END_OF_CONTRACT
+  TRANSFERRED
+  RESIGNED
+  TERMINATED
+  BLACKLISTED
+}
+
+enum Availability {
+  AVAILABLE
+  PARTIALLY_ASSIGNED
+  FULLY_ASSIGNED
+  ON_LEAVE
+  UNAVAILABLE
+}
+
+enum Proficiency {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+}
+
+enum LeaveType {
+  VACATION
+  SICK
+  EMERGENCY
+  MATERNITY
+  PATERNITY
+  UNPAID
+  BEREAVEMENT
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum DocumentType {
+  CONTRACT
+  GOVERNMENT_ID
+  NDA
+  CLEARANCE
+  CERTIFICATE
+  ONBOARDING
+  PERFORMANCE_REVIEW
+  PORTFOLIO
+  OTHER
+}
+
+// ── Phase 3: Clients ─────────────────────────────────────────────
 
 enum AssignmentType {
   REGULAR
@@ -22,6 +104,7 @@ enum AssignmentStatus {
   PAUSED
   COMPLETED
   CANCELLED
+  ON_HOLD
 }
 
 enum SkillCategory {
@@ -40,37 +123,239 @@ enum ClientPlatform {
   MULTI
 }
 
+// ── Phase 4: Ticketing ───────────────────────────────────────────
+
+enum TicketCategory {
+  TECHNICAL
+  HR
+  CLIENT
+  VA_SUPPORT
+  GENERAL
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  WAITING_ON_CLIENT
+  RESOLVED
+  CLOSED
+}
+
+enum TicketSource {
+  INTERNAL
+  EMAIL
+  WHATSAPP
+  CLIENT_PORTAL
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+// ── Audit ────────────────────────────────────────────────────────
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  STATUS_CHANGE
+  TRANSFER
+  APPROVE
+  REJECT
+}
+
+// ──────────────────────────────────────────────────────────────────
+// MODELS — Phase 0-1: Core Organization
+// ──────────────────────────────────────────────────────────────────
+
+model Department {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  parentId    String?  @map("parent_id")
+  parent      Department? @relation("DeptHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  children    Department[] @relation("DeptHierarchy")
+  isParent    Boolean  @default(false) @map("is_parent")
+  description String?
+  headId      String?  @map("head_id")
+  head        User?    @relation("DeptHead", fields: [headId], references: [id], onDelete: SetNull)
+  sortOrder   Int      @default(0) @map("sort_order")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  memberships     DepartmentMembership[]
+  positions       Position[]
+  clients         Client[]
+  tickets         Ticket[]
+  auditLogs       AuditLog[]
+  roleAssignments RoleAssignment[]
+
+  @@map("departments")
+}
+
+model Position {
+  id           String   @id @default(cuid())
+  title        String
+  reportsToId  String?  @map("reports_to_id")
+  reportsTo    Position? @relation("PositionChain", fields: [reportsToId], references: [id], onDelete: SetNull)
+  subordinates Position[] @relation("PositionChain")
+  departmentId String?  @map("department_id")
+  department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  isStaffRole  Boolean  @default(false) @map("is_staff_role")
+  sortOrder    Int      @default(0) @map("sort_order")
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  memberships DepartmentMembership[]
+
+  @@map("positions")
+}
+
+model DepartmentMembership {
+  id           String   @id @default(cuid())
+  userId       String   @map("user_id")
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  departmentId String   @map("department_id")
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  positionId   String?  @map("position_id")
+  position     Position? @relation(fields: [positionId], references: [id], onDelete: SetNull)
+  isPrimary    Boolean  @default(false) @map("is_primary")
+  startedAt    DateTime @default(now()) @map("started_at")
+  endedAt      DateTime? @map("ended_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@unique([userId, departmentId])
+  @@map("department_memberships")
+}
+
+// ──────────────────────────────────────────────────────────────────
+// MODELS — Phase 0-1: Users & Personnel
+// ──────────────────────────────────────────────────────────────────
+
 model User {
-  id         String   @id @default(cuid())
-  email      String   @unique
-  name       String?
-  role       UserRole
-  department String?
-  avatarUrl  String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id         String     @id @default(cuid())
+  email      String     @unique
+  firstName  String     @map("first_name")
+  lastName   String     @map("last_name")
+  systemRole SystemRole @map("system_role")
+  userType   UserType   @map("user_type")
+  avatarUrl  String?    @map("avatar_url")
+  isActive   Boolean    @default(true) @map("is_active")
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime   @updatedAt @map("updated_at")
 
-  vaProfile     VAProfile?
-  managedClients Client[]      @relation("ClientManager")
+  profile            UserProfile?
+  vaProfile          VAProfile?
+  departmentHead     Department[]       @relation("DeptHead")
+  memberships        DepartmentMembership[]
+  employmentRecords  EmploymentRecord[]
+  employmentRecordsInitiated EmploymentRecord[] @relation("EmploymentInitiator")
+  roleAssignments    RoleAssignment[]
+  grantedRoleAssignments RoleAssignment[] @relation("RoleGranter")
+  leaveRequests      LeaveRequest[]     @relation("LeaveRequestor")
+  approvedLeaves     LeaveRequest[]     @relation("LeaveApprover")
+  managedClients     Client[]           @relation("ClientManager")
+  uploadedDocuments  VADocument[]       @relation("DocUploader")
+  createdTickets     Ticket[]           @relation("TicketCreator")
+  assignedTickets    Ticket[]           @relation("TicketAssignee")
+  ticketConversations TicketConversation[]
+  auditLogs          AuditLog[]
 
+  @@index([email])
+  @@index([systemRole])
+  @@index([userType])
   @@map("users")
 }
 
-model VAProfile {
-  id         String   @id @default(cuid())
-  userId     String   @unique
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  phone      String?
-  hourlyRate Decimal? @map("hourly_rate")
-  notes      String?
-  isActive   Boolean  @default(true) @map("is_active")
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+model UserProfile {
+  id                       String   @id @default(cuid())
+  userId                   String   @unique @map("user_id")
+  user                     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone                    String?
+  birthDate                DateTime? @map("birth_date")
+  address                  String?
+  emergencyContactName     String?  @map("emergency_contact_name")
+  emergencyContactPhone    String?  @map("emergency_contact_phone")
+  emergencyContactRelation String?  @map("emergency_contact_relation")
+  gcashNumber              String?  @map("gcash_number")
+  facebookUrl              String?  @map("facebook_url")
+  linkedinUrl              String?  @map("linkedin_url")
+  personalityTraits        String[] @map("personality_traits")
+  createdAt                DateTime @default(now()) @map("created_at")
+  updatedAt                DateTime @updatedAt @map("updated_at")
 
-  skills      Skill[]      @relation("VASkills")
+  @@map("user_profiles")
+}
+
+model EmploymentRecord {
+  id               String           @id @default(cuid())
+  userId           String           @map("user_id")
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contractType     ContractType     @map("contract_type")
+  employmentStatus EmploymentStatus @map("employment_status")
+  startDate        DateTime         @map("start_date")
+  endDate          DateTime?        @map("end_date")
+  effectiveDate    DateTime         @default(now()) @map("effective_date")
+  reason           String?
+  initiatedBy      String?          @map("initiated_by")
+  initiator        User?            @relation("EmploymentInitiator", fields: [initiatedBy], references: [id], onDelete: SetNull)
+  isCurrent        Boolean          @default(true) @map("is_current")
+  tenureDays       Int?             @map("tenure_days")
+  notes            String?
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([employmentStatus])
+  @@map("employment_records")
+}
+
+model RoleAssignment {
+  id           String        @id @default(cuid())
+  userId       String        @map("user_id")
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role         TemporaryRole
+  module       String
+  departmentId String?       @map("department_id")
+  department   Department?   @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  grantedBy    String        @map("granted_by")
+  grantor      User          @relation("RoleGranter", fields: [grantedBy], references: [id], onDelete: Cascade)
+  expiresAt    DateTime?     @map("expires_at")
+  isActive     Boolean       @default(true) @map("is_active")
+  createdAt    DateTime      @default(now()) @map("created_at")
+
+  @@map("role_assignments")
+}
+
+// ──────────────────────────────────────────────────────────────────
+// MODELS — Phase 2: VA Workforce
+// ──────────────────────────────────────────────────────────────────
+
+model VAProfile {
+  id                 String       @id @default(cuid())
+  userId             String       @unique @map("user_id")
+  user               User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hourlyRate         Decimal?     @map("hourly_rate")
+  availabilityStatus Availability @default(AVAILABLE) @map("availability_status")
+  totalCapacityHours Decimal?     @default(40) @map("total_capacity_hours")
+  onboardingFolderUrl String?     @map("onboarding_folder_url")
+  portfolioUrl       String?      @map("portfolio_url")
+  notes              String?
+  isActive           Boolean      @default(true) @map("is_active")
+  createdAt          DateTime     @default(now()) @map("created_at")
+  updatedAt          DateTime     @updatedAt @map("updated_at")
+
   assignments Assignment[]
   workLogs    WorkLog[]
+  vaSkills    VASkill[]
+  documents   VADocument[]
 
+  @@index([availabilityStatus])
   @@map("va_profiles")
 }
 
@@ -78,45 +363,113 @@ model Skill {
   id        String        @id @default(cuid())
   name      String        @unique
   category  SkillCategory @default(GENERAL)
-  createdAt DateTime      @default(now())
+  createdAt DateTime      @default(now()) @map("created_at")
 
-  vas VAProfile[] @relation("VASkills")
+  vaSkills VASkill[]
 
   @@map("skills")
 }
 
+model VASkill {
+  id              String      @id @default(cuid())
+  vaProfileId     String      @map("va_profile_id")
+  vaProfile       VAProfile   @relation(fields: [vaProfileId], references: [id], onDelete: Cascade)
+  skillId         String      @map("skill_id")
+  skill           Skill       @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  proficiency     Proficiency @default(INTERMEDIATE)
+  yearsExperience Decimal?    @map("years_experience")
+  isPrimary       Boolean     @default(false) @map("is_primary")
+  createdAt       DateTime    @default(now()) @map("created_at")
+
+  @@unique([vaProfileId, skillId])
+  @@map("va_skills")
+}
+
+model VADocument {
+  id             String       @id @default(cuid())
+  vaProfileId    String       @map("va_profile_id")
+  vaProfile      VAProfile    @relation(fields: [vaProfileId], references: [id], onDelete: Cascade)
+  documentType   DocumentType @map("document_type")
+  fileName       String       @map("file_name")
+  googleDriveUrl String       @map("google_drive_url")
+  mimeType       String?      @map("mime_type")
+  fileSize       Int?         @map("file_size")
+  uploadedBy     String       @map("uploaded_by")
+  uploader       User         @relation("DocUploader", fields: [uploadedBy], references: [id], onDelete: Cascade)
+  expiresAt      DateTime?    @map("expires_at")
+  notes          String?
+  createdAt      DateTime     @default(now()) @map("created_at")
+
+  @@index([vaProfileId])
+  @@map("va_documents")
+}
+
+model LeaveRequest {
+  id              String      @id @default(cuid())
+  userId          String      @map("user_id")
+  user            User        @relation("LeaveRequestor", fields: [userId], references: [id], onDelete: Cascade)
+  leaveType       LeaveType   @map("leave_type")
+  startDate       DateTime    @map("start_date")
+  endDate         DateTime    @map("end_date")
+  totalDays       Decimal     @map("total_days")
+  reason          String?
+  status          LeaveStatus @default(PENDING)
+  approverId      String?     @map("approver_id")
+  approver        User?       @relation("LeaveApprover", fields: [approverId], references: [id], onDelete: SetNull)
+  approvedAt      DateTime?   @map("approved_at")
+  approverNote    String?     @map("approver_note")
+  notificationSent Boolean    @default(false) @map("notification_sent")
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([status])
+  @@map("leave_requests")
+}
+
+// ──────────────────────────────────────────────────────────────────
+// MODELS — Phase 3: Clients & Service Lines
+// ──────────────────────────────────────────────────────────────────
+
 model Client {
-  id          String   @id @default(cuid())
-  name        String
-  contactName String?  @map("contact_name")
-  contactEmail String? @map("contact_email")
-  platform    ClientPlatform @default(MULTI)
-  industry    String?
-  notes       String?
-  isActive    Boolean  @default(true) @map("is_active")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                  String         @id @default(cuid())
+  name                String
+  contactName         String?        @map("contact_name")
+  contactEmail        String?        @map("contact_email")
+  contactPhone        String?        @map("contact_phone")
+  platform            ClientPlatform @default(MULTI)
+  industry            String?
+  timezone            String?        @default("America/New_York")
+  notes               String?
+  isActive            Boolean        @default(true) @map("is_active")
+  managerId           String?        @map("manager_id")
+  manager             User?          @relation("ClientManager", fields: [managerId], references: [id], onDelete: SetNull)
+  departmentId        String?        @map("department_id")
+  department          Department?    @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  onboardingFolderUrl String?        @map("onboarding_folder_url")
+  requiredSkills      String[]       @map("required_skills")
+  createdAt           DateTime       @default(now()) @map("created_at")
+  updatedAt           DateTime       @updatedAt @map("updated_at")
 
-  managerId   String?  @map("manager_id")
-  manager     User?    @relation("ClientManager", fields: [managerId], references: [id])
+  assignments Assignment[]
+  tickets     Ticket[]
 
-  requiredSkills String[] @map("required_skills")
-  assignments    Assignment[]
-
+  @@index([departmentId])
   @@map("clients")
 }
 
 model Assignment {
-  id           String           @id @default(cuid())
-  type         AssignmentType
-  status       AssignmentStatus @default(ACTIVE)
-  agreedHours  Decimal          @map("agreed_hours")
-  startDate    DateTime         @map("start_date")
-  endDate      DateTime?        @map("end_date")
-  monthlyHours Decimal?         @map("monthly_hours")
-  notes        String?
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
+  id               String           @id @default(cuid())
+  type             AssignmentType
+  status           AssignmentStatus @default(ACTIVE)
+  agreedHours      Decimal          @map("agreed_hours")
+  monthlyHours     Decimal?         @map("monthly_hours")
+  startDate        DateTime         @map("start_date")
+  endDate          DateTime?        @map("end_date")
+  notes            String?
+  skillRequirements String[]         @map("skill_requirements")
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @updatedAt @map("updated_at")
 
   vaProfileId String    @map("va_profile_id")
   vaProfile   VAProfile @relation(fields: [vaProfileId], references: [id], onDelete: Cascade)
@@ -133,21 +486,92 @@ model Assignment {
 }
 
 model WorkLog {
-  id        String   @id @default(cuid())
-  workDate  DateTime @map("work_date")
-  hours     Decimal
+  id          String   @id @default(cuid())
+  workDate    DateTime @map("work_date")
+  hours       Decimal
   description String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   vaProfileId String    @map("va_profile_id")
   vaProfile   VAProfile @relation(fields: [vaProfileId], references: [id], onDelete: Cascade)
 
-  assignmentId String      @map("assignment_id")
-  assignment   Assignment  @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  assignmentId String     @map("assignment_id")
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
 
   @@index([vaProfileId])
   @@index([assignmentId])
   @@index([workDate])
   @@map("work_logs")
+}
+
+// ──────────────────────────────────────────────────────────────────
+// MODELS — Phase 4: Communications & Ticketing
+// ──────────────────────────────────────────────────────────────────
+
+model Ticket {
+  id           String         @id @default(cuid())
+  ticketNumber String         @unique @map("ticket_number")
+  title        String
+  description  String?
+  category     TicketCategory
+  priority     Priority       @default(MEDIUM)
+  status       TicketStatus   @default(OPEN)
+  source       TicketSource   @default(INTERNAL)
+  createdBy    String         @map("created_by")
+  creator      User           @relation("TicketCreator", fields: [createdBy], references: [id], onDelete: Cascade)
+  assignedTo   String?        @map("assigned_to")
+  assignee     User?          @relation("TicketAssignee", fields: [assignedTo], references: [id], onDelete: SetNull)
+  departmentId String?        @map("department_id")
+  department   Department?    @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  clientId     String?        @map("client_id")
+  client       Client?        @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  resolvedAt   DateTime?      @map("resolved_at")
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+
+  conversations TicketConversation[]
+
+  @@index([assignedTo])
+  @@index([departmentId])
+  @@index([status])
+  @@map("tickets")
+}
+
+model TicketConversation {
+  id             String   @id @default(cuid())
+  ticketId       String   @map("ticket_id")
+  ticket         Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  userId         String   @map("user_id")
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message        String
+  isInternalNote Boolean  @default(false) @map("is_internal_note")
+  attachments    String[]
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@index([ticketId, createdAt])
+  @@map("ticket_conversations")
+}
+
+// ──────────────────────────────────────────────────────────────────
+// MODELS — Audit Trail
+// ──────────────────────────────────────────────────────────────────
+
+model AuditLog {
+  id           String     @id @default(cuid())
+  actorId      String     @map("actor_id")
+  actor        User       @relation(fields: [actorId], references: [id], onDelete: Cascade)
+  action       AuditAction
+  entityType   String     @map("entity_type")
+  entityId     String     @map("entity_id")
+  oldValues    Json?      @map("old_values")
+  newValues    Json?      @map("new_values")
+  metadata     Json?
+  departmentId String?    @map("department_id")
+  department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  createdAt    DateTime   @default(now()) @map("created_at")
+
+  @@index([entityType, entityId, createdAt])
+  @@index([actorId, createdAt])
+  @@map("audit_logs")
 }

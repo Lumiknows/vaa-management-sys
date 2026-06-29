@@ -14,8 +14,8 @@ export default async function NewAssignmentPage({
     prisma.client.findMany({ where: { isActive: true }, orderBy: { name: 'asc' } }),
     prisma.vAProfile.findMany({
       where: { isActive: true },
-      include: { user: true, skills: true },
-      orderBy: { user: { name: 'asc' } },
+      include: { user: true, vaSkills: { include: { skill: true } } },
+      orderBy: { user: { firstName: 'asc' } },
     }),
   ])
 
@@ -35,8 +35,8 @@ export default async function NewAssignmentPage({
         }))}
         vas={vas.map((v) => ({
           id: v.id,
-          name: v.user.name || v.user.email,
-          skills: v.skills.map((s) => s.name),
+          name: v.user.firstName || v.user.email,
+          skills: v.vaSkills.map((s) => s.skill.name),
         }))}
         defaultClientId={clientId}
       />

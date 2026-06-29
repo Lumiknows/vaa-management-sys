@@ -8,10 +8,22 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Department'
+export type * from './models/Position'
+export type * from './models/DepartmentMembership'
 export type * from './models/User'
+export type * from './models/UserProfile'
+export type * from './models/EmploymentRecord'
+export type * from './models/RoleAssignment'
 export type * from './models/VAProfile'
 export type * from './models/Skill'
+export type * from './models/VASkill'
+export type * from './models/VADocument'
+export type * from './models/LeaveRequest'
 export type * from './models/Client'
 export type * from './models/Assignment'
 export type * from './models/WorkLog'
+export type * from './models/Ticket'
+export type * from './models/TicketConversation'
+export type * from './models/AuditLog'
 export type * from './commonInputTypes'

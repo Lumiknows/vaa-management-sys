@@ -51,12 +51,24 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Department: 'Department',
+  Position: 'Position',
+  DepartmentMembership: 'DepartmentMembership',
   User: 'User',
+  UserProfile: 'UserProfile',
+  EmploymentRecord: 'EmploymentRecord',
+  RoleAssignment: 'RoleAssignment',
   VAProfile: 'VAProfile',
   Skill: 'Skill',
+  VASkill: 'VASkill',
+  VADocument: 'VADocument',
+  LeaveRequest: 'LeaveRequest',
   Client: 'Client',
   Assignment: 'Assignment',
-  WorkLog: 'WorkLog'
+  WorkLog: 'WorkLog',
+  Ticket: 'Ticket',
+  TicketConversation: 'TicketConversation',
+  AuditLog: 'AuditLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -75,13 +87,61 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const DepartmentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  parentId: 'parentId',
+  isParent: 'isParent',
+  description: 'description',
+  headId: 'headId',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DepartmentScalarFieldEnum = (typeof DepartmentScalarFieldEnum)[keyof typeof DepartmentScalarFieldEnum]
+
+
+export const PositionScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  reportsToId: 'reportsToId',
+  departmentId: 'departmentId',
+  isStaffRole: 'isStaffRole',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PositionScalarFieldEnum = (typeof PositionScalarFieldEnum)[keyof typeof PositionScalarFieldEnum]
+
+
+export const DepartmentMembershipScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  departmentId: 'departmentId',
+  positionId: 'positionId',
+  isPrimary: 'isPrimary',
+  startedAt: 'startedAt',
+  endedAt: 'endedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DepartmentMembershipScalarFieldEnum = (typeof DepartmentMembershipScalarFieldEnum)[keyof typeof DepartmentMembershipScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
-  name: 'name',
-  role: 'role',
-  department: 'department',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  systemRole: 'systemRole',
+  userType: 'userType',
   avatarUrl: 'avatarUrl',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -89,11 +149,69 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-export const VAProfileScalarFieldEnum = {
+export const UserProfileScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   phone: 'phone',
+  birthDate: 'birthDate',
+  address: 'address',
+  emergencyContactName: 'emergencyContactName',
+  emergencyContactPhone: 'emergencyContactPhone',
+  emergencyContactRelation: 'emergencyContactRelation',
+  gcashNumber: 'gcashNumber',
+  facebookUrl: 'facebookUrl',
+  linkedinUrl: 'linkedinUrl',
+  personalityTraits: 'personalityTraits',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
+
+
+export const EmploymentRecordScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  contractType: 'contractType',
+  employmentStatus: 'employmentStatus',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  effectiveDate: 'effectiveDate',
+  reason: 'reason',
+  initiatedBy: 'initiatedBy',
+  isCurrent: 'isCurrent',
+  tenureDays: 'tenureDays',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EmploymentRecordScalarFieldEnum = (typeof EmploymentRecordScalarFieldEnum)[keyof typeof EmploymentRecordScalarFieldEnum]
+
+
+export const RoleAssignmentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  role: 'role',
+  module: 'module',
+  departmentId: 'departmentId',
+  grantedBy: 'grantedBy',
+  expiresAt: 'expiresAt',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type RoleAssignmentScalarFieldEnum = (typeof RoleAssignmentScalarFieldEnum)[keyof typeof RoleAssignmentScalarFieldEnum]
+
+
+export const VAProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
   hourlyRate: 'hourlyRate',
+  availabilityStatus: 'availabilityStatus',
+  totalCapacityHours: 'totalCapacityHours',
+  onboardingFolderUrl: 'onboardingFolderUrl',
+  portfolioUrl: 'portfolioUrl',
   notes: 'notes',
   isActive: 'isActive',
   createdAt: 'createdAt',
@@ -113,19 +231,73 @@ export const SkillScalarFieldEnum = {
 export type SkillScalarFieldEnum = (typeof SkillScalarFieldEnum)[keyof typeof SkillScalarFieldEnum]
 
 
+export const VASkillScalarFieldEnum = {
+  id: 'id',
+  vaProfileId: 'vaProfileId',
+  skillId: 'skillId',
+  proficiency: 'proficiency',
+  yearsExperience: 'yearsExperience',
+  isPrimary: 'isPrimary',
+  createdAt: 'createdAt'
+} as const
+
+export type VASkillScalarFieldEnum = (typeof VASkillScalarFieldEnum)[keyof typeof VASkillScalarFieldEnum]
+
+
+export const VADocumentScalarFieldEnum = {
+  id: 'id',
+  vaProfileId: 'vaProfileId',
+  documentType: 'documentType',
+  fileName: 'fileName',
+  googleDriveUrl: 'googleDriveUrl',
+  mimeType: 'mimeType',
+  fileSize: 'fileSize',
+  uploadedBy: 'uploadedBy',
+  expiresAt: 'expiresAt',
+  notes: 'notes',
+  createdAt: 'createdAt'
+} as const
+
+export type VADocumentScalarFieldEnum = (typeof VADocumentScalarFieldEnum)[keyof typeof VADocumentScalarFieldEnum]
+
+
+export const LeaveRequestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  leaveType: 'leaveType',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  totalDays: 'totalDays',
+  reason: 'reason',
+  status: 'status',
+  approverId: 'approverId',
+  approvedAt: 'approvedAt',
+  approverNote: 'approverNote',
+  notificationSent: 'notificationSent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LeaveRequestScalarFieldEnum = (typeof LeaveRequestScalarFieldEnum)[keyof typeof LeaveRequestScalarFieldEnum]
+
+
 export const ClientScalarFieldEnum = {
   id: 'id',
   name: 'name',
   contactName: 'contactName',
   contactEmail: 'contactEmail',
+  contactPhone: 'contactPhone',
   platform: 'platform',
   industry: 'industry',
+  timezone: 'timezone',
   notes: 'notes',
   isActive: 'isActive',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
   managerId: 'managerId',
-  requiredSkills: 'requiredSkills'
+  departmentId: 'departmentId',
+  onboardingFolderUrl: 'onboardingFolderUrl',
+  requiredSkills: 'requiredSkills',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ClientScalarFieldEnum = (typeof ClientScalarFieldEnum)[keyof typeof ClientScalarFieldEnum]
@@ -136,10 +308,11 @@ export const AssignmentScalarFieldEnum = {
   type: 'type',
   status: 'status',
   agreedHours: 'agreedHours',
+  monthlyHours: 'monthlyHours',
   startDate: 'startDate',
   endDate: 'endDate',
-  monthlyHours: 'monthlyHours',
   notes: 'notes',
+  skillRequirements: 'skillRequirements',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   vaProfileId: 'vaProfileId',
@@ -163,12 +336,70 @@ export const WorkLogScalarFieldEnum = {
 export type WorkLogScalarFieldEnum = (typeof WorkLogScalarFieldEnum)[keyof typeof WorkLogScalarFieldEnum]
 
 
+export const TicketScalarFieldEnum = {
+  id: 'id',
+  ticketNumber: 'ticketNumber',
+  title: 'title',
+  description: 'description',
+  category: 'category',
+  priority: 'priority',
+  status: 'status',
+  source: 'source',
+  createdBy: 'createdBy',
+  assignedTo: 'assignedTo',
+  departmentId: 'departmentId',
+  clientId: 'clientId',
+  resolvedAt: 'resolvedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof TicketScalarFieldEnum]
+
+
+export const TicketConversationScalarFieldEnum = {
+  id: 'id',
+  ticketId: 'ticketId',
+  userId: 'userId',
+  message: 'message',
+  isInternalNote: 'isInternalNote',
+  attachments: 'attachments',
+  createdAt: 'createdAt'
+} as const
+
+export type TicketConversationScalarFieldEnum = (typeof TicketConversationScalarFieldEnum)[keyof typeof TicketConversationScalarFieldEnum]
+
+
+export const AuditLogScalarFieldEnum = {
+  id: 'id',
+  actorId: 'actorId',
+  action: 'action',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  oldValues: 'oldValues',
+  newValues: 'newValues',
+  metadata: 'metadata',
+  departmentId: 'departmentId',
+  createdAt: 'createdAt'
+} as const
+
+export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -185,4 +416,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

@@ -28,17 +28,22 @@ export type AggregateVAProfile = {
 
 export type VAProfileAvgAggregateOutputType = {
   hourlyRate: runtime.Decimal | null
+  totalCapacityHours: runtime.Decimal | null
 }
 
 export type VAProfileSumAggregateOutputType = {
   hourlyRate: runtime.Decimal | null
+  totalCapacityHours: runtime.Decimal | null
 }
 
 export type VAProfileMinAggregateOutputType = {
   id: string | null
   userId: string | null
-  phone: string | null
   hourlyRate: runtime.Decimal | null
+  availabilityStatus: $Enums.Availability | null
+  totalCapacityHours: runtime.Decimal | null
+  onboardingFolderUrl: string | null
+  portfolioUrl: string | null
   notes: string | null
   isActive: boolean | null
   createdAt: Date | null
@@ -48,8 +53,11 @@ export type VAProfileMinAggregateOutputType = {
 export type VAProfileMaxAggregateOutputType = {
   id: string | null
   userId: string | null
-  phone: string | null
   hourlyRate: runtime.Decimal | null
+  availabilityStatus: $Enums.Availability | null
+  totalCapacityHours: runtime.Decimal | null
+  onboardingFolderUrl: string | null
+  portfolioUrl: string | null
   notes: string | null
   isActive: boolean | null
   createdAt: Date | null
@@ -59,8 +67,11 @@ export type VAProfileMaxAggregateOutputType = {
 export type VAProfileCountAggregateOutputType = {
   id: number
   userId: number
-  phone: number
   hourlyRate: number
+  availabilityStatus: number
+  totalCapacityHours: number
+  onboardingFolderUrl: number
+  portfolioUrl: number
   notes: number
   isActive: number
   createdAt: number
@@ -71,17 +82,22 @@ export type VAProfileCountAggregateOutputType = {
 
 export type VAProfileAvgAggregateInputType = {
   hourlyRate?: true
+  totalCapacityHours?: true
 }
 
 export type VAProfileSumAggregateInputType = {
   hourlyRate?: true
+  totalCapacityHours?: true
 }
 
 export type VAProfileMinAggregateInputType = {
   id?: true
   userId?: true
-  phone?: true
   hourlyRate?: true
+  availabilityStatus?: true
+  totalCapacityHours?: true
+  onboardingFolderUrl?: true
+  portfolioUrl?: true
   notes?: true
   isActive?: true
   createdAt?: true
@@ -91,8 +107,11 @@ export type VAProfileMinAggregateInputType = {
 export type VAProfileMaxAggregateInputType = {
   id?: true
   userId?: true
-  phone?: true
   hourlyRate?: true
+  availabilityStatus?: true
+  totalCapacityHours?: true
+  onboardingFolderUrl?: true
+  portfolioUrl?: true
   notes?: true
   isActive?: true
   createdAt?: true
@@ -102,8 +121,11 @@ export type VAProfileMaxAggregateInputType = {
 export type VAProfileCountAggregateInputType = {
   id?: true
   userId?: true
-  phone?: true
   hourlyRate?: true
+  availabilityStatus?: true
+  totalCapacityHours?: true
+  onboardingFolderUrl?: true
+  portfolioUrl?: true
   notes?: true
   isActive?: true
   createdAt?: true
@@ -200,8 +222,11 @@ export type VAProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type VAProfileGroupByOutputType = {
   id: string
   userId: string
-  phone: string | null
   hourlyRate: runtime.Decimal | null
+  availabilityStatus: $Enums.Availability
+  totalCapacityHours: runtime.Decimal | null
+  onboardingFolderUrl: string | null
+  portfolioUrl: string | null
   notes: string | null
   isActive: boolean
   createdAt: Date
@@ -234,31 +259,39 @@ export type VAProfileWhereInput = {
   NOT?: Prisma.VAProfileWhereInput | Prisma.VAProfileWhereInput[]
   id?: Prisma.StringFilter<"VAProfile"> | string
   userId?: Prisma.StringFilter<"VAProfile"> | string
-  phone?: Prisma.StringNullableFilter<"VAProfile"> | string | null
   hourlyRate?: Prisma.DecimalNullableFilter<"VAProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityFilter<"VAProfile"> | $Enums.Availability
+  totalCapacityHours?: Prisma.DecimalNullableFilter<"VAProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.StringNullableFilter<"VAProfile"> | string | null
+  portfolioUrl?: Prisma.StringNullableFilter<"VAProfile"> | string | null
   notes?: Prisma.StringNullableFilter<"VAProfile"> | string | null
   isActive?: Prisma.BoolFilter<"VAProfile"> | boolean
   createdAt?: Prisma.DateTimeFilter<"VAProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"VAProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  skills?: Prisma.SkillListRelationFilter
   assignments?: Prisma.AssignmentListRelationFilter
   workLogs?: Prisma.WorkLogListRelationFilter
+  vaSkills?: Prisma.VASkillListRelationFilter
+  documents?: Prisma.VADocumentListRelationFilter
 }
 
 export type VAProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  phone?: Prisma.SortOrderInput | Prisma.SortOrder
   hourlyRate?: Prisma.SortOrderInput | Prisma.SortOrder
+  availabilityStatus?: Prisma.SortOrder
+  totalCapacityHours?: Prisma.SortOrderInput | Prisma.SortOrder
+  onboardingFolderUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  portfolioUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
-  skills?: Prisma.SkillOrderByRelationAggregateInput
   assignments?: Prisma.AssignmentOrderByRelationAggregateInput
   workLogs?: Prisma.WorkLogOrderByRelationAggregateInput
+  vaSkills?: Prisma.VASkillOrderByRelationAggregateInput
+  documents?: Prisma.VADocumentOrderByRelationAggregateInput
 }
 
 export type VAProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -267,23 +300,30 @@ export type VAProfileWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.VAProfileWhereInput | Prisma.VAProfileWhereInput[]
   OR?: Prisma.VAProfileWhereInput[]
   NOT?: Prisma.VAProfileWhereInput | Prisma.VAProfileWhereInput[]
-  phone?: Prisma.StringNullableFilter<"VAProfile"> | string | null
   hourlyRate?: Prisma.DecimalNullableFilter<"VAProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityFilter<"VAProfile"> | $Enums.Availability
+  totalCapacityHours?: Prisma.DecimalNullableFilter<"VAProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.StringNullableFilter<"VAProfile"> | string | null
+  portfolioUrl?: Prisma.StringNullableFilter<"VAProfile"> | string | null
   notes?: Prisma.StringNullableFilter<"VAProfile"> | string | null
   isActive?: Prisma.BoolFilter<"VAProfile"> | boolean
   createdAt?: Prisma.DateTimeFilter<"VAProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"VAProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  skills?: Prisma.SkillListRelationFilter
   assignments?: Prisma.AssignmentListRelationFilter
   workLogs?: Prisma.WorkLogListRelationFilter
+  vaSkills?: Prisma.VASkillListRelationFilter
+  documents?: Prisma.VADocumentListRelationFilter
 }, "id" | "userId">
 
 export type VAProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  phone?: Prisma.SortOrderInput | Prisma.SortOrder
   hourlyRate?: Prisma.SortOrderInput | Prisma.SortOrder
+  availabilityStatus?: Prisma.SortOrder
+  totalCapacityHours?: Prisma.SortOrderInput | Prisma.SortOrder
+  onboardingFolderUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  portfolioUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -301,8 +341,11 @@ export type VAProfileScalarWhereWithAggregatesInput = {
   NOT?: Prisma.VAProfileScalarWhereWithAggregatesInput | Prisma.VAProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"VAProfile"> | string
   userId?: Prisma.StringWithAggregatesFilter<"VAProfile"> | string
-  phone?: Prisma.StringNullableWithAggregatesFilter<"VAProfile"> | string | null
   hourlyRate?: Prisma.DecimalNullableWithAggregatesFilter<"VAProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityWithAggregatesFilter<"VAProfile"> | $Enums.Availability
+  totalCapacityHours?: Prisma.DecimalNullableWithAggregatesFilter<"VAProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.StringNullableWithAggregatesFilter<"VAProfile"> | string | null
+  portfolioUrl?: Prisma.StringNullableWithAggregatesFilter<"VAProfile"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"VAProfile"> | string | null
   isActive?: Prisma.BoolWithAggregatesFilter<"VAProfile"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"VAProfile"> | Date | string
@@ -311,65 +354,84 @@ export type VAProfileScalarWhereWithAggregatesInput = {
 
 export type VAProfileCreateInput = {
   id?: string
-  phone?: string | null
   hourlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: $Enums.Availability
+  totalCapacityHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: string | null
+  portfolioUrl?: string | null
   notes?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutVaProfileInput
-  skills?: Prisma.SkillCreateNestedManyWithoutVasInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutVaProfileInput
   workLogs?: Prisma.WorkLogCreateNestedManyWithoutVaProfileInput
+  vaSkills?: Prisma.VASkillCreateNestedManyWithoutVaProfileInput
+  documents?: Prisma.VADocumentCreateNestedManyWithoutVaProfileInput
 }
 
 export type VAProfileUncheckedCreateInput = {
   id?: string
   userId: string
-  phone?: string | null
   hourlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: $Enums.Availability
+  totalCapacityHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: string | null
+  portfolioUrl?: string | null
   notes?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  skills?: Prisma.SkillUncheckedCreateNestedManyWithoutVasInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutVaProfileInput
   workLogs?: Prisma.WorkLogUncheckedCreateNestedManyWithoutVaProfileInput
+  vaSkills?: Prisma.VASkillUncheckedCreateNestedManyWithoutVaProfileInput
+  documents?: Prisma.VADocumentUncheckedCreateNestedManyWithoutVaProfileInput
 }
 
 export type VAProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
+  totalCapacityHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutVaProfileNestedInput
-  skills?: Prisma.SkillUpdateManyWithoutVasNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutVaProfileNestedInput
   workLogs?: Prisma.WorkLogUpdateManyWithoutVaProfileNestedInput
+  vaSkills?: Prisma.VASkillUpdateManyWithoutVaProfileNestedInput
+  documents?: Prisma.VADocumentUpdateManyWithoutVaProfileNestedInput
 }
 
 export type VAProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
+  totalCapacityHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  skills?: Prisma.SkillUncheckedUpdateManyWithoutVasNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutVaProfileNestedInput
   workLogs?: Prisma.WorkLogUncheckedUpdateManyWithoutVaProfileNestedInput
+  vaSkills?: Prisma.VASkillUncheckedUpdateManyWithoutVaProfileNestedInput
+  documents?: Prisma.VADocumentUncheckedUpdateManyWithoutVaProfileNestedInput
 }
 
 export type VAProfileCreateManyInput = {
   id?: string
   userId: string
-  phone?: string | null
   hourlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: $Enums.Availability
+  totalCapacityHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: string | null
+  portfolioUrl?: string | null
   notes?: string | null
   isActive?: boolean
   createdAt?: Date | string
@@ -378,8 +440,11 @@ export type VAProfileCreateManyInput = {
 
 export type VAProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
+  totalCapacityHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -389,8 +454,11 @@ export type VAProfileUpdateManyMutationInput = {
 export type VAProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
+  totalCapacityHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -405,8 +473,11 @@ export type VAProfileNullableScalarRelationFilter = {
 export type VAProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  phone?: Prisma.SortOrder
   hourlyRate?: Prisma.SortOrder
+  availabilityStatus?: Prisma.SortOrder
+  totalCapacityHours?: Prisma.SortOrder
+  onboardingFolderUrl?: Prisma.SortOrder
+  portfolioUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -415,13 +486,17 @@ export type VAProfileCountOrderByAggregateInput = {
 
 export type VAProfileAvgOrderByAggregateInput = {
   hourlyRate?: Prisma.SortOrder
+  totalCapacityHours?: Prisma.SortOrder
 }
 
 export type VAProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  phone?: Prisma.SortOrder
   hourlyRate?: Prisma.SortOrder
+  availabilityStatus?: Prisma.SortOrder
+  totalCapacityHours?: Prisma.SortOrder
+  onboardingFolderUrl?: Prisma.SortOrder
+  portfolioUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -431,8 +506,11 @@ export type VAProfileMaxOrderByAggregateInput = {
 export type VAProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  phone?: Prisma.SortOrder
   hourlyRate?: Prisma.SortOrder
+  availabilityStatus?: Prisma.SortOrder
+  totalCapacityHours?: Prisma.SortOrder
+  onboardingFolderUrl?: Prisma.SortOrder
+  portfolioUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -441,16 +519,7 @@ export type VAProfileMinOrderByAggregateInput = {
 
 export type VAProfileSumOrderByAggregateInput = {
   hourlyRate?: Prisma.SortOrder
-}
-
-export type VAProfileListRelationFilter = {
-  every?: Prisma.VAProfileWhereInput
-  some?: Prisma.VAProfileWhereInput
-  none?: Prisma.VAProfileWhereInput
-}
-
-export type VAProfileOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+  totalCapacityHours?: Prisma.SortOrder
 }
 
 export type VAProfileScalarRelationFilter = {
@@ -498,46 +567,36 @@ export type NullableDecimalFieldUpdateOperationsInput = {
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
+export type EnumAvailabilityFieldUpdateOperationsInput = {
+  set?: $Enums.Availability
 }
 
-export type VAProfileCreateNestedManyWithoutSkillsInput = {
-  create?: Prisma.XOR<Prisma.VAProfileCreateWithoutSkillsInput, Prisma.VAProfileUncheckedCreateWithoutSkillsInput> | Prisma.VAProfileCreateWithoutSkillsInput[] | Prisma.VAProfileUncheckedCreateWithoutSkillsInput[]
-  connectOrCreate?: Prisma.VAProfileCreateOrConnectWithoutSkillsInput | Prisma.VAProfileCreateOrConnectWithoutSkillsInput[]
-  connect?: Prisma.VAProfileWhereUniqueInput | Prisma.VAProfileWhereUniqueInput[]
+export type VAProfileCreateNestedOneWithoutVaSkillsInput = {
+  create?: Prisma.XOR<Prisma.VAProfileCreateWithoutVaSkillsInput, Prisma.VAProfileUncheckedCreateWithoutVaSkillsInput>
+  connectOrCreate?: Prisma.VAProfileCreateOrConnectWithoutVaSkillsInput
+  connect?: Prisma.VAProfileWhereUniqueInput
 }
 
-export type VAProfileUncheckedCreateNestedManyWithoutSkillsInput = {
-  create?: Prisma.XOR<Prisma.VAProfileCreateWithoutSkillsInput, Prisma.VAProfileUncheckedCreateWithoutSkillsInput> | Prisma.VAProfileCreateWithoutSkillsInput[] | Prisma.VAProfileUncheckedCreateWithoutSkillsInput[]
-  connectOrCreate?: Prisma.VAProfileCreateOrConnectWithoutSkillsInput | Prisma.VAProfileCreateOrConnectWithoutSkillsInput[]
-  connect?: Prisma.VAProfileWhereUniqueInput | Prisma.VAProfileWhereUniqueInput[]
+export type VAProfileUpdateOneRequiredWithoutVaSkillsNestedInput = {
+  create?: Prisma.XOR<Prisma.VAProfileCreateWithoutVaSkillsInput, Prisma.VAProfileUncheckedCreateWithoutVaSkillsInput>
+  connectOrCreate?: Prisma.VAProfileCreateOrConnectWithoutVaSkillsInput
+  upsert?: Prisma.VAProfileUpsertWithoutVaSkillsInput
+  connect?: Prisma.VAProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VAProfileUpdateToOneWithWhereWithoutVaSkillsInput, Prisma.VAProfileUpdateWithoutVaSkillsInput>, Prisma.VAProfileUncheckedUpdateWithoutVaSkillsInput>
 }
 
-export type VAProfileUpdateManyWithoutSkillsNestedInput = {
-  create?: Prisma.XOR<Prisma.VAProfileCreateWithoutSkillsInput, Prisma.VAProfileUncheckedCreateWithoutSkillsInput> | Prisma.VAProfileCreateWithoutSkillsInput[] | Prisma.VAProfileUncheckedCreateWithoutSkillsInput[]
-  connectOrCreate?: Prisma.VAProfileCreateOrConnectWithoutSkillsInput | Prisma.VAProfileCreateOrConnectWithoutSkillsInput[]
-  upsert?: Prisma.VAProfileUpsertWithWhereUniqueWithoutSkillsInput | Prisma.VAProfileUpsertWithWhereUniqueWithoutSkillsInput[]
-  set?: Prisma.VAProfileWhereUniqueInput | Prisma.VAProfileWhereUniqueInput[]
-  disconnect?: Prisma.VAProfileWhereUniqueInput | Prisma.VAProfileWhereUniqueInput[]
-  delete?: Prisma.VAProfileWhereUniqueInput | Prisma.VAProfileWhereUniqueInput[]
-  connect?: Prisma.VAProfileWhereUniqueInput | Prisma.VAProfileWhereUniqueInput[]
-  update?: Prisma.VAProfileUpdateWithWhereUniqueWithoutSkillsInput | Prisma.VAProfileUpdateWithWhereUniqueWithoutSkillsInput[]
-  updateMany?: Prisma.VAProfileUpdateManyWithWhereWithoutSkillsInput | Prisma.VAProfileUpdateManyWithWhereWithoutSkillsInput[]
-  deleteMany?: Prisma.VAProfileScalarWhereInput | Prisma.VAProfileScalarWhereInput[]
+export type VAProfileCreateNestedOneWithoutDocumentsInput = {
+  create?: Prisma.XOR<Prisma.VAProfileCreateWithoutDocumentsInput, Prisma.VAProfileUncheckedCreateWithoutDocumentsInput>
+  connectOrCreate?: Prisma.VAProfileCreateOrConnectWithoutDocumentsInput
+  connect?: Prisma.VAProfileWhereUniqueInput
 }
 
-export type VAProfileUncheckedUpdateManyWithoutSkillsNestedInput = {
-  create?: Prisma.XOR<Prisma.VAProfileCreateWithoutSkillsInput, Prisma.VAProfileUncheckedCreateWithoutSkillsInput> | Prisma.VAProfileCreateWithoutSkillsInput[] | Prisma.VAProfileUncheckedCreateWithoutSkillsInput[]
-  connectOrCreate?: Prisma.VAProfileCreateOrConnectWithoutSkillsInput | Prisma.VAProfileCreateOrConnectWithoutSkillsInput[]
-  upsert?: Prisma.VAProfileUpsertWithWhereUniqueWithoutSkillsInput | Prisma.VAProfileUpsertWithWhereUniqueWithoutSkillsInput[]
-  set?: Prisma.VAProfileWhereUniqueInput | Prisma.VAProfileWhereUniqueInput[]
-  disconnect?: Prisma.VAProfileWhereUniqueInput | Prisma.VAProfileWhereUniqueInput[]
-  delete?: Prisma.VAProfileWhereUniqueInput | Prisma.VAProfileWhereUniqueInput[]
-  connect?: Prisma.VAProfileWhereUniqueInput | Prisma.VAProfileWhereUniqueInput[]
-  update?: Prisma.VAProfileUpdateWithWhereUniqueWithoutSkillsInput | Prisma.VAProfileUpdateWithWhereUniqueWithoutSkillsInput[]
-  updateMany?: Prisma.VAProfileUpdateManyWithWhereWithoutSkillsInput | Prisma.VAProfileUpdateManyWithWhereWithoutSkillsInput[]
-  deleteMany?: Prisma.VAProfileScalarWhereInput | Prisma.VAProfileScalarWhereInput[]
+export type VAProfileUpdateOneRequiredWithoutDocumentsNestedInput = {
+  create?: Prisma.XOR<Prisma.VAProfileCreateWithoutDocumentsInput, Prisma.VAProfileUncheckedCreateWithoutDocumentsInput>
+  connectOrCreate?: Prisma.VAProfileCreateOrConnectWithoutDocumentsInput
+  upsert?: Prisma.VAProfileUpsertWithoutDocumentsInput
+  connect?: Prisma.VAProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VAProfileUpdateToOneWithWhereWithoutDocumentsInput, Prisma.VAProfileUpdateWithoutDocumentsInput>, Prisma.VAProfileUncheckedUpdateWithoutDocumentsInput>
 }
 
 export type VAProfileCreateNestedOneWithoutAssignmentsInput = {
@@ -570,28 +629,36 @@ export type VAProfileUpdateOneRequiredWithoutWorkLogsNestedInput = {
 
 export type VAProfileCreateWithoutUserInput = {
   id?: string
-  phone?: string | null
   hourlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: $Enums.Availability
+  totalCapacityHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: string | null
+  portfolioUrl?: string | null
   notes?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  skills?: Prisma.SkillCreateNestedManyWithoutVasInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutVaProfileInput
   workLogs?: Prisma.WorkLogCreateNestedManyWithoutVaProfileInput
+  vaSkills?: Prisma.VASkillCreateNestedManyWithoutVaProfileInput
+  documents?: Prisma.VADocumentCreateNestedManyWithoutVaProfileInput
 }
 
 export type VAProfileUncheckedCreateWithoutUserInput = {
   id?: string
-  phone?: string | null
   hourlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: $Enums.Availability
+  totalCapacityHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: string | null
+  portfolioUrl?: string | null
   notes?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  skills?: Prisma.SkillUncheckedCreateNestedManyWithoutVasInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutVaProfileInput
   workLogs?: Prisma.WorkLogUncheckedCreateNestedManyWithoutVaProfileInput
+  vaSkills?: Prisma.VASkillUncheckedCreateNestedManyWithoutVaProfileInput
+  documents?: Prisma.VADocumentUncheckedCreateNestedManyWithoutVaProfileInput
 }
 
 export type VAProfileCreateOrConnectWithoutUserInput = {
@@ -612,34 +679,45 @@ export type VAProfileUpdateToOneWithWhereWithoutUserInput = {
 
 export type VAProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
+  totalCapacityHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  skills?: Prisma.SkillUpdateManyWithoutVasNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutVaProfileNestedInput
   workLogs?: Prisma.WorkLogUpdateManyWithoutVaProfileNestedInput
+  vaSkills?: Prisma.VASkillUpdateManyWithoutVaProfileNestedInput
+  documents?: Prisma.VADocumentUpdateManyWithoutVaProfileNestedInput
 }
 
 export type VAProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
+  totalCapacityHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  skills?: Prisma.SkillUncheckedUpdateManyWithoutVasNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutVaProfileNestedInput
   workLogs?: Prisma.WorkLogUncheckedUpdateManyWithoutVaProfileNestedInput
+  vaSkills?: Prisma.VASkillUncheckedUpdateManyWithoutVaProfileNestedInput
+  documents?: Prisma.VADocumentUncheckedUpdateManyWithoutVaProfileNestedInput
 }
 
-export type VAProfileCreateWithoutSkillsInput = {
+export type VAProfileCreateWithoutVaSkillsInput = {
   id?: string
-  phone?: string | null
   hourlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: $Enums.Availability
+  totalCapacityHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: string | null
+  portfolioUrl?: string | null
   notes?: string | null
   isActive?: boolean
   createdAt?: Date | string
@@ -647,80 +725,192 @@ export type VAProfileCreateWithoutSkillsInput = {
   user: Prisma.UserCreateNestedOneWithoutVaProfileInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutVaProfileInput
   workLogs?: Prisma.WorkLogCreateNestedManyWithoutVaProfileInput
+  documents?: Prisma.VADocumentCreateNestedManyWithoutVaProfileInput
 }
 
-export type VAProfileUncheckedCreateWithoutSkillsInput = {
+export type VAProfileUncheckedCreateWithoutVaSkillsInput = {
   id?: string
   userId: string
-  phone?: string | null
   hourlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: $Enums.Availability
+  totalCapacityHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: string | null
+  portfolioUrl?: string | null
   notes?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutVaProfileInput
   workLogs?: Prisma.WorkLogUncheckedCreateNestedManyWithoutVaProfileInput
+  documents?: Prisma.VADocumentUncheckedCreateNestedManyWithoutVaProfileInput
 }
 
-export type VAProfileCreateOrConnectWithoutSkillsInput = {
+export type VAProfileCreateOrConnectWithoutVaSkillsInput = {
   where: Prisma.VAProfileWhereUniqueInput
-  create: Prisma.XOR<Prisma.VAProfileCreateWithoutSkillsInput, Prisma.VAProfileUncheckedCreateWithoutSkillsInput>
+  create: Prisma.XOR<Prisma.VAProfileCreateWithoutVaSkillsInput, Prisma.VAProfileUncheckedCreateWithoutVaSkillsInput>
 }
 
-export type VAProfileUpsertWithWhereUniqueWithoutSkillsInput = {
-  where: Prisma.VAProfileWhereUniqueInput
-  update: Prisma.XOR<Prisma.VAProfileUpdateWithoutSkillsInput, Prisma.VAProfileUncheckedUpdateWithoutSkillsInput>
-  create: Prisma.XOR<Prisma.VAProfileCreateWithoutSkillsInput, Prisma.VAProfileUncheckedCreateWithoutSkillsInput>
+export type VAProfileUpsertWithoutVaSkillsInput = {
+  update: Prisma.XOR<Prisma.VAProfileUpdateWithoutVaSkillsInput, Prisma.VAProfileUncheckedUpdateWithoutVaSkillsInput>
+  create: Prisma.XOR<Prisma.VAProfileCreateWithoutVaSkillsInput, Prisma.VAProfileUncheckedCreateWithoutVaSkillsInput>
+  where?: Prisma.VAProfileWhereInput
 }
 
-export type VAProfileUpdateWithWhereUniqueWithoutSkillsInput = {
-  where: Prisma.VAProfileWhereUniqueInput
-  data: Prisma.XOR<Prisma.VAProfileUpdateWithoutSkillsInput, Prisma.VAProfileUncheckedUpdateWithoutSkillsInput>
+export type VAProfileUpdateToOneWithWhereWithoutVaSkillsInput = {
+  where?: Prisma.VAProfileWhereInput
+  data: Prisma.XOR<Prisma.VAProfileUpdateWithoutVaSkillsInput, Prisma.VAProfileUncheckedUpdateWithoutVaSkillsInput>
 }
 
-export type VAProfileUpdateManyWithWhereWithoutSkillsInput = {
-  where: Prisma.VAProfileScalarWhereInput
-  data: Prisma.XOR<Prisma.VAProfileUpdateManyMutationInput, Prisma.VAProfileUncheckedUpdateManyWithoutSkillsInput>
+export type VAProfileUpdateWithoutVaSkillsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
+  totalCapacityHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutVaProfileNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutVaProfileNestedInput
+  workLogs?: Prisma.WorkLogUpdateManyWithoutVaProfileNestedInput
+  documents?: Prisma.VADocumentUpdateManyWithoutVaProfileNestedInput
 }
 
-export type VAProfileScalarWhereInput = {
-  AND?: Prisma.VAProfileScalarWhereInput | Prisma.VAProfileScalarWhereInput[]
-  OR?: Prisma.VAProfileScalarWhereInput[]
-  NOT?: Prisma.VAProfileScalarWhereInput | Prisma.VAProfileScalarWhereInput[]
-  id?: Prisma.StringFilter<"VAProfile"> | string
-  userId?: Prisma.StringFilter<"VAProfile"> | string
-  phone?: Prisma.StringNullableFilter<"VAProfile"> | string | null
-  hourlyRate?: Prisma.DecimalNullableFilter<"VAProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  notes?: Prisma.StringNullableFilter<"VAProfile"> | string | null
-  isActive?: Prisma.BoolFilter<"VAProfile"> | boolean
-  createdAt?: Prisma.DateTimeFilter<"VAProfile"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"VAProfile"> | Date | string
+export type VAProfileUncheckedUpdateWithoutVaSkillsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
+  totalCapacityHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutVaProfileNestedInput
+  workLogs?: Prisma.WorkLogUncheckedUpdateManyWithoutVaProfileNestedInput
+  documents?: Prisma.VADocumentUncheckedUpdateManyWithoutVaProfileNestedInput
 }
 
-export type VAProfileCreateWithoutAssignmentsInput = {
+export type VAProfileCreateWithoutDocumentsInput = {
   id?: string
-  phone?: string | null
   hourlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: $Enums.Availability
+  totalCapacityHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: string | null
+  portfolioUrl?: string | null
   notes?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutVaProfileInput
-  skills?: Prisma.SkillCreateNestedManyWithoutVasInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutVaProfileInput
   workLogs?: Prisma.WorkLogCreateNestedManyWithoutVaProfileInput
+  vaSkills?: Prisma.VASkillCreateNestedManyWithoutVaProfileInput
+}
+
+export type VAProfileUncheckedCreateWithoutDocumentsInput = {
+  id?: string
+  userId: string
+  hourlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: $Enums.Availability
+  totalCapacityHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: string | null
+  portfolioUrl?: string | null
+  notes?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutVaProfileInput
+  workLogs?: Prisma.WorkLogUncheckedCreateNestedManyWithoutVaProfileInput
+  vaSkills?: Prisma.VASkillUncheckedCreateNestedManyWithoutVaProfileInput
+}
+
+export type VAProfileCreateOrConnectWithoutDocumentsInput = {
+  where: Prisma.VAProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.VAProfileCreateWithoutDocumentsInput, Prisma.VAProfileUncheckedCreateWithoutDocumentsInput>
+}
+
+export type VAProfileUpsertWithoutDocumentsInput = {
+  update: Prisma.XOR<Prisma.VAProfileUpdateWithoutDocumentsInput, Prisma.VAProfileUncheckedUpdateWithoutDocumentsInput>
+  create: Prisma.XOR<Prisma.VAProfileCreateWithoutDocumentsInput, Prisma.VAProfileUncheckedCreateWithoutDocumentsInput>
+  where?: Prisma.VAProfileWhereInput
+}
+
+export type VAProfileUpdateToOneWithWhereWithoutDocumentsInput = {
+  where?: Prisma.VAProfileWhereInput
+  data: Prisma.XOR<Prisma.VAProfileUpdateWithoutDocumentsInput, Prisma.VAProfileUncheckedUpdateWithoutDocumentsInput>
+}
+
+export type VAProfileUpdateWithoutDocumentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
+  totalCapacityHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutVaProfileNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutVaProfileNestedInput
+  workLogs?: Prisma.WorkLogUpdateManyWithoutVaProfileNestedInput
+  vaSkills?: Prisma.VASkillUpdateManyWithoutVaProfileNestedInput
+}
+
+export type VAProfileUncheckedUpdateWithoutDocumentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
+  totalCapacityHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutVaProfileNestedInput
+  workLogs?: Prisma.WorkLogUncheckedUpdateManyWithoutVaProfileNestedInput
+  vaSkills?: Prisma.VASkillUncheckedUpdateManyWithoutVaProfileNestedInput
+}
+
+export type VAProfileCreateWithoutAssignmentsInput = {
+  id?: string
+  hourlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: $Enums.Availability
+  totalCapacityHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: string | null
+  portfolioUrl?: string | null
+  notes?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutVaProfileInput
+  workLogs?: Prisma.WorkLogCreateNestedManyWithoutVaProfileInput
+  vaSkills?: Prisma.VASkillCreateNestedManyWithoutVaProfileInput
+  documents?: Prisma.VADocumentCreateNestedManyWithoutVaProfileInput
 }
 
 export type VAProfileUncheckedCreateWithoutAssignmentsInput = {
   id?: string
   userId: string
-  phone?: string | null
   hourlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: $Enums.Availability
+  totalCapacityHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: string | null
+  portfolioUrl?: string | null
   notes?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  skills?: Prisma.SkillUncheckedCreateNestedManyWithoutVasInput
   workLogs?: Prisma.WorkLogUncheckedCreateNestedManyWithoutVaProfileInput
+  vaSkills?: Prisma.VASkillUncheckedCreateNestedManyWithoutVaProfileInput
+  documents?: Prisma.VADocumentUncheckedCreateNestedManyWithoutVaProfileInput
 }
 
 export type VAProfileCreateOrConnectWithoutAssignmentsInput = {
@@ -741,54 +931,70 @@ export type VAProfileUpdateToOneWithWhereWithoutAssignmentsInput = {
 
 export type VAProfileUpdateWithoutAssignmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
+  totalCapacityHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutVaProfileNestedInput
-  skills?: Prisma.SkillUpdateManyWithoutVasNestedInput
   workLogs?: Prisma.WorkLogUpdateManyWithoutVaProfileNestedInput
+  vaSkills?: Prisma.VASkillUpdateManyWithoutVaProfileNestedInput
+  documents?: Prisma.VADocumentUpdateManyWithoutVaProfileNestedInput
 }
 
 export type VAProfileUncheckedUpdateWithoutAssignmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
+  totalCapacityHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  skills?: Prisma.SkillUncheckedUpdateManyWithoutVasNestedInput
   workLogs?: Prisma.WorkLogUncheckedUpdateManyWithoutVaProfileNestedInput
+  vaSkills?: Prisma.VASkillUncheckedUpdateManyWithoutVaProfileNestedInput
+  documents?: Prisma.VADocumentUncheckedUpdateManyWithoutVaProfileNestedInput
 }
 
 export type VAProfileCreateWithoutWorkLogsInput = {
   id?: string
-  phone?: string | null
   hourlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: $Enums.Availability
+  totalCapacityHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: string | null
+  portfolioUrl?: string | null
   notes?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutVaProfileInput
-  skills?: Prisma.SkillCreateNestedManyWithoutVasInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutVaProfileInput
+  vaSkills?: Prisma.VASkillCreateNestedManyWithoutVaProfileInput
+  documents?: Prisma.VADocumentCreateNestedManyWithoutVaProfileInput
 }
 
 export type VAProfileUncheckedCreateWithoutWorkLogsInput = {
   id?: string
   userId: string
-  phone?: string | null
   hourlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: $Enums.Availability
+  totalCapacityHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: string | null
+  portfolioUrl?: string | null
   notes?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  skills?: Prisma.SkillUncheckedCreateNestedManyWithoutVasInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutVaProfileInput
+  vaSkills?: Prisma.VASkillUncheckedCreateNestedManyWithoutVaProfileInput
+  documents?: Prisma.VADocumentUncheckedCreateNestedManyWithoutVaProfileInput
 }
 
 export type VAProfileCreateOrConnectWithoutWorkLogsInput = {
@@ -809,65 +1015,36 @@ export type VAProfileUpdateToOneWithWhereWithoutWorkLogsInput = {
 
 export type VAProfileUpdateWithoutWorkLogsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
+  totalCapacityHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutVaProfileNestedInput
-  skills?: Prisma.SkillUpdateManyWithoutVasNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutVaProfileNestedInput
+  vaSkills?: Prisma.VASkillUpdateManyWithoutVaProfileNestedInput
+  documents?: Prisma.VADocumentUpdateManyWithoutVaProfileNestedInput
 }
 
 export type VAProfileUncheckedUpdateWithoutWorkLogsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  skills?: Prisma.SkillUncheckedUpdateManyWithoutVasNestedInput
-  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutVaProfileNestedInput
-}
-
-export type VAProfileUpdateWithoutSkillsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutVaProfileNestedInput
-  assignments?: Prisma.AssignmentUpdateManyWithoutVaProfileNestedInput
-  workLogs?: Prisma.WorkLogUpdateManyWithoutVaProfileNestedInput
-}
-
-export type VAProfileUncheckedUpdateWithoutSkillsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  availabilityStatus?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
+  totalCapacityHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  portfolioUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutVaProfileNestedInput
-  workLogs?: Prisma.WorkLogUncheckedUpdateManyWithoutVaProfileNestedInput
-}
-
-export type VAProfileUncheckedUpdateManyWithoutSkillsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  hourlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vaSkills?: Prisma.VASkillUncheckedUpdateManyWithoutVaProfileNestedInput
+  documents?: Prisma.VADocumentUncheckedUpdateManyWithoutVaProfileNestedInput
 }
 
 
@@ -876,15 +1053,17 @@ export type VAProfileUncheckedUpdateManyWithoutSkillsInput = {
  */
 
 export type VAProfileCountOutputType = {
-  skills: number
   assignments: number
   workLogs: number
+  vaSkills: number
+  documents: number
 }
 
 export type VAProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  skills?: boolean | VAProfileCountOutputTypeCountSkillsArgs
   assignments?: boolean | VAProfileCountOutputTypeCountAssignmentsArgs
   workLogs?: boolean | VAProfileCountOutputTypeCountWorkLogsArgs
+  vaSkills?: boolean | VAProfileCountOutputTypeCountVaSkillsArgs
+  documents?: boolean | VAProfileCountOutputTypeCountDocumentsArgs
 }
 
 /**
@@ -895,13 +1074,6 @@ export type VAProfileCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
    * Select specific fields to fetch from the VAProfileCountOutputType
    */
   select?: Prisma.VAProfileCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * VAProfileCountOutputType without action
- */
-export type VAProfileCountOutputTypeCountSkillsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SkillWhereInput
 }
 
 /**
@@ -918,28 +1090,49 @@ export type VAProfileCountOutputTypeCountWorkLogsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.WorkLogWhereInput
 }
 
+/**
+ * VAProfileCountOutputType without action
+ */
+export type VAProfileCountOutputTypeCountVaSkillsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VASkillWhereInput
+}
+
+/**
+ * VAProfileCountOutputType without action
+ */
+export type VAProfileCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VADocumentWhereInput
+}
+
 
 export type VAProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  phone?: boolean
   hourlyRate?: boolean
+  availabilityStatus?: boolean
+  totalCapacityHours?: boolean
+  onboardingFolderUrl?: boolean
+  portfolioUrl?: boolean
   notes?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  skills?: boolean | Prisma.VAProfile$skillsArgs<ExtArgs>
   assignments?: boolean | Prisma.VAProfile$assignmentsArgs<ExtArgs>
   workLogs?: boolean | Prisma.VAProfile$workLogsArgs<ExtArgs>
+  vaSkills?: boolean | Prisma.VAProfile$vaSkillsArgs<ExtArgs>
+  documents?: boolean | Prisma.VAProfile$documentsArgs<ExtArgs>
   _count?: boolean | Prisma.VAProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vAProfile"]>
 
 export type VAProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  phone?: boolean
   hourlyRate?: boolean
+  availabilityStatus?: boolean
+  totalCapacityHours?: boolean
+  onboardingFolderUrl?: boolean
+  portfolioUrl?: boolean
   notes?: boolean
   isActive?: boolean
   createdAt?: boolean
@@ -950,8 +1143,11 @@ export type VAProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type VAProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  phone?: boolean
   hourlyRate?: boolean
+  availabilityStatus?: boolean
+  totalCapacityHours?: boolean
+  onboardingFolderUrl?: boolean
+  portfolioUrl?: boolean
   notes?: boolean
   isActive?: boolean
   createdAt?: boolean
@@ -962,20 +1158,24 @@ export type VAProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type VAProfileSelectScalar = {
   id?: boolean
   userId?: boolean
-  phone?: boolean
   hourlyRate?: boolean
+  availabilityStatus?: boolean
+  totalCapacityHours?: boolean
+  onboardingFolderUrl?: boolean
+  portfolioUrl?: boolean
   notes?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type VAProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "phone" | "hourlyRate" | "notes" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["vAProfile"]>
+export type VAProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "hourlyRate" | "availabilityStatus" | "totalCapacityHours" | "onboardingFolderUrl" | "portfolioUrl" | "notes" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["vAProfile"]>
 export type VAProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  skills?: boolean | Prisma.VAProfile$skillsArgs<ExtArgs>
   assignments?: boolean | Prisma.VAProfile$assignmentsArgs<ExtArgs>
   workLogs?: boolean | Prisma.VAProfile$workLogsArgs<ExtArgs>
+  vaSkills?: boolean | Prisma.VAProfile$vaSkillsArgs<ExtArgs>
+  documents?: boolean | Prisma.VAProfile$documentsArgs<ExtArgs>
   _count?: boolean | Prisma.VAProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type VAProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -989,15 +1189,19 @@ export type $VAProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalA
   name: "VAProfile"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
-    skills: Prisma.$SkillPayload<ExtArgs>[]
     assignments: Prisma.$AssignmentPayload<ExtArgs>[]
     workLogs: Prisma.$WorkLogPayload<ExtArgs>[]
+    vaSkills: Prisma.$VASkillPayload<ExtArgs>[]
+    documents: Prisma.$VADocumentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
-    phone: string | null
     hourlyRate: runtime.Decimal | null
+    availabilityStatus: $Enums.Availability
+    totalCapacityHours: runtime.Decimal | null
+    onboardingFolderUrl: string | null
+    portfolioUrl: string | null
     notes: string | null
     isActive: boolean
     createdAt: Date
@@ -1397,9 +1601,10 @@ readonly fields: VAProfileFieldRefs;
 export interface Prisma__VAProfileClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  skills<T extends Prisma.VAProfile$skillsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VAProfile$skillsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SkillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   assignments<T extends Prisma.VAProfile$assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VAProfile$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   workLogs<T extends Prisma.VAProfile$workLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VAProfile$workLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  vaSkills<T extends Prisma.VAProfile$vaSkillsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VAProfile$vaSkillsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VASkillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  documents<T extends Prisma.VAProfile$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VAProfile$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VADocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1431,8 +1636,11 @@ export interface Prisma__VAProfileClient<T, Null = never, ExtArgs extends runtim
 export interface VAProfileFieldRefs {
   readonly id: Prisma.FieldRef<"VAProfile", 'String'>
   readonly userId: Prisma.FieldRef<"VAProfile", 'String'>
-  readonly phone: Prisma.FieldRef<"VAProfile", 'String'>
   readonly hourlyRate: Prisma.FieldRef<"VAProfile", 'Decimal'>
+  readonly availabilityStatus: Prisma.FieldRef<"VAProfile", 'Availability'>
+  readonly totalCapacityHours: Prisma.FieldRef<"VAProfile", 'Decimal'>
+  readonly onboardingFolderUrl: Prisma.FieldRef<"VAProfile", 'String'>
+  readonly portfolioUrl: Prisma.FieldRef<"VAProfile", 'String'>
   readonly notes: Prisma.FieldRef<"VAProfile", 'String'>
   readonly isActive: Prisma.FieldRef<"VAProfile", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"VAProfile", 'DateTime'>
@@ -1838,30 +2046,6 @@ export type VAProfileDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * VAProfile.skills
- */
-export type VAProfile$skillsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Skill
-   */
-  select?: Prisma.SkillSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Skill
-   */
-  omit?: Prisma.SkillOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SkillInclude<ExtArgs> | null
-  where?: Prisma.SkillWhereInput
-  orderBy?: Prisma.SkillOrderByWithRelationInput | Prisma.SkillOrderByWithRelationInput[]
-  cursor?: Prisma.SkillWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SkillScalarFieldEnum | Prisma.SkillScalarFieldEnum[]
-}
-
-/**
  * VAProfile.assignments
  */
 export type VAProfile$assignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1907,6 +2091,54 @@ export type VAProfile$workLogsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.WorkLogScalarFieldEnum | Prisma.WorkLogScalarFieldEnum[]
+}
+
+/**
+ * VAProfile.vaSkills
+ */
+export type VAProfile$vaSkillsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VASkill
+   */
+  select?: Prisma.VASkillSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the VASkill
+   */
+  omit?: Prisma.VASkillOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VASkillInclude<ExtArgs> | null
+  where?: Prisma.VASkillWhereInput
+  orderBy?: Prisma.VASkillOrderByWithRelationInput | Prisma.VASkillOrderByWithRelationInput[]
+  cursor?: Prisma.VASkillWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VASkillScalarFieldEnum | Prisma.VASkillScalarFieldEnum[]
+}
+
+/**
+ * VAProfile.documents
+ */
+export type VAProfile$documentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VADocument
+   */
+  select?: Prisma.VADocumentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the VADocument
+   */
+  omit?: Prisma.VADocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VADocumentInclude<ExtArgs> | null
+  where?: Prisma.VADocumentWhereInput
+  orderBy?: Prisma.VADocumentOrderByWithRelationInput | Prisma.VADocumentOrderByWithRelationInput[]
+  cursor?: Prisma.VADocumentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VADocumentScalarFieldEnum | Prisma.VADocumentScalarFieldEnum[]
 }
 
 /**

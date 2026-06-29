@@ -9,12 +9,115 @@
 * 🟢 You can import this file directly.
 */
 
-export const UserRole = {
-  MANAGER: 'MANAGER',
+export const SystemRole = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  SYSTEM_ADMIN: 'SYSTEM_ADMIN',
+  EXECUTIVE: 'EXECUTIVE',
+  DEPT_MANAGER: 'DEPT_MANAGER',
+  STAFF: 'STAFF',
   VA: 'VA'
 } as const
 
-export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+export type SystemRole = (typeof SystemRole)[keyof typeof SystemRole]
+
+
+export const UserType = {
+  INTERNAL_STAFF: 'INTERNAL_STAFF',
+  VIRTUAL_ASSISTANT: 'VIRTUAL_ASSISTANT'
+} as const
+
+export type UserType = (typeof UserType)[keyof typeof UserType]
+
+
+export const TemporaryRole = {
+  CONTRIBUTOR: 'CONTRIBUTOR',
+  VIEWER: 'VIEWER',
+  APPROVER: 'APPROVER'
+} as const
+
+export type TemporaryRole = (typeof TemporaryRole)[keyof typeof TemporaryRole]
+
+
+export const ContractType = {
+  REGULAR: 'REGULAR',
+  PROJECT_BASED: 'PROJECT_BASED',
+  PROBATIONARY: 'PROBATIONARY'
+} as const
+
+export type ContractType = (typeof ContractType)[keyof typeof ContractType]
+
+
+export const EmploymentStatus = {
+  EMPLOYED: 'EMPLOYED',
+  ENGAGED: 'ENGAGED',
+  CONTRACTED: 'CONTRACTED',
+  END_OF_CONTRACT: 'END_OF_CONTRACT',
+  TRANSFERRED: 'TRANSFERRED',
+  RESIGNED: 'RESIGNED',
+  TERMINATED: 'TERMINATED',
+  BLACKLISTED: 'BLACKLISTED'
+} as const
+
+export type EmploymentStatus = (typeof EmploymentStatus)[keyof typeof EmploymentStatus]
+
+
+export const Availability = {
+  AVAILABLE: 'AVAILABLE',
+  PARTIALLY_ASSIGNED: 'PARTIALLY_ASSIGNED',
+  FULLY_ASSIGNED: 'FULLY_ASSIGNED',
+  ON_LEAVE: 'ON_LEAVE',
+  UNAVAILABLE: 'UNAVAILABLE'
+} as const
+
+export type Availability = (typeof Availability)[keyof typeof Availability]
+
+
+export const Proficiency = {
+  BEGINNER: 'BEGINNER',
+  INTERMEDIATE: 'INTERMEDIATE',
+  ADVANCED: 'ADVANCED',
+  EXPERT: 'EXPERT'
+} as const
+
+export type Proficiency = (typeof Proficiency)[keyof typeof Proficiency]
+
+
+export const LeaveType = {
+  VACATION: 'VACATION',
+  SICK: 'SICK',
+  EMERGENCY: 'EMERGENCY',
+  MATERNITY: 'MATERNITY',
+  PATERNITY: 'PATERNITY',
+  UNPAID: 'UNPAID',
+  BEREAVEMENT: 'BEREAVEMENT'
+} as const
+
+export type LeaveType = (typeof LeaveType)[keyof typeof LeaveType]
+
+
+export const LeaveStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type LeaveStatus = (typeof LeaveStatus)[keyof typeof LeaveStatus]
+
+
+export const DocumentType = {
+  CONTRACT: 'CONTRACT',
+  GOVERNMENT_ID: 'GOVERNMENT_ID',
+  NDA: 'NDA',
+  CLEARANCE: 'CLEARANCE',
+  CERTIFICATE: 'CERTIFICATE',
+  ONBOARDING: 'ONBOARDING',
+  PERFORMANCE_REVIEW: 'PERFORMANCE_REVIEW',
+  PORTFOLIO: 'PORTFOLIO',
+  OTHER: 'OTHER'
+} as const
+
+export type DocumentType = (typeof DocumentType)[keyof typeof DocumentType]
 
 
 export const AssignmentType = {
@@ -29,7 +132,8 @@ export const AssignmentStatus = {
   ACTIVE: 'ACTIVE',
   PAUSED: 'PAUSED',
   COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
+  CANCELLED: 'CANCELLED',
+  ON_HOLD: 'ON_HOLD'
 } as const
 
 export type AssignmentStatus = (typeof AssignmentStatus)[keyof typeof AssignmentStatus]
@@ -55,3 +159,58 @@ export const ClientPlatform = {
 } as const
 
 export type ClientPlatform = (typeof ClientPlatform)[keyof typeof ClientPlatform]
+
+
+export const TicketCategory = {
+  TECHNICAL: 'TECHNICAL',
+  HR: 'HR',
+  CLIENT: 'CLIENT',
+  VA_SUPPORT: 'VA_SUPPORT',
+  GENERAL: 'GENERAL'
+} as const
+
+export type TicketCategory = (typeof TicketCategory)[keyof typeof TicketCategory]
+
+
+export const TicketStatus = {
+  OPEN: 'OPEN',
+  IN_PROGRESS: 'IN_PROGRESS',
+  WAITING_ON_CLIENT: 'WAITING_ON_CLIENT',
+  RESOLVED: 'RESOLVED',
+  CLOSED: 'CLOSED'
+} as const
+
+export type TicketStatus = (typeof TicketStatus)[keyof typeof TicketStatus]
+
+
+export const TicketSource = {
+  INTERNAL: 'INTERNAL',
+  EMAIL: 'EMAIL',
+  WHATSAPP: 'WHATSAPP',
+  CLIENT_PORTAL: 'CLIENT_PORTAL'
+} as const
+
+export type TicketSource = (typeof TicketSource)[keyof typeof TicketSource]
+
+
+export const Priority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT'
+} as const
+
+export type Priority = (typeof Priority)[keyof typeof Priority]
+
+
+export const AuditAction = {
+  CREATE: 'CREATE',
+  UPDATE: 'UPDATE',
+  DELETE: 'DELETE',
+  STATUS_CHANGE: 'STATUS_CHANGE',
+  TRANSFER: 'TRANSFER',
+  APPROVE: 'APPROVE',
+  REJECT: 'REJECT'
+} as const
+
+export type AuditAction = (typeof AuditAction)[keyof typeof AuditAction]

@@ -11,13 +11,13 @@ export default async function AssignmentsPage() {
   const user = await getCurrentUser()
 
   const where: Record<string, unknown> = {}
-  if (user?.role === 'VA') where.vaProfileId = user.vaProfile?.id
+  if (user?.userType === 'VIRTUAL_ASSISTANT') where.vaProfileId = user.vaProfile?.id
 
   const assignments = await prisma.assignment.findMany({
     where: where as any,
     include: {
       client: true,
-      vaProfile: { include: { user: true, skills: true } },
+      vaProfile: { include: { user: true, vaSkills: { include: { skill: true } } } },
       workLogs: true,
     },
     orderBy: [{ status: 'asc' }, { createdAt: 'desc' }],
@@ -36,7 +36,7 @@ export default async function AssignmentsPage() {
             <div>
               <p className="text-sm font-semibold">{a.client.name}</p>
               <p className="text-xs text-muted-foreground">
-                {a.vaProfile.user.name || a.vaProfile.user.email}
+                {a.vaProfile.user.firstName || a.vaProfile.user.email}
               </p>
             </div>
             <Badge variant={a.status === 'ACTIVE' ? 'default' : 'secondary'} className="shrink-0">

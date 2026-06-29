@@ -43,6 +43,16 @@ export async function GET(request: NextRequest) {
           await supabase.auth.signOut()
           return NextResponse.redirect(`${origin}/login?error=unauthorized`)
         }
+
+        if (!dbUser.isActive) {
+          await supabase.auth.signOut()
+          return NextResponse.redirect(`${origin}/login?error=account_disabled`)
+        }
+
+        const adminRoles = ['SUPER_ADMIN', 'SYSTEM_ADMIN']
+        if (adminRoles.includes(dbUser.systemRole) && next === '/dashboard') {
+          return NextResponse.redirect(`${origin}/departments`)
+        }
       }
       return NextResponse.redirect(`${origin}${next}`)
     }

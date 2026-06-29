@@ -29,7 +29,7 @@ export default async function ReportsPage({
         },
       },
     },
-    orderBy: [{ client: { name: 'asc' } }, { vaProfile: { user: { name: 'asc' } } }],
+    orderBy: [{ client: { name: 'asc' } }, { vaProfile: { user: { firstName: 'asc' } } }],
   })
 
   const rows = assignments.map((a) => {
@@ -130,7 +130,7 @@ export default async function ReportsPage({
                       </a>
                     </TableCell>
                     <TableCell className="text-sm text-muted-foreground">
-                      {a.vaProfile.user.name || a.vaProfile.user.email}
+                      {a.vaProfile.user.firstName || a.vaProfile.user.email}
                     </TableCell>
                     <TableCell>
                       <Badge variant={a.type === 'REGULAR' ? 'default' : 'outline'} className="text-xs">

@@ -174,7 +174,7 @@ export type SkillWhereInput = {
   name?: Prisma.StringFilter<"Skill"> | string
   category?: Prisma.EnumSkillCategoryFilter<"Skill"> | $Enums.SkillCategory
   createdAt?: Prisma.DateTimeFilter<"Skill"> | Date | string
-  vas?: Prisma.VAProfileListRelationFilter
+  vaSkills?: Prisma.VASkillListRelationFilter
 }
 
 export type SkillOrderByWithRelationInput = {
@@ -182,7 +182,7 @@ export type SkillOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   category?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  vas?: Prisma.VAProfileOrderByRelationAggregateInput
+  vaSkills?: Prisma.VASkillOrderByRelationAggregateInput
 }
 
 export type SkillWhereUniqueInput = Prisma.AtLeast<{
@@ -193,7 +193,7 @@ export type SkillWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.SkillWhereInput | Prisma.SkillWhereInput[]
   category?: Prisma.EnumSkillCategoryFilter<"Skill"> | $Enums.SkillCategory
   createdAt?: Prisma.DateTimeFilter<"Skill"> | Date | string
-  vas?: Prisma.VAProfileListRelationFilter
+  vaSkills?: Prisma.VASkillListRelationFilter
 }, "id" | "name">
 
 export type SkillOrderByWithAggregationInput = {
@@ -221,7 +221,7 @@ export type SkillCreateInput = {
   name: string
   category?: $Enums.SkillCategory
   createdAt?: Date | string
-  vas?: Prisma.VAProfileCreateNestedManyWithoutSkillsInput
+  vaSkills?: Prisma.VASkillCreateNestedManyWithoutSkillInput
 }
 
 export type SkillUncheckedCreateInput = {
@@ -229,7 +229,7 @@ export type SkillUncheckedCreateInput = {
   name: string
   category?: $Enums.SkillCategory
   createdAt?: Date | string
-  vas?: Prisma.VAProfileUncheckedCreateNestedManyWithoutSkillsInput
+  vaSkills?: Prisma.VASkillUncheckedCreateNestedManyWithoutSkillInput
 }
 
 export type SkillUpdateInput = {
@@ -237,7 +237,7 @@ export type SkillUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumSkillCategoryFieldUpdateOperationsInput | $Enums.SkillCategory
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  vas?: Prisma.VAProfileUpdateManyWithoutSkillsNestedInput
+  vaSkills?: Prisma.VASkillUpdateManyWithoutSkillNestedInput
 }
 
 export type SkillUncheckedUpdateInput = {
@@ -245,7 +245,7 @@ export type SkillUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumSkillCategoryFieldUpdateOperationsInput | $Enums.SkillCategory
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  vas?: Prisma.VAProfileUncheckedUpdateManyWithoutSkillsNestedInput
+  vaSkills?: Prisma.VASkillUncheckedUpdateManyWithoutSkillNestedInput
 }
 
 export type SkillCreateManyInput = {
@@ -269,16 +269,6 @@ export type SkillUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type SkillListRelationFilter = {
-  every?: Prisma.SkillWhereInput
-  some?: Prisma.SkillWhereInput
-  none?: Prisma.SkillWhereInput
-}
-
-export type SkillOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type SkillCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -300,108 +290,67 @@ export type SkillMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
-export type SkillCreateNestedManyWithoutVasInput = {
-  create?: Prisma.XOR<Prisma.SkillCreateWithoutVasInput, Prisma.SkillUncheckedCreateWithoutVasInput> | Prisma.SkillCreateWithoutVasInput[] | Prisma.SkillUncheckedCreateWithoutVasInput[]
-  connectOrCreate?: Prisma.SkillCreateOrConnectWithoutVasInput | Prisma.SkillCreateOrConnectWithoutVasInput[]
-  connect?: Prisma.SkillWhereUniqueInput | Prisma.SkillWhereUniqueInput[]
-}
-
-export type SkillUncheckedCreateNestedManyWithoutVasInput = {
-  create?: Prisma.XOR<Prisma.SkillCreateWithoutVasInput, Prisma.SkillUncheckedCreateWithoutVasInput> | Prisma.SkillCreateWithoutVasInput[] | Prisma.SkillUncheckedCreateWithoutVasInput[]
-  connectOrCreate?: Prisma.SkillCreateOrConnectWithoutVasInput | Prisma.SkillCreateOrConnectWithoutVasInput[]
-  connect?: Prisma.SkillWhereUniqueInput | Prisma.SkillWhereUniqueInput[]
-}
-
-export type SkillUpdateManyWithoutVasNestedInput = {
-  create?: Prisma.XOR<Prisma.SkillCreateWithoutVasInput, Prisma.SkillUncheckedCreateWithoutVasInput> | Prisma.SkillCreateWithoutVasInput[] | Prisma.SkillUncheckedCreateWithoutVasInput[]
-  connectOrCreate?: Prisma.SkillCreateOrConnectWithoutVasInput | Prisma.SkillCreateOrConnectWithoutVasInput[]
-  upsert?: Prisma.SkillUpsertWithWhereUniqueWithoutVasInput | Prisma.SkillUpsertWithWhereUniqueWithoutVasInput[]
-  set?: Prisma.SkillWhereUniqueInput | Prisma.SkillWhereUniqueInput[]
-  disconnect?: Prisma.SkillWhereUniqueInput | Prisma.SkillWhereUniqueInput[]
-  delete?: Prisma.SkillWhereUniqueInput | Prisma.SkillWhereUniqueInput[]
-  connect?: Prisma.SkillWhereUniqueInput | Prisma.SkillWhereUniqueInput[]
-  update?: Prisma.SkillUpdateWithWhereUniqueWithoutVasInput | Prisma.SkillUpdateWithWhereUniqueWithoutVasInput[]
-  updateMany?: Prisma.SkillUpdateManyWithWhereWithoutVasInput | Prisma.SkillUpdateManyWithWhereWithoutVasInput[]
-  deleteMany?: Prisma.SkillScalarWhereInput | Prisma.SkillScalarWhereInput[]
-}
-
-export type SkillUncheckedUpdateManyWithoutVasNestedInput = {
-  create?: Prisma.XOR<Prisma.SkillCreateWithoutVasInput, Prisma.SkillUncheckedCreateWithoutVasInput> | Prisma.SkillCreateWithoutVasInput[] | Prisma.SkillUncheckedCreateWithoutVasInput[]
-  connectOrCreate?: Prisma.SkillCreateOrConnectWithoutVasInput | Prisma.SkillCreateOrConnectWithoutVasInput[]
-  upsert?: Prisma.SkillUpsertWithWhereUniqueWithoutVasInput | Prisma.SkillUpsertWithWhereUniqueWithoutVasInput[]
-  set?: Prisma.SkillWhereUniqueInput | Prisma.SkillWhereUniqueInput[]
-  disconnect?: Prisma.SkillWhereUniqueInput | Prisma.SkillWhereUniqueInput[]
-  delete?: Prisma.SkillWhereUniqueInput | Prisma.SkillWhereUniqueInput[]
-  connect?: Prisma.SkillWhereUniqueInput | Prisma.SkillWhereUniqueInput[]
-  update?: Prisma.SkillUpdateWithWhereUniqueWithoutVasInput | Prisma.SkillUpdateWithWhereUniqueWithoutVasInput[]
-  updateMany?: Prisma.SkillUpdateManyWithWhereWithoutVasInput | Prisma.SkillUpdateManyWithWhereWithoutVasInput[]
-  deleteMany?: Prisma.SkillScalarWhereInput | Prisma.SkillScalarWhereInput[]
+export type SkillScalarRelationFilter = {
+  is?: Prisma.SkillWhereInput
+  isNot?: Prisma.SkillWhereInput
 }
 
 export type EnumSkillCategoryFieldUpdateOperationsInput = {
   set?: $Enums.SkillCategory
 }
 
-export type SkillCreateWithoutVasInput = {
+export type SkillCreateNestedOneWithoutVaSkillsInput = {
+  create?: Prisma.XOR<Prisma.SkillCreateWithoutVaSkillsInput, Prisma.SkillUncheckedCreateWithoutVaSkillsInput>
+  connectOrCreate?: Prisma.SkillCreateOrConnectWithoutVaSkillsInput
+  connect?: Prisma.SkillWhereUniqueInput
+}
+
+export type SkillUpdateOneRequiredWithoutVaSkillsNestedInput = {
+  create?: Prisma.XOR<Prisma.SkillCreateWithoutVaSkillsInput, Prisma.SkillUncheckedCreateWithoutVaSkillsInput>
+  connectOrCreate?: Prisma.SkillCreateOrConnectWithoutVaSkillsInput
+  upsert?: Prisma.SkillUpsertWithoutVaSkillsInput
+  connect?: Prisma.SkillWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SkillUpdateToOneWithWhereWithoutVaSkillsInput, Prisma.SkillUpdateWithoutVaSkillsInput>, Prisma.SkillUncheckedUpdateWithoutVaSkillsInput>
+}
+
+export type SkillCreateWithoutVaSkillsInput = {
   id?: string
   name: string
   category?: $Enums.SkillCategory
   createdAt?: Date | string
 }
 
-export type SkillUncheckedCreateWithoutVasInput = {
+export type SkillUncheckedCreateWithoutVaSkillsInput = {
   id?: string
   name: string
   category?: $Enums.SkillCategory
   createdAt?: Date | string
 }
 
-export type SkillCreateOrConnectWithoutVasInput = {
+export type SkillCreateOrConnectWithoutVaSkillsInput = {
   where: Prisma.SkillWhereUniqueInput
-  create: Prisma.XOR<Prisma.SkillCreateWithoutVasInput, Prisma.SkillUncheckedCreateWithoutVasInput>
+  create: Prisma.XOR<Prisma.SkillCreateWithoutVaSkillsInput, Prisma.SkillUncheckedCreateWithoutVaSkillsInput>
 }
 
-export type SkillUpsertWithWhereUniqueWithoutVasInput = {
-  where: Prisma.SkillWhereUniqueInput
-  update: Prisma.XOR<Prisma.SkillUpdateWithoutVasInput, Prisma.SkillUncheckedUpdateWithoutVasInput>
-  create: Prisma.XOR<Prisma.SkillCreateWithoutVasInput, Prisma.SkillUncheckedCreateWithoutVasInput>
+export type SkillUpsertWithoutVaSkillsInput = {
+  update: Prisma.XOR<Prisma.SkillUpdateWithoutVaSkillsInput, Prisma.SkillUncheckedUpdateWithoutVaSkillsInput>
+  create: Prisma.XOR<Prisma.SkillCreateWithoutVaSkillsInput, Prisma.SkillUncheckedCreateWithoutVaSkillsInput>
+  where?: Prisma.SkillWhereInput
 }
 
-export type SkillUpdateWithWhereUniqueWithoutVasInput = {
-  where: Prisma.SkillWhereUniqueInput
-  data: Prisma.XOR<Prisma.SkillUpdateWithoutVasInput, Prisma.SkillUncheckedUpdateWithoutVasInput>
+export type SkillUpdateToOneWithWhereWithoutVaSkillsInput = {
+  where?: Prisma.SkillWhereInput
+  data: Prisma.XOR<Prisma.SkillUpdateWithoutVaSkillsInput, Prisma.SkillUncheckedUpdateWithoutVaSkillsInput>
 }
 
-export type SkillUpdateManyWithWhereWithoutVasInput = {
-  where: Prisma.SkillScalarWhereInput
-  data: Prisma.XOR<Prisma.SkillUpdateManyMutationInput, Prisma.SkillUncheckedUpdateManyWithoutVasInput>
-}
-
-export type SkillScalarWhereInput = {
-  AND?: Prisma.SkillScalarWhereInput | Prisma.SkillScalarWhereInput[]
-  OR?: Prisma.SkillScalarWhereInput[]
-  NOT?: Prisma.SkillScalarWhereInput | Prisma.SkillScalarWhereInput[]
-  id?: Prisma.StringFilter<"Skill"> | string
-  name?: Prisma.StringFilter<"Skill"> | string
-  category?: Prisma.EnumSkillCategoryFilter<"Skill"> | $Enums.SkillCategory
-  createdAt?: Prisma.DateTimeFilter<"Skill"> | Date | string
-}
-
-export type SkillUpdateWithoutVasInput = {
+export type SkillUpdateWithoutVaSkillsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumSkillCategoryFieldUpdateOperationsInput | $Enums.SkillCategory
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type SkillUncheckedUpdateWithoutVasInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  category?: Prisma.EnumSkillCategoryFieldUpdateOperationsInput | $Enums.SkillCategory
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type SkillUncheckedUpdateManyWithoutVasInput = {
+export type SkillUncheckedUpdateWithoutVaSkillsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumSkillCategoryFieldUpdateOperationsInput | $Enums.SkillCategory
@@ -414,11 +363,11 @@ export type SkillUncheckedUpdateManyWithoutVasInput = {
  */
 
 export type SkillCountOutputType = {
-  vas: number
+  vaSkills: number
 }
 
 export type SkillCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  vas?: boolean | SkillCountOutputTypeCountVasArgs
+  vaSkills?: boolean | SkillCountOutputTypeCountVaSkillsArgs
 }
 
 /**
@@ -434,8 +383,8 @@ export type SkillCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
 /**
  * SkillCountOutputType without action
  */
-export type SkillCountOutputTypeCountVasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.VAProfileWhereInput
+export type SkillCountOutputTypeCountVaSkillsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VASkillWhereInput
 }
 
 
@@ -444,7 +393,7 @@ export type SkillSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   name?: boolean
   category?: boolean
   createdAt?: boolean
-  vas?: boolean | Prisma.Skill$vasArgs<ExtArgs>
+  vaSkills?: boolean | Prisma.Skill$vaSkillsArgs<ExtArgs>
   _count?: boolean | Prisma.SkillCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["skill"]>
 
@@ -471,7 +420,7 @@ export type SkillSelectScalar = {
 
 export type SkillOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "category" | "createdAt", ExtArgs["result"]["skill"]>
 export type SkillInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  vas?: boolean | Prisma.Skill$vasArgs<ExtArgs>
+  vaSkills?: boolean | Prisma.Skill$vaSkillsArgs<ExtArgs>
   _count?: boolean | Prisma.SkillCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SkillIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -480,7 +429,7 @@ export type SkillIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type $SkillPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Skill"
   objects: {
-    vas: Prisma.$VAProfilePayload<ExtArgs>[]
+    vaSkills: Prisma.$VASkillPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -881,7 +830,7 @@ readonly fields: SkillFieldRefs;
  */
 export interface Prisma__SkillClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  vas<T extends Prisma.Skill$vasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Skill$vasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VAProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  vaSkills<T extends Prisma.Skill$vaSkillsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Skill$vaSkillsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VASkillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1308,27 +1257,27 @@ export type SkillDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * Skill.vas
+ * Skill.vaSkills
  */
-export type Skill$vasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Skill$vaSkillsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the VAProfile
+   * Select specific fields to fetch from the VASkill
    */
-  select?: Prisma.VAProfileSelect<ExtArgs> | null
+  select?: Prisma.VASkillSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the VAProfile
+   * Omit specific fields from the VASkill
    */
-  omit?: Prisma.VAProfileOmit<ExtArgs> | null
+  omit?: Prisma.VASkillOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.VAProfileInclude<ExtArgs> | null
-  where?: Prisma.VAProfileWhereInput
-  orderBy?: Prisma.VAProfileOrderByWithRelationInput | Prisma.VAProfileOrderByWithRelationInput[]
-  cursor?: Prisma.VAProfileWhereUniqueInput
+  include?: Prisma.VASkillInclude<ExtArgs> | null
+  where?: Prisma.VASkillWhereInput
+  orderBy?: Prisma.VASkillOrderByWithRelationInput | Prisma.VASkillOrderByWithRelationInput[]
+  cursor?: Prisma.VASkillWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.VAProfileScalarFieldEnum | Prisma.VAProfileScalarFieldEnum[]
+  distinct?: Prisma.VASkillScalarFieldEnum | Prisma.VASkillScalarFieldEnum[]
 }
 
 /**

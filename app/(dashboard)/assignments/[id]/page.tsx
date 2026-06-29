@@ -21,14 +21,14 @@ export default async function AssignmentDetailPage({
     where: { id },
     include: {
       client: true,
-      vaProfile: { include: { user: true, skills: true } },
+      vaProfile: { include: { user: true, vaSkills: { include: { skill: true } } } },
       workLogs: { orderBy: { workDate: 'desc' } },
     },
   })
 
   if (!assignment) notFound()
 
-  if (user?.role === 'VA' && assignment.vaProfileId !== user.vaProfile?.id) {
+  if (user?.userType === 'VIRTUAL_ASSISTANT' && assignment.vaProfileId !== user.vaProfile?.id) {
     notFound()
   }
 
@@ -51,10 +51,10 @@ export default async function AssignmentDetailPage({
             <Badge variant="outline">{assignment.type}</Badge>
           </div>
           <p className="text-sm text-muted-foreground mt-1">
-            Assigned to {assignment.vaProfile.user.name || assignment.vaProfile.user.email}
+            Assigned to {assignment.vaProfile.user.firstName || assignment.vaProfile.user.email}
           </p>
         </div>
-        {user?.role === 'MANAGER' && <AssignmentStatusButtons id={assignment.id} current={assignment.status} />}
+        {['SUPER_ADMIN','SYSTEM_ADMIN','EXECUTIVE','DEPT_MANAGER','STAFF'].includes(user?.systemRole) && <AssignmentStatusButtons id={assignment.id} current={assignment.status} />}
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
@@ -93,7 +93,7 @@ export default async function AssignmentDetailPage({
       <Card>
         <CardHeader className="pb-3 flex flex-row items-center justify-between">
           <CardTitle className="text-base">Work Logs</CardTitle>
-          {user?.role === 'MANAGER' && (
+          {['SUPER_ADMIN','SYSTEM_ADMIN','EXECUTIVE','DEPT_MANAGER','STAFF'].includes(user?.systemRole) && (
             <Link href={`/work-logs/new?assignmentId=${assignment.id}`}>
               <Button size="sm">Log Hours</Button>
             </Link>

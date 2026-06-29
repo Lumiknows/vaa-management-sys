@@ -20,7 +20,7 @@ export default async function ClientsPage() {
 
   const clients = user
     ? await prisma.client.findMany({
-        where: user.role === 'MANAGER' ? { managerId: user.id } : undefined,
+        where: ['SUPER_ADMIN','SYSTEM_ADMIN','EXECUTIVE','DEPT_MANAGER','STAFF'].includes(user.systemRole) ? { managerId: user.id } : undefined,
         include: {
           assignments: { include: { vaProfile: { include: { user: true } } } },
         },

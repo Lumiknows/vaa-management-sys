@@ -41,9 +41,9 @@ export type AssignmentMinAggregateOutputType = {
   type: $Enums.AssignmentType | null
   status: $Enums.AssignmentStatus | null
   agreedHours: runtime.Decimal | null
+  monthlyHours: runtime.Decimal | null
   startDate: Date | null
   endDate: Date | null
-  monthlyHours: runtime.Decimal | null
   notes: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -56,9 +56,9 @@ export type AssignmentMaxAggregateOutputType = {
   type: $Enums.AssignmentType | null
   status: $Enums.AssignmentStatus | null
   agreedHours: runtime.Decimal | null
+  monthlyHours: runtime.Decimal | null
   startDate: Date | null
   endDate: Date | null
-  monthlyHours: runtime.Decimal | null
   notes: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -71,10 +71,11 @@ export type AssignmentCountAggregateOutputType = {
   type: number
   status: number
   agreedHours: number
+  monthlyHours: number
   startDate: number
   endDate: number
-  monthlyHours: number
   notes: number
+  skillRequirements: number
   createdAt: number
   updatedAt: number
   vaProfileId: number
@@ -98,9 +99,9 @@ export type AssignmentMinAggregateInputType = {
   type?: true
   status?: true
   agreedHours?: true
+  monthlyHours?: true
   startDate?: true
   endDate?: true
-  monthlyHours?: true
   notes?: true
   createdAt?: true
   updatedAt?: true
@@ -113,9 +114,9 @@ export type AssignmentMaxAggregateInputType = {
   type?: true
   status?: true
   agreedHours?: true
+  monthlyHours?: true
   startDate?: true
   endDate?: true
-  monthlyHours?: true
   notes?: true
   createdAt?: true
   updatedAt?: true
@@ -128,10 +129,11 @@ export type AssignmentCountAggregateInputType = {
   type?: true
   status?: true
   agreedHours?: true
+  monthlyHours?: true
   startDate?: true
   endDate?: true
-  monthlyHours?: true
   notes?: true
+  skillRequirements?: true
   createdAt?: true
   updatedAt?: true
   vaProfileId?: true
@@ -230,10 +232,11 @@ export type AssignmentGroupByOutputType = {
   type: $Enums.AssignmentType
   status: $Enums.AssignmentStatus
   agreedHours: runtime.Decimal
+  monthlyHours: runtime.Decimal | null
   startDate: Date
   endDate: Date | null
-  monthlyHours: runtime.Decimal | null
   notes: string | null
+  skillRequirements: string[]
   createdAt: Date
   updatedAt: Date
   vaProfileId: string
@@ -268,10 +271,11 @@ export type AssignmentWhereInput = {
   type?: Prisma.EnumAssignmentTypeFilter<"Assignment"> | $Enums.AssignmentType
   status?: Prisma.EnumAssignmentStatusFilter<"Assignment"> | $Enums.AssignmentStatus
   agreedHours?: Prisma.DecimalFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: Prisma.DecimalNullableFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   endDate?: Prisma.DateTimeNullableFilter<"Assignment"> | Date | string | null
-  monthlyHours?: Prisma.DecimalNullableFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  skillRequirements?: Prisma.StringNullableListFilter<"Assignment">
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   vaProfileId?: Prisma.StringFilter<"Assignment"> | string
@@ -286,10 +290,11 @@ export type AssignmentOrderByWithRelationInput = {
   type?: Prisma.SortOrder
   status?: Prisma.SortOrder
   agreedHours?: Prisma.SortOrder
+  monthlyHours?: Prisma.SortOrderInput | Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  monthlyHours?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  skillRequirements?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   vaProfileId?: Prisma.SortOrder
@@ -307,10 +312,11 @@ export type AssignmentWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.EnumAssignmentTypeFilter<"Assignment"> | $Enums.AssignmentType
   status?: Prisma.EnumAssignmentStatusFilter<"Assignment"> | $Enums.AssignmentStatus
   agreedHours?: Prisma.DecimalFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: Prisma.DecimalNullableFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   endDate?: Prisma.DateTimeNullableFilter<"Assignment"> | Date | string | null
-  monthlyHours?: Prisma.DecimalNullableFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  skillRequirements?: Prisma.StringNullableListFilter<"Assignment">
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   vaProfileId?: Prisma.StringFilter<"Assignment"> | string
@@ -325,10 +331,11 @@ export type AssignmentOrderByWithAggregationInput = {
   type?: Prisma.SortOrder
   status?: Prisma.SortOrder
   agreedHours?: Prisma.SortOrder
+  monthlyHours?: Prisma.SortOrderInput | Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  monthlyHours?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  skillRequirements?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   vaProfileId?: Prisma.SortOrder
@@ -348,10 +355,11 @@ export type AssignmentScalarWhereWithAggregatesInput = {
   type?: Prisma.EnumAssignmentTypeWithAggregatesFilter<"Assignment"> | $Enums.AssignmentType
   status?: Prisma.EnumAssignmentStatusWithAggregatesFilter<"Assignment"> | $Enums.AssignmentStatus
   agreedHours?: Prisma.DecimalWithAggregatesFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: Prisma.DecimalNullableWithAggregatesFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate?: Prisma.DateTimeWithAggregatesFilter<"Assignment"> | Date | string
   endDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Assignment"> | Date | string | null
-  monthlyHours?: Prisma.DecimalNullableWithAggregatesFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
+  skillRequirements?: Prisma.StringNullableListFilter<"Assignment">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Assignment"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Assignment"> | Date | string
   vaProfileId?: Prisma.StringWithAggregatesFilter<"Assignment"> | string
@@ -363,10 +371,11 @@ export type AssignmentCreateInput = {
   type: $Enums.AssignmentType
   status?: $Enums.AssignmentStatus
   agreedHours: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate: Date | string
   endDate?: Date | string | null
-  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: string | null
+  skillRequirements?: Prisma.AssignmentCreateskillRequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   vaProfile: Prisma.VAProfileCreateNestedOneWithoutAssignmentsInput
@@ -379,10 +388,11 @@ export type AssignmentUncheckedCreateInput = {
   type: $Enums.AssignmentType
   status?: $Enums.AssignmentStatus
   agreedHours: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate: Date | string
   endDate?: Date | string | null
-  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: string | null
+  skillRequirements?: Prisma.AssignmentCreateskillRequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   vaProfileId: string
@@ -395,10 +405,11 @@ export type AssignmentUpdateInput = {
   type?: Prisma.EnumAssignmentTypeFieldUpdateOperationsInput | $Enums.AssignmentType
   status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   agreedHours?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skillRequirements?: Prisma.AssignmentUpdateskillRequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vaProfile?: Prisma.VAProfileUpdateOneRequiredWithoutAssignmentsNestedInput
@@ -411,10 +422,11 @@ export type AssignmentUncheckedUpdateInput = {
   type?: Prisma.EnumAssignmentTypeFieldUpdateOperationsInput | $Enums.AssignmentType
   status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   agreedHours?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skillRequirements?: Prisma.AssignmentUpdateskillRequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vaProfileId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -427,10 +439,11 @@ export type AssignmentCreateManyInput = {
   type: $Enums.AssignmentType
   status?: $Enums.AssignmentStatus
   agreedHours: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate: Date | string
   endDate?: Date | string | null
-  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: string | null
+  skillRequirements?: Prisma.AssignmentCreateskillRequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   vaProfileId: string
@@ -442,10 +455,11 @@ export type AssignmentUpdateManyMutationInput = {
   type?: Prisma.EnumAssignmentTypeFieldUpdateOperationsInput | $Enums.AssignmentType
   status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   agreedHours?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skillRequirements?: Prisma.AssignmentUpdateskillRequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -455,10 +469,11 @@ export type AssignmentUncheckedUpdateManyInput = {
   type?: Prisma.EnumAssignmentTypeFieldUpdateOperationsInput | $Enums.AssignmentType
   status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   agreedHours?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skillRequirements?: Prisma.AssignmentUpdateskillRequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vaProfileId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -480,10 +495,11 @@ export type AssignmentCountOrderByAggregateInput = {
   type?: Prisma.SortOrder
   status?: Prisma.SortOrder
   agreedHours?: Prisma.SortOrder
+  monthlyHours?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
-  monthlyHours?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  skillRequirements?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   vaProfileId?: Prisma.SortOrder
@@ -500,9 +516,9 @@ export type AssignmentMaxOrderByAggregateInput = {
   type?: Prisma.SortOrder
   status?: Prisma.SortOrder
   agreedHours?: Prisma.SortOrder
+  monthlyHours?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
-  monthlyHours?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -515,9 +531,9 @@ export type AssignmentMinOrderByAggregateInput = {
   type?: Prisma.SortOrder
   status?: Prisma.SortOrder
   agreedHours?: Prisma.SortOrder
+  monthlyHours?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
-  monthlyHours?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -619,6 +635,10 @@ export type AssignmentUncheckedUpdateManyWithoutClientNestedInput = {
   deleteMany?: Prisma.AssignmentScalarWhereInput | Prisma.AssignmentScalarWhereInput[]
 }
 
+export type AssignmentCreateskillRequirementsInput = {
+  set: string[]
+}
+
 export type EnumAssignmentTypeFieldUpdateOperationsInput = {
   set?: $Enums.AssignmentType
 }
@@ -627,16 +647,9 @@ export type EnumAssignmentStatusFieldUpdateOperationsInput = {
   set?: $Enums.AssignmentStatus
 }
 
-export type DecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
-}
-
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
+export type AssignmentUpdateskillRequirementsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type AssignmentCreateNestedOneWithoutWorkLogsInput = {
@@ -658,10 +671,11 @@ export type AssignmentCreateWithoutVaProfileInput = {
   type: $Enums.AssignmentType
   status?: $Enums.AssignmentStatus
   agreedHours: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate: Date | string
   endDate?: Date | string | null
-  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: string | null
+  skillRequirements?: Prisma.AssignmentCreateskillRequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   client: Prisma.ClientCreateNestedOneWithoutAssignmentsInput
@@ -673,10 +687,11 @@ export type AssignmentUncheckedCreateWithoutVaProfileInput = {
   type: $Enums.AssignmentType
   status?: $Enums.AssignmentStatus
   agreedHours: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate: Date | string
   endDate?: Date | string | null
-  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: string | null
+  skillRequirements?: Prisma.AssignmentCreateskillRequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   clientId: string
@@ -717,10 +732,11 @@ export type AssignmentScalarWhereInput = {
   type?: Prisma.EnumAssignmentTypeFilter<"Assignment"> | $Enums.AssignmentType
   status?: Prisma.EnumAssignmentStatusFilter<"Assignment"> | $Enums.AssignmentStatus
   agreedHours?: Prisma.DecimalFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: Prisma.DecimalNullableFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   endDate?: Prisma.DateTimeNullableFilter<"Assignment"> | Date | string | null
-  monthlyHours?: Prisma.DecimalNullableFilter<"Assignment"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  skillRequirements?: Prisma.StringNullableListFilter<"Assignment">
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   vaProfileId?: Prisma.StringFilter<"Assignment"> | string
@@ -732,10 +748,11 @@ export type AssignmentCreateWithoutClientInput = {
   type: $Enums.AssignmentType
   status?: $Enums.AssignmentStatus
   agreedHours: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate: Date | string
   endDate?: Date | string | null
-  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: string | null
+  skillRequirements?: Prisma.AssignmentCreateskillRequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   vaProfile: Prisma.VAProfileCreateNestedOneWithoutAssignmentsInput
@@ -747,10 +764,11 @@ export type AssignmentUncheckedCreateWithoutClientInput = {
   type: $Enums.AssignmentType
   status?: $Enums.AssignmentStatus
   agreedHours: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate: Date | string
   endDate?: Date | string | null
-  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: string | null
+  skillRequirements?: Prisma.AssignmentCreateskillRequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   vaProfileId: string
@@ -788,10 +806,11 @@ export type AssignmentCreateWithoutWorkLogsInput = {
   type: $Enums.AssignmentType
   status?: $Enums.AssignmentStatus
   agreedHours: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate: Date | string
   endDate?: Date | string | null
-  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: string | null
+  skillRequirements?: Prisma.AssignmentCreateskillRequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   vaProfile: Prisma.VAProfileCreateNestedOneWithoutAssignmentsInput
@@ -803,10 +822,11 @@ export type AssignmentUncheckedCreateWithoutWorkLogsInput = {
   type: $Enums.AssignmentType
   status?: $Enums.AssignmentStatus
   agreedHours: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate: Date | string
   endDate?: Date | string | null
-  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: string | null
+  skillRequirements?: Prisma.AssignmentCreateskillRequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   vaProfileId: string
@@ -834,10 +854,11 @@ export type AssignmentUpdateWithoutWorkLogsInput = {
   type?: Prisma.EnumAssignmentTypeFieldUpdateOperationsInput | $Enums.AssignmentType
   status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   agreedHours?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skillRequirements?: Prisma.AssignmentUpdateskillRequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vaProfile?: Prisma.VAProfileUpdateOneRequiredWithoutAssignmentsNestedInput
@@ -849,10 +870,11 @@ export type AssignmentUncheckedUpdateWithoutWorkLogsInput = {
   type?: Prisma.EnumAssignmentTypeFieldUpdateOperationsInput | $Enums.AssignmentType
   status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   agreedHours?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skillRequirements?: Prisma.AssignmentUpdateskillRequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vaProfileId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -864,10 +886,11 @@ export type AssignmentCreateManyVaProfileInput = {
   type: $Enums.AssignmentType
   status?: $Enums.AssignmentStatus
   agreedHours: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate: Date | string
   endDate?: Date | string | null
-  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: string | null
+  skillRequirements?: Prisma.AssignmentCreateskillRequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   clientId: string
@@ -878,10 +901,11 @@ export type AssignmentUpdateWithoutVaProfileInput = {
   type?: Prisma.EnumAssignmentTypeFieldUpdateOperationsInput | $Enums.AssignmentType
   status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   agreedHours?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skillRequirements?: Prisma.AssignmentUpdateskillRequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   client?: Prisma.ClientUpdateOneRequiredWithoutAssignmentsNestedInput
@@ -893,10 +917,11 @@ export type AssignmentUncheckedUpdateWithoutVaProfileInput = {
   type?: Prisma.EnumAssignmentTypeFieldUpdateOperationsInput | $Enums.AssignmentType
   status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   agreedHours?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skillRequirements?: Prisma.AssignmentUpdateskillRequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   clientId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -908,10 +933,11 @@ export type AssignmentUncheckedUpdateManyWithoutVaProfileInput = {
   type?: Prisma.EnumAssignmentTypeFieldUpdateOperationsInput | $Enums.AssignmentType
   status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   agreedHours?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skillRequirements?: Prisma.AssignmentUpdateskillRequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   clientId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -922,10 +948,11 @@ export type AssignmentCreateManyClientInput = {
   type: $Enums.AssignmentType
   status?: $Enums.AssignmentStatus
   agreedHours: runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate: Date | string
   endDate?: Date | string | null
-  monthlyHours?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: string | null
+  skillRequirements?: Prisma.AssignmentCreateskillRequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   vaProfileId: string
@@ -936,10 +963,11 @@ export type AssignmentUpdateWithoutClientInput = {
   type?: Prisma.EnumAssignmentTypeFieldUpdateOperationsInput | $Enums.AssignmentType
   status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   agreedHours?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skillRequirements?: Prisma.AssignmentUpdateskillRequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vaProfile?: Prisma.VAProfileUpdateOneRequiredWithoutAssignmentsNestedInput
@@ -951,10 +979,11 @@ export type AssignmentUncheckedUpdateWithoutClientInput = {
   type?: Prisma.EnumAssignmentTypeFieldUpdateOperationsInput | $Enums.AssignmentType
   status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   agreedHours?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skillRequirements?: Prisma.AssignmentUpdateskillRequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vaProfileId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -966,10 +995,11 @@ export type AssignmentUncheckedUpdateManyWithoutClientInput = {
   type?: Prisma.EnumAssignmentTypeFieldUpdateOperationsInput | $Enums.AssignmentType
   status?: Prisma.EnumAssignmentStatusFieldUpdateOperationsInput | $Enums.AssignmentStatus
   agreedHours?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  monthlyHours?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skillRequirements?: Prisma.AssignmentUpdateskillRequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vaProfileId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1011,10 +1041,11 @@ export type AssignmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   type?: boolean
   status?: boolean
   agreedHours?: boolean
+  monthlyHours?: boolean
   startDate?: boolean
   endDate?: boolean
-  monthlyHours?: boolean
   notes?: boolean
+  skillRequirements?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   vaProfileId?: boolean
@@ -1030,10 +1061,11 @@ export type AssignmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   type?: boolean
   status?: boolean
   agreedHours?: boolean
+  monthlyHours?: boolean
   startDate?: boolean
   endDate?: boolean
-  monthlyHours?: boolean
   notes?: boolean
+  skillRequirements?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   vaProfileId?: boolean
@@ -1047,10 +1079,11 @@ export type AssignmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   type?: boolean
   status?: boolean
   agreedHours?: boolean
+  monthlyHours?: boolean
   startDate?: boolean
   endDate?: boolean
-  monthlyHours?: boolean
   notes?: boolean
+  skillRequirements?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   vaProfileId?: boolean
@@ -1064,17 +1097,18 @@ export type AssignmentSelectScalar = {
   type?: boolean
   status?: boolean
   agreedHours?: boolean
+  monthlyHours?: boolean
   startDate?: boolean
   endDate?: boolean
-  monthlyHours?: boolean
   notes?: boolean
+  skillRequirements?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   vaProfileId?: boolean
   clientId?: boolean
 }
 
-export type AssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "status" | "agreedHours" | "startDate" | "endDate" | "monthlyHours" | "notes" | "createdAt" | "updatedAt" | "vaProfileId" | "clientId", ExtArgs["result"]["assignment"]>
+export type AssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "status" | "agreedHours" | "monthlyHours" | "startDate" | "endDate" | "notes" | "skillRequirements" | "createdAt" | "updatedAt" | "vaProfileId" | "clientId", ExtArgs["result"]["assignment"]>
 export type AssignmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   vaProfile?: boolean | Prisma.VAProfileDefaultArgs<ExtArgs>
   client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
@@ -1102,10 +1136,11 @@ export type $AssignmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     type: $Enums.AssignmentType
     status: $Enums.AssignmentStatus
     agreedHours: runtime.Decimal
+    monthlyHours: runtime.Decimal | null
     startDate: Date
     endDate: Date | null
-    monthlyHours: runtime.Decimal | null
     notes: string | null
+    skillRequirements: string[]
     createdAt: Date
     updatedAt: Date
     vaProfileId: string
@@ -1540,10 +1575,11 @@ export interface AssignmentFieldRefs {
   readonly type: Prisma.FieldRef<"Assignment", 'AssignmentType'>
   readonly status: Prisma.FieldRef<"Assignment", 'AssignmentStatus'>
   readonly agreedHours: Prisma.FieldRef<"Assignment", 'Decimal'>
+  readonly monthlyHours: Prisma.FieldRef<"Assignment", 'Decimal'>
   readonly startDate: Prisma.FieldRef<"Assignment", 'DateTime'>
   readonly endDate: Prisma.FieldRef<"Assignment", 'DateTime'>
-  readonly monthlyHours: Prisma.FieldRef<"Assignment", 'Decimal'>
   readonly notes: Prisma.FieldRef<"Assignment", 'String'>
+  readonly skillRequirements: Prisma.FieldRef<"Assignment", 'String[]'>
   readonly createdAt: Prisma.FieldRef<"Assignment", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Assignment", 'DateTime'>
   readonly vaProfileId: Prisma.FieldRef<"Assignment", 'String'>

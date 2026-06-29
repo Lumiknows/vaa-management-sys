@@ -9,12 +9,13 @@ export default async function DashboardLayout({
   children: React.ReactNode
 }) {
   const user = await getCurrentUser()
-  const role = user?.role === 'VA' ? 'VA' : 'MANAGER'
+  const role = user?.userType === 'VIRTUAL_ASSISTANT' ? 'VA' : 'MANAGER'
+  const isAdmin = user ? ['SUPER_ADMIN', 'SYSTEM_ADMIN'].includes(user.systemRole) : false
 
   return (
     <RealtimeProvider>
       <div className="flex h-screen bg-background">
-        <Sidebar role={role} />
+        <Sidebar role={role} isAdmin={isAdmin} />
         <div className="flex flex-1 flex-col overflow-hidden">
           <Navbar />
           <main className="flex-1 overflow-auto p-6">{children}</main>

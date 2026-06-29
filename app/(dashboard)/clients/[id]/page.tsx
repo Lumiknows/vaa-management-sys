@@ -124,7 +124,7 @@ export default async function ClientDetailPage({
                 >
                   <div>
                     <p className="text-sm font-medium">
-                      {a.vaProfile.user.name || a.vaProfile.user.email}
+                      {a.vaProfile.user.firstName || a.vaProfile.user.email}
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {a.type} • {Number(a.agreedHours)}h agreed • {format(a.startDate, 'MMM dd, yyyy')}

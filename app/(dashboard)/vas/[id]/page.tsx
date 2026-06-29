@@ -17,7 +17,7 @@ export default async function VADetailPage({
     where: { id },
     include: {
       user: true,
-      skills: true,
+      vaSkills: { include: { skill: true } },
       assignments: { include: { client: true, workLogs: true } },
     },
   })
@@ -35,7 +35,7 @@ export default async function VADetailPage({
         <div className="flex-1">
           <div className="flex items-center gap-3">
             <h2 className="text-2xl font-bold tracking-tight">
-              {va.user.name || va.user.email}
+              {va.user.firstName || va.user.email}
             </h2>
             <Badge variant={va.isActive ? 'default' : 'secondary'}>
               {va.isActive ? 'Active' : 'Inactive'}
@@ -66,19 +66,19 @@ export default async function VADetailPage({
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Skills</CardTitle>
           </CardHeader>
-          <CardContent className="text-sm">{va.skills.length}</CardContent>
+          <CardContent className="text-sm">{va.vaSkills.length}</CardContent>
         </Card>
       </div>
 
-      {va.skills.length > 0 && (
+      {va.vaSkills.length > 0 && (
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-base">Skills</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
-              {va.skills.map((s) => (
-                <Badge key={s.id} variant="outline">{s.name}</Badge>
+              {va.vaSkills.map((s) => (
+                <Badge key={s.id} variant="outline">{s.skill.name}</Badge>
               ))}
             </div>
           </CardContent>

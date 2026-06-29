@@ -19,8 +19,10 @@ async function main() {
     update: {},
     create: {
       email: "manager@example.com",
-      name: "Alice Manager",
-      role: "MANAGER",
+      firstName: "Alice",
+      lastName: "Manager",
+      systemRole: "DEPT_MANAGER",
+      userType: "INTERNAL_STAFF",
       department: "Operations",
     },
   })
@@ -30,8 +32,10 @@ async function main() {
     update: {},
     create: {
       email: "va1@example.com",
-      name: "Bob Santos",
-      role: "VA",
+      firstName: "Bob",
+      lastName: "Santos",
+      systemRole: "VA",
+      userType: "VIRTUAL_ASSISTANT",
       department: "Amazon Operations",
       vaProfile: {
         create: {
@@ -49,8 +53,10 @@ async function main() {
     update: {},
     create: {
       email: "va2@example.com",
-      name: "Carol Reyes",
-      role: "VA",
+      firstName: "Carol",
+      lastName: "Reyes",
+      systemRole: "VA",
+      userType: "VIRTUAL_ASSISTANT",
       department: "PPC & Shopify",
       vaProfile: {
         create: {
@@ -68,8 +74,10 @@ async function main() {
     update: {},
     create: {
       email: "va3@example.com",
-      name: "Dave Cruz",
-      role: "VA",
+      firstName: "Dave",
+      lastName: "Cruz",
+      systemRole: "VA",
+      userType: "VIRTUAL_ASSISTANT",
       department: "Walmart",
       vaProfile: {
         create: {

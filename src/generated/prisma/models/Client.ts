@@ -29,13 +29,17 @@ export type ClientMinAggregateOutputType = {
   name: string | null
   contactName: string | null
   contactEmail: string | null
+  contactPhone: string | null
   platform: $Enums.ClientPlatform | null
   industry: string | null
+  timezone: string | null
   notes: string | null
   isActive: boolean | null
+  managerId: string | null
+  departmentId: string | null
+  onboardingFolderUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  managerId: string | null
 }
 
 export type ClientMaxAggregateOutputType = {
@@ -43,13 +47,17 @@ export type ClientMaxAggregateOutputType = {
   name: string | null
   contactName: string | null
   contactEmail: string | null
+  contactPhone: string | null
   platform: $Enums.ClientPlatform | null
   industry: string | null
+  timezone: string | null
   notes: string | null
   isActive: boolean | null
+  managerId: string | null
+  departmentId: string | null
+  onboardingFolderUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  managerId: string | null
 }
 
 export type ClientCountAggregateOutputType = {
@@ -57,14 +65,18 @@ export type ClientCountAggregateOutputType = {
   name: number
   contactName: number
   contactEmail: number
+  contactPhone: number
   platform: number
   industry: number
+  timezone: number
   notes: number
   isActive: number
+  managerId: number
+  departmentId: number
+  onboardingFolderUrl: number
+  requiredSkills: number
   createdAt: number
   updatedAt: number
-  managerId: number
-  requiredSkills: number
   _all: number
 }
 
@@ -74,13 +86,17 @@ export type ClientMinAggregateInputType = {
   name?: true
   contactName?: true
   contactEmail?: true
+  contactPhone?: true
   platform?: true
   industry?: true
+  timezone?: true
   notes?: true
   isActive?: true
+  managerId?: true
+  departmentId?: true
+  onboardingFolderUrl?: true
   createdAt?: true
   updatedAt?: true
-  managerId?: true
 }
 
 export type ClientMaxAggregateInputType = {
@@ -88,13 +104,17 @@ export type ClientMaxAggregateInputType = {
   name?: true
   contactName?: true
   contactEmail?: true
+  contactPhone?: true
   platform?: true
   industry?: true
+  timezone?: true
   notes?: true
   isActive?: true
+  managerId?: true
+  departmentId?: true
+  onboardingFolderUrl?: true
   createdAt?: true
   updatedAt?: true
-  managerId?: true
 }
 
 export type ClientCountAggregateInputType = {
@@ -102,14 +122,18 @@ export type ClientCountAggregateInputType = {
   name?: true
   contactName?: true
   contactEmail?: true
+  contactPhone?: true
   platform?: true
   industry?: true
+  timezone?: true
   notes?: true
   isActive?: true
+  managerId?: true
+  departmentId?: true
+  onboardingFolderUrl?: true
+  requiredSkills?: true
   createdAt?: true
   updatedAt?: true
-  managerId?: true
-  requiredSkills?: true
   _all?: true
 }
 
@@ -190,14 +214,18 @@ export type ClientGroupByOutputType = {
   name: string
   contactName: string | null
   contactEmail: string | null
+  contactPhone: string | null
   platform: $Enums.ClientPlatform
   industry: string | null
+  timezone: string | null
   notes: string | null
   isActive: boolean
+  managerId: string | null
+  departmentId: string | null
+  onboardingFolderUrl: string | null
+  requiredSkills: string[]
   createdAt: Date
   updatedAt: Date
-  managerId: string | null
-  requiredSkills: string[]
   _count: ClientCountAggregateOutputType | null
   _min: ClientMinAggregateOutputType | null
   _max: ClientMaxAggregateOutputType | null
@@ -226,16 +254,22 @@ export type ClientWhereInput = {
   name?: Prisma.StringFilter<"Client"> | string
   contactName?: Prisma.StringNullableFilter<"Client"> | string | null
   contactEmail?: Prisma.StringNullableFilter<"Client"> | string | null
+  contactPhone?: Prisma.StringNullableFilter<"Client"> | string | null
   platform?: Prisma.EnumClientPlatformFilter<"Client"> | $Enums.ClientPlatform
   industry?: Prisma.StringNullableFilter<"Client"> | string | null
+  timezone?: Prisma.StringNullableFilter<"Client"> | string | null
   notes?: Prisma.StringNullableFilter<"Client"> | string | null
   isActive?: Prisma.BoolFilter<"Client"> | boolean
+  managerId?: Prisma.StringNullableFilter<"Client"> | string | null
+  departmentId?: Prisma.StringNullableFilter<"Client"> | string | null
+  onboardingFolderUrl?: Prisma.StringNullableFilter<"Client"> | string | null
+  requiredSkills?: Prisma.StringNullableListFilter<"Client">
   createdAt?: Prisma.DateTimeFilter<"Client"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Client"> | Date | string
-  managerId?: Prisma.StringNullableFilter<"Client"> | string | null
-  requiredSkills?: Prisma.StringNullableListFilter<"Client">
   manager?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  department?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.DepartmentWhereInput> | null
   assignments?: Prisma.AssignmentListRelationFilter
+  tickets?: Prisma.TicketListRelationFilter
 }
 
 export type ClientOrderByWithRelationInput = {
@@ -243,16 +277,22 @@ export type ClientOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   contactName?: Prisma.SortOrderInput | Prisma.SortOrder
   contactEmail?: Prisma.SortOrderInput | Prisma.SortOrder
+  contactPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   platform?: Prisma.SortOrder
   industry?: Prisma.SortOrderInput | Prisma.SortOrder
+  timezone?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  managerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  onboardingFolderUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  requiredSkills?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  managerId?: Prisma.SortOrderInput | Prisma.SortOrder
-  requiredSkills?: Prisma.SortOrder
   manager?: Prisma.UserOrderByWithRelationInput
+  department?: Prisma.DepartmentOrderByWithRelationInput
   assignments?: Prisma.AssignmentOrderByRelationAggregateInput
+  tickets?: Prisma.TicketOrderByRelationAggregateInput
 }
 
 export type ClientWhereUniqueInput = Prisma.AtLeast<{
@@ -263,16 +303,22 @@ export type ClientWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Client"> | string
   contactName?: Prisma.StringNullableFilter<"Client"> | string | null
   contactEmail?: Prisma.StringNullableFilter<"Client"> | string | null
+  contactPhone?: Prisma.StringNullableFilter<"Client"> | string | null
   platform?: Prisma.EnumClientPlatformFilter<"Client"> | $Enums.ClientPlatform
   industry?: Prisma.StringNullableFilter<"Client"> | string | null
+  timezone?: Prisma.StringNullableFilter<"Client"> | string | null
   notes?: Prisma.StringNullableFilter<"Client"> | string | null
   isActive?: Prisma.BoolFilter<"Client"> | boolean
+  managerId?: Prisma.StringNullableFilter<"Client"> | string | null
+  departmentId?: Prisma.StringNullableFilter<"Client"> | string | null
+  onboardingFolderUrl?: Prisma.StringNullableFilter<"Client"> | string | null
+  requiredSkills?: Prisma.StringNullableListFilter<"Client">
   createdAt?: Prisma.DateTimeFilter<"Client"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Client"> | Date | string
-  managerId?: Prisma.StringNullableFilter<"Client"> | string | null
-  requiredSkills?: Prisma.StringNullableListFilter<"Client">
   manager?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  department?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.DepartmentWhereInput> | null
   assignments?: Prisma.AssignmentListRelationFilter
+  tickets?: Prisma.TicketListRelationFilter
 }, "id">
 
 export type ClientOrderByWithAggregationInput = {
@@ -280,14 +326,18 @@ export type ClientOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   contactName?: Prisma.SortOrderInput | Prisma.SortOrder
   contactEmail?: Prisma.SortOrderInput | Prisma.SortOrder
+  contactPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   platform?: Prisma.SortOrder
   industry?: Prisma.SortOrderInput | Prisma.SortOrder
+  timezone?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  managerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  onboardingFolderUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  requiredSkills?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  managerId?: Prisma.SortOrderInput | Prisma.SortOrder
-  requiredSkills?: Prisma.SortOrder
   _count?: Prisma.ClientCountOrderByAggregateInput
   _max?: Prisma.ClientMaxOrderByAggregateInput
   _min?: Prisma.ClientMinOrderByAggregateInput
@@ -301,14 +351,18 @@ export type ClientScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Client"> | string
   contactName?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
   contactEmail?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
+  contactPhone?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
   platform?: Prisma.EnumClientPlatformWithAggregatesFilter<"Client"> | $Enums.ClientPlatform
   industry?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
+  timezone?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
   isActive?: Prisma.BoolWithAggregatesFilter<"Client"> | boolean
+  managerId?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
+  departmentId?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
+  onboardingFolderUrl?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
+  requiredSkills?: Prisma.StringNullableListFilter<"Client">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Client"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Client"> | Date | string
-  managerId?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
-  requiredSkills?: Prisma.StringNullableListFilter<"Client">
 }
 
 export type ClientCreateInput = {
@@ -316,15 +370,20 @@ export type ClientCreateInput = {
   name: string
   contactName?: string | null
   contactEmail?: string | null
+  contactPhone?: string | null
   platform?: $Enums.ClientPlatform
   industry?: string | null
+  timezone?: string | null
   notes?: string | null
   isActive?: boolean
+  onboardingFolderUrl?: string | null
+  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
-  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
   manager?: Prisma.UserCreateNestedOneWithoutManagedClientsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutClientsInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutClientInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutClientInput
 }
 
 export type ClientUncheckedCreateInput = {
@@ -332,15 +391,20 @@ export type ClientUncheckedCreateInput = {
   name: string
   contactName?: string | null
   contactEmail?: string | null
+  contactPhone?: string | null
   platform?: $Enums.ClientPlatform
   industry?: string | null
+  timezone?: string | null
   notes?: string | null
   isActive?: boolean
+  managerId?: string | null
+  departmentId?: string | null
+  onboardingFolderUrl?: string | null
+  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
-  managerId?: string | null
-  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutClientInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type ClientUpdateInput = {
@@ -348,15 +412,20 @@ export type ClientUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumClientPlatformFieldUpdateOperationsInput | $Enums.ClientPlatform
   industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
   manager?: Prisma.UserUpdateOneWithoutManagedClientsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutClientsNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutClientNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateInput = {
@@ -364,15 +433,20 @@ export type ClientUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumClientPlatformFieldUpdateOperationsInput | $Enums.ClientPlatform
   industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  managerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  managerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutClientNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutClientNestedInput
 }
 
 export type ClientCreateManyInput = {
@@ -380,14 +454,18 @@ export type ClientCreateManyInput = {
   name: string
   contactName?: string | null
   contactEmail?: string | null
+  contactPhone?: string | null
   platform?: $Enums.ClientPlatform
   industry?: string | null
+  timezone?: string | null
   notes?: string | null
   isActive?: boolean
+  managerId?: string | null
+  departmentId?: string | null
+  onboardingFolderUrl?: string | null
+  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
-  managerId?: string | null
-  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
 }
 
 export type ClientUpdateManyMutationInput = {
@@ -395,13 +473,16 @@ export type ClientUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumClientPlatformFieldUpdateOperationsInput | $Enums.ClientPlatform
   industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
 }
 
 export type ClientUncheckedUpdateManyInput = {
@@ -409,14 +490,18 @@ export type ClientUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumClientPlatformFieldUpdateOperationsInput | $Enums.ClientPlatform
   industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  managerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  managerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
 }
 
 export type ClientListRelationFilter = {
@@ -429,27 +514,23 @@ export type ClientOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type StringNullableListFilter<$PrismaModel = never> = {
-  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
-  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
-  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  isEmpty?: boolean
-}
-
 export type ClientCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   contactName?: Prisma.SortOrder
   contactEmail?: Prisma.SortOrder
+  contactPhone?: Prisma.SortOrder
   platform?: Prisma.SortOrder
   industry?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  managerId?: Prisma.SortOrder
+  departmentId?: Prisma.SortOrder
+  onboardingFolderUrl?: Prisma.SortOrder
+  requiredSkills?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  managerId?: Prisma.SortOrder
-  requiredSkills?: Prisma.SortOrder
 }
 
 export type ClientMaxOrderByAggregateInput = {
@@ -457,13 +538,17 @@ export type ClientMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   contactName?: Prisma.SortOrder
   contactEmail?: Prisma.SortOrder
+  contactPhone?: Prisma.SortOrder
   platform?: Prisma.SortOrder
   industry?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  managerId?: Prisma.SortOrder
+  departmentId?: Prisma.SortOrder
+  onboardingFolderUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  managerId?: Prisma.SortOrder
 }
 
 export type ClientMinOrderByAggregateInput = {
@@ -471,18 +556,69 @@ export type ClientMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   contactName?: Prisma.SortOrder
   contactEmail?: Prisma.SortOrder
+  contactPhone?: Prisma.SortOrder
   platform?: Prisma.SortOrder
   industry?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  managerId?: Prisma.SortOrder
+  departmentId?: Prisma.SortOrder
+  onboardingFolderUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  managerId?: Prisma.SortOrder
 }
 
 export type ClientScalarRelationFilter = {
   is?: Prisma.ClientWhereInput
   isNot?: Prisma.ClientWhereInput
+}
+
+export type ClientNullableScalarRelationFilter = {
+  is?: Prisma.ClientWhereInput | null
+  isNot?: Prisma.ClientWhereInput | null
+}
+
+export type ClientCreateNestedManyWithoutDepartmentInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutDepartmentInput, Prisma.ClientUncheckedCreateWithoutDepartmentInput> | Prisma.ClientCreateWithoutDepartmentInput[] | Prisma.ClientUncheckedCreateWithoutDepartmentInput[]
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutDepartmentInput | Prisma.ClientCreateOrConnectWithoutDepartmentInput[]
+  createMany?: Prisma.ClientCreateManyDepartmentInputEnvelope
+  connect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+}
+
+export type ClientUncheckedCreateNestedManyWithoutDepartmentInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutDepartmentInput, Prisma.ClientUncheckedCreateWithoutDepartmentInput> | Prisma.ClientCreateWithoutDepartmentInput[] | Prisma.ClientUncheckedCreateWithoutDepartmentInput[]
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutDepartmentInput | Prisma.ClientCreateOrConnectWithoutDepartmentInput[]
+  createMany?: Prisma.ClientCreateManyDepartmentInputEnvelope
+  connect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+}
+
+export type ClientUpdateManyWithoutDepartmentNestedInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutDepartmentInput, Prisma.ClientUncheckedCreateWithoutDepartmentInput> | Prisma.ClientCreateWithoutDepartmentInput[] | Prisma.ClientUncheckedCreateWithoutDepartmentInput[]
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutDepartmentInput | Prisma.ClientCreateOrConnectWithoutDepartmentInput[]
+  upsert?: Prisma.ClientUpsertWithWhereUniqueWithoutDepartmentInput | Prisma.ClientUpsertWithWhereUniqueWithoutDepartmentInput[]
+  createMany?: Prisma.ClientCreateManyDepartmentInputEnvelope
+  set?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  disconnect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  delete?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  connect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  update?: Prisma.ClientUpdateWithWhereUniqueWithoutDepartmentInput | Prisma.ClientUpdateWithWhereUniqueWithoutDepartmentInput[]
+  updateMany?: Prisma.ClientUpdateManyWithWhereWithoutDepartmentInput | Prisma.ClientUpdateManyWithWhereWithoutDepartmentInput[]
+  deleteMany?: Prisma.ClientScalarWhereInput | Prisma.ClientScalarWhereInput[]
+}
+
+export type ClientUncheckedUpdateManyWithoutDepartmentNestedInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutDepartmentInput, Prisma.ClientUncheckedCreateWithoutDepartmentInput> | Prisma.ClientCreateWithoutDepartmentInput[] | Prisma.ClientUncheckedCreateWithoutDepartmentInput[]
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutDepartmentInput | Prisma.ClientCreateOrConnectWithoutDepartmentInput[]
+  upsert?: Prisma.ClientUpsertWithWhereUniqueWithoutDepartmentInput | Prisma.ClientUpsertWithWhereUniqueWithoutDepartmentInput[]
+  createMany?: Prisma.ClientCreateManyDepartmentInputEnvelope
+  set?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  disconnect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  delete?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  connect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  update?: Prisma.ClientUpdateWithWhereUniqueWithoutDepartmentInput | Prisma.ClientUpdateWithWhereUniqueWithoutDepartmentInput[]
+  updateMany?: Prisma.ClientUpdateManyWithWhereWithoutDepartmentInput | Prisma.ClientUpdateManyWithWhereWithoutDepartmentInput[]
+  deleteMany?: Prisma.ClientScalarWhereInput | Prisma.ClientScalarWhereInput[]
 }
 
 export type ClientCreateNestedManyWithoutManagerInput = {
@@ -554,19 +690,128 @@ export type ClientUpdateOneRequiredWithoutAssignmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ClientUpdateToOneWithWhereWithoutAssignmentsInput, Prisma.ClientUpdateWithoutAssignmentsInput>, Prisma.ClientUncheckedUpdateWithoutAssignmentsInput>
 }
 
+export type ClientCreateNestedOneWithoutTicketsInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutTicketsInput, Prisma.ClientUncheckedCreateWithoutTicketsInput>
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutTicketsInput
+  connect?: Prisma.ClientWhereUniqueInput
+}
+
+export type ClientUpdateOneWithoutTicketsNestedInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutTicketsInput, Prisma.ClientUncheckedCreateWithoutTicketsInput>
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutTicketsInput
+  upsert?: Prisma.ClientUpsertWithoutTicketsInput
+  disconnect?: Prisma.ClientWhereInput | boolean
+  delete?: Prisma.ClientWhereInput | boolean
+  connect?: Prisma.ClientWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClientUpdateToOneWithWhereWithoutTicketsInput, Prisma.ClientUpdateWithoutTicketsInput>, Prisma.ClientUncheckedUpdateWithoutTicketsInput>
+}
+
+export type ClientCreateWithoutDepartmentInput = {
+  id?: string
+  name: string
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  platform?: $Enums.ClientPlatform
+  industry?: string | null
+  timezone?: string | null
+  notes?: string | null
+  isActive?: boolean
+  onboardingFolderUrl?: string | null
+  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  manager?: Prisma.UserCreateNestedOneWithoutManagedClientsInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutClientInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutClientInput
+}
+
+export type ClientUncheckedCreateWithoutDepartmentInput = {
+  id?: string
+  name: string
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  platform?: $Enums.ClientPlatform
+  industry?: string | null
+  timezone?: string | null
+  notes?: string | null
+  isActive?: boolean
+  managerId?: string | null
+  onboardingFolderUrl?: string | null
+  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutClientInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutClientInput
+}
+
+export type ClientCreateOrConnectWithoutDepartmentInput = {
+  where: Prisma.ClientWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClientCreateWithoutDepartmentInput, Prisma.ClientUncheckedCreateWithoutDepartmentInput>
+}
+
+export type ClientCreateManyDepartmentInputEnvelope = {
+  data: Prisma.ClientCreateManyDepartmentInput | Prisma.ClientCreateManyDepartmentInput[]
+  skipDuplicates?: boolean
+}
+
+export type ClientUpsertWithWhereUniqueWithoutDepartmentInput = {
+  where: Prisma.ClientWhereUniqueInput
+  update: Prisma.XOR<Prisma.ClientUpdateWithoutDepartmentInput, Prisma.ClientUncheckedUpdateWithoutDepartmentInput>
+  create: Prisma.XOR<Prisma.ClientCreateWithoutDepartmentInput, Prisma.ClientUncheckedCreateWithoutDepartmentInput>
+}
+
+export type ClientUpdateWithWhereUniqueWithoutDepartmentInput = {
+  where: Prisma.ClientWhereUniqueInput
+  data: Prisma.XOR<Prisma.ClientUpdateWithoutDepartmentInput, Prisma.ClientUncheckedUpdateWithoutDepartmentInput>
+}
+
+export type ClientUpdateManyWithWhereWithoutDepartmentInput = {
+  where: Prisma.ClientScalarWhereInput
+  data: Prisma.XOR<Prisma.ClientUpdateManyMutationInput, Prisma.ClientUncheckedUpdateManyWithoutDepartmentInput>
+}
+
+export type ClientScalarWhereInput = {
+  AND?: Prisma.ClientScalarWhereInput | Prisma.ClientScalarWhereInput[]
+  OR?: Prisma.ClientScalarWhereInput[]
+  NOT?: Prisma.ClientScalarWhereInput | Prisma.ClientScalarWhereInput[]
+  id?: Prisma.StringFilter<"Client"> | string
+  name?: Prisma.StringFilter<"Client"> | string
+  contactName?: Prisma.StringNullableFilter<"Client"> | string | null
+  contactEmail?: Prisma.StringNullableFilter<"Client"> | string | null
+  contactPhone?: Prisma.StringNullableFilter<"Client"> | string | null
+  platform?: Prisma.EnumClientPlatformFilter<"Client"> | $Enums.ClientPlatform
+  industry?: Prisma.StringNullableFilter<"Client"> | string | null
+  timezone?: Prisma.StringNullableFilter<"Client"> | string | null
+  notes?: Prisma.StringNullableFilter<"Client"> | string | null
+  isActive?: Prisma.BoolFilter<"Client"> | boolean
+  managerId?: Prisma.StringNullableFilter<"Client"> | string | null
+  departmentId?: Prisma.StringNullableFilter<"Client"> | string | null
+  onboardingFolderUrl?: Prisma.StringNullableFilter<"Client"> | string | null
+  requiredSkills?: Prisma.StringNullableListFilter<"Client">
+  createdAt?: Prisma.DateTimeFilter<"Client"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Client"> | Date | string
+}
+
 export type ClientCreateWithoutManagerInput = {
   id?: string
   name: string
   contactName?: string | null
   contactEmail?: string | null
+  contactPhone?: string | null
   platform?: $Enums.ClientPlatform
   industry?: string | null
+  timezone?: string | null
   notes?: string | null
   isActive?: boolean
+  onboardingFolderUrl?: string | null
+  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
-  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
+  department?: Prisma.DepartmentCreateNestedOneWithoutClientsInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutClientInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutClientInput
 }
 
 export type ClientUncheckedCreateWithoutManagerInput = {
@@ -574,14 +819,19 @@ export type ClientUncheckedCreateWithoutManagerInput = {
   name: string
   contactName?: string | null
   contactEmail?: string | null
+  contactPhone?: string | null
   platform?: $Enums.ClientPlatform
   industry?: string | null
+  timezone?: string | null
   notes?: string | null
   isActive?: boolean
+  departmentId?: string | null
+  onboardingFolderUrl?: string | null
+  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
-  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutClientInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type ClientCreateOrConnectWithoutManagerInput = {
@@ -610,37 +860,24 @@ export type ClientUpdateManyWithWhereWithoutManagerInput = {
   data: Prisma.XOR<Prisma.ClientUpdateManyMutationInput, Prisma.ClientUncheckedUpdateManyWithoutManagerInput>
 }
 
-export type ClientScalarWhereInput = {
-  AND?: Prisma.ClientScalarWhereInput | Prisma.ClientScalarWhereInput[]
-  OR?: Prisma.ClientScalarWhereInput[]
-  NOT?: Prisma.ClientScalarWhereInput | Prisma.ClientScalarWhereInput[]
-  id?: Prisma.StringFilter<"Client"> | string
-  name?: Prisma.StringFilter<"Client"> | string
-  contactName?: Prisma.StringNullableFilter<"Client"> | string | null
-  contactEmail?: Prisma.StringNullableFilter<"Client"> | string | null
-  platform?: Prisma.EnumClientPlatformFilter<"Client"> | $Enums.ClientPlatform
-  industry?: Prisma.StringNullableFilter<"Client"> | string | null
-  notes?: Prisma.StringNullableFilter<"Client"> | string | null
-  isActive?: Prisma.BoolFilter<"Client"> | boolean
-  createdAt?: Prisma.DateTimeFilter<"Client"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Client"> | Date | string
-  managerId?: Prisma.StringNullableFilter<"Client"> | string | null
-  requiredSkills?: Prisma.StringNullableListFilter<"Client">
-}
-
 export type ClientCreateWithoutAssignmentsInput = {
   id?: string
   name: string
   contactName?: string | null
   contactEmail?: string | null
+  contactPhone?: string | null
   platform?: $Enums.ClientPlatform
   industry?: string | null
+  timezone?: string | null
   notes?: string | null
   isActive?: boolean
+  onboardingFolderUrl?: string | null
+  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
-  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
   manager?: Prisma.UserCreateNestedOneWithoutManagedClientsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutClientsInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutClientInput
 }
 
 export type ClientUncheckedCreateWithoutAssignmentsInput = {
@@ -648,14 +885,19 @@ export type ClientUncheckedCreateWithoutAssignmentsInput = {
   name: string
   contactName?: string | null
   contactEmail?: string | null
+  contactPhone?: string | null
   platform?: $Enums.ClientPlatform
   industry?: string | null
+  timezone?: string | null
   notes?: string | null
   isActive?: boolean
+  managerId?: string | null
+  departmentId?: string | null
+  onboardingFolderUrl?: string | null
+  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
-  managerId?: string | null
-  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type ClientCreateOrConnectWithoutAssignmentsInput = {
@@ -679,14 +921,19 @@ export type ClientUpdateWithoutAssignmentsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumClientPlatformFieldUpdateOperationsInput | $Enums.ClientPlatform
   industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
   manager?: Prisma.UserUpdateOneWithoutManagedClientsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutClientsNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateWithoutAssignmentsInput = {
@@ -694,14 +941,191 @@ export type ClientUncheckedUpdateWithoutAssignmentsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumClientPlatformFieldUpdateOperationsInput | $Enums.ClientPlatform
   industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  managerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  managerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutClientNestedInput
+}
+
+export type ClientCreateWithoutTicketsInput = {
+  id?: string
+  name: string
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  platform?: $Enums.ClientPlatform
+  industry?: string | null
+  timezone?: string | null
+  notes?: string | null
+  isActive?: boolean
+  onboardingFolderUrl?: string | null
+  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  manager?: Prisma.UserCreateNestedOneWithoutManagedClientsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutClientsInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutClientInput
+}
+
+export type ClientUncheckedCreateWithoutTicketsInput = {
+  id?: string
+  name: string
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  platform?: $Enums.ClientPlatform
+  industry?: string | null
+  timezone?: string | null
+  notes?: string | null
+  isActive?: boolean
+  managerId?: string | null
+  departmentId?: string | null
+  onboardingFolderUrl?: string | null
+  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutClientInput
+}
+
+export type ClientCreateOrConnectWithoutTicketsInput = {
+  where: Prisma.ClientWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClientCreateWithoutTicketsInput, Prisma.ClientUncheckedCreateWithoutTicketsInput>
+}
+
+export type ClientUpsertWithoutTicketsInput = {
+  update: Prisma.XOR<Prisma.ClientUpdateWithoutTicketsInput, Prisma.ClientUncheckedUpdateWithoutTicketsInput>
+  create: Prisma.XOR<Prisma.ClientCreateWithoutTicketsInput, Prisma.ClientUncheckedCreateWithoutTicketsInput>
+  where?: Prisma.ClientWhereInput
+}
+
+export type ClientUpdateToOneWithWhereWithoutTicketsInput = {
+  where?: Prisma.ClientWhereInput
+  data: Prisma.XOR<Prisma.ClientUpdateWithoutTicketsInput, Prisma.ClientUncheckedUpdateWithoutTicketsInput>
+}
+
+export type ClientUpdateWithoutTicketsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  platform?: Prisma.EnumClientPlatformFieldUpdateOperationsInput | $Enums.ClientPlatform
+  industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  manager?: Prisma.UserUpdateOneWithoutManagedClientsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutClientsNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutClientNestedInput
+}
+
+export type ClientUncheckedUpdateWithoutTicketsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  platform?: Prisma.EnumClientPlatformFieldUpdateOperationsInput | $Enums.ClientPlatform
+  industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  managerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutClientNestedInput
+}
+
+export type ClientCreateManyDepartmentInput = {
+  id?: string
+  name: string
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  platform?: $Enums.ClientPlatform
+  industry?: string | null
+  timezone?: string | null
+  notes?: string | null
+  isActive?: boolean
+  managerId?: string | null
+  onboardingFolderUrl?: string | null
+  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ClientUpdateWithoutDepartmentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  platform?: Prisma.EnumClientPlatformFieldUpdateOperationsInput | $Enums.ClientPlatform
+  industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  manager?: Prisma.UserUpdateOneWithoutManagedClientsNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutClientNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutClientNestedInput
+}
+
+export type ClientUncheckedUpdateWithoutDepartmentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  platform?: Prisma.EnumClientPlatformFieldUpdateOperationsInput | $Enums.ClientPlatform
+  industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  managerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutClientNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutClientNestedInput
+}
+
+export type ClientUncheckedUpdateManyWithoutDepartmentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  platform?: Prisma.EnumClientPlatformFieldUpdateOperationsInput | $Enums.ClientPlatform
+  industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  managerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ClientCreateManyManagerInput = {
@@ -709,13 +1133,17 @@ export type ClientCreateManyManagerInput = {
   name: string
   contactName?: string | null
   contactEmail?: string | null
+  contactPhone?: string | null
   platform?: $Enums.ClientPlatform
   industry?: string | null
+  timezone?: string | null
   notes?: string | null
   isActive?: boolean
+  departmentId?: string | null
+  onboardingFolderUrl?: string | null
+  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
-  requiredSkills?: Prisma.ClientCreaterequiredSkillsInput | string[]
 }
 
 export type ClientUpdateWithoutManagerInput = {
@@ -723,14 +1151,19 @@ export type ClientUpdateWithoutManagerInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumClientPlatformFieldUpdateOperationsInput | $Enums.ClientPlatform
   industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
+  department?: Prisma.DepartmentUpdateOneWithoutClientsNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutClientNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateWithoutManagerInput = {
@@ -738,14 +1171,19 @@ export type ClientUncheckedUpdateWithoutManagerInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumClientPlatformFieldUpdateOperationsInput | $Enums.ClientPlatform
   industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutClientNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateManyWithoutManagerInput = {
@@ -753,13 +1191,17 @@ export type ClientUncheckedUpdateManyWithoutManagerInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumClientPlatformFieldUpdateOperationsInput | $Enums.ClientPlatform
   industry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingFolderUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  requiredSkills?: Prisma.ClientUpdaterequiredSkillsInput | string[]
 }
 
 
@@ -769,10 +1211,12 @@ export type ClientUncheckedUpdateManyWithoutManagerInput = {
 
 export type ClientCountOutputType = {
   assignments: number
+  tickets: number
 }
 
 export type ClientCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignments?: boolean | ClientCountOutputTypeCountAssignmentsArgs
+  tickets?: boolean | ClientCountOutputTypeCountTicketsArgs
 }
 
 /**
@@ -792,22 +1236,35 @@ export type ClientCountOutputTypeCountAssignmentsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.AssignmentWhereInput
 }
 
+/**
+ * ClientCountOutputType without action
+ */
+export type ClientCountOutputTypeCountTicketsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TicketWhereInput
+}
+
 
 export type ClientSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   contactName?: boolean
   contactEmail?: boolean
+  contactPhone?: boolean
   platform?: boolean
   industry?: boolean
+  timezone?: boolean
   notes?: boolean
   isActive?: boolean
+  managerId?: boolean
+  departmentId?: boolean
+  onboardingFolderUrl?: boolean
+  requiredSkills?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  managerId?: boolean
-  requiredSkills?: boolean
   manager?: boolean | Prisma.Client$managerArgs<ExtArgs>
+  department?: boolean | Prisma.Client$departmentArgs<ExtArgs>
   assignments?: boolean | Prisma.Client$assignmentsArgs<ExtArgs>
+  tickets?: boolean | Prisma.Client$ticketsArgs<ExtArgs>
   _count?: boolean | Prisma.ClientCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["client"]>
 
@@ -816,15 +1273,20 @@ export type ClientSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   name?: boolean
   contactName?: boolean
   contactEmail?: boolean
+  contactPhone?: boolean
   platform?: boolean
   industry?: boolean
+  timezone?: boolean
   notes?: boolean
   isActive?: boolean
+  managerId?: boolean
+  departmentId?: boolean
+  onboardingFolderUrl?: boolean
+  requiredSkills?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  managerId?: boolean
-  requiredSkills?: boolean
   manager?: boolean | Prisma.Client$managerArgs<ExtArgs>
+  department?: boolean | Prisma.Client$departmentArgs<ExtArgs>
 }, ExtArgs["result"]["client"]>
 
 export type ClientSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -832,15 +1294,20 @@ export type ClientSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   name?: boolean
   contactName?: boolean
   contactEmail?: boolean
+  contactPhone?: boolean
   platform?: boolean
   industry?: boolean
+  timezone?: boolean
   notes?: boolean
   isActive?: boolean
+  managerId?: boolean
+  departmentId?: boolean
+  onboardingFolderUrl?: boolean
+  requiredSkills?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  managerId?: boolean
-  requiredSkills?: boolean
   manager?: boolean | Prisma.Client$managerArgs<ExtArgs>
+  department?: boolean | Prisma.Client$departmentArgs<ExtArgs>
 }, ExtArgs["result"]["client"]>
 
 export type ClientSelectScalar = {
@@ -848,48 +1315,62 @@ export type ClientSelectScalar = {
   name?: boolean
   contactName?: boolean
   contactEmail?: boolean
+  contactPhone?: boolean
   platform?: boolean
   industry?: boolean
+  timezone?: boolean
   notes?: boolean
   isActive?: boolean
+  managerId?: boolean
+  departmentId?: boolean
+  onboardingFolderUrl?: boolean
+  requiredSkills?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  managerId?: boolean
-  requiredSkills?: boolean
 }
 
-export type ClientOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "contactName" | "contactEmail" | "platform" | "industry" | "notes" | "isActive" | "createdAt" | "updatedAt" | "managerId" | "requiredSkills", ExtArgs["result"]["client"]>
+export type ClientOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "contactName" | "contactEmail" | "contactPhone" | "platform" | "industry" | "timezone" | "notes" | "isActive" | "managerId" | "departmentId" | "onboardingFolderUrl" | "requiredSkills" | "createdAt" | "updatedAt", ExtArgs["result"]["client"]>
 export type ClientInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   manager?: boolean | Prisma.Client$managerArgs<ExtArgs>
+  department?: boolean | Prisma.Client$departmentArgs<ExtArgs>
   assignments?: boolean | Prisma.Client$assignmentsArgs<ExtArgs>
+  tickets?: boolean | Prisma.Client$ticketsArgs<ExtArgs>
   _count?: boolean | Prisma.ClientCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ClientIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   manager?: boolean | Prisma.Client$managerArgs<ExtArgs>
+  department?: boolean | Prisma.Client$departmentArgs<ExtArgs>
 }
 export type ClientIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   manager?: boolean | Prisma.Client$managerArgs<ExtArgs>
+  department?: boolean | Prisma.Client$departmentArgs<ExtArgs>
 }
 
 export type $ClientPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Client"
   objects: {
     manager: Prisma.$UserPayload<ExtArgs> | null
+    department: Prisma.$DepartmentPayload<ExtArgs> | null
     assignments: Prisma.$AssignmentPayload<ExtArgs>[]
+    tickets: Prisma.$TicketPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
     contactName: string | null
     contactEmail: string | null
+    contactPhone: string | null
     platform: $Enums.ClientPlatform
     industry: string | null
+    timezone: string | null
     notes: string | null
     isActive: boolean
+    managerId: string | null
+    departmentId: string | null
+    onboardingFolderUrl: string | null
+    requiredSkills: string[]
     createdAt: Date
     updatedAt: Date
-    managerId: string | null
-    requiredSkills: string[]
   }, ExtArgs["result"]["client"]>
   composites: {}
 }
@@ -1285,7 +1766,9 @@ readonly fields: ClientFieldRefs;
 export interface Prisma__ClientClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   manager<T extends Prisma.Client$managerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$managerArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  department<T extends Prisma.Client$departmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$departmentArgs<ExtArgs>>): Prisma.Prisma__DepartmentClient<runtime.Types.Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   assignments<T extends Prisma.Client$assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tickets<T extends Prisma.Client$ticketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1319,14 +1802,18 @@ export interface ClientFieldRefs {
   readonly name: Prisma.FieldRef<"Client", 'String'>
   readonly contactName: Prisma.FieldRef<"Client", 'String'>
   readonly contactEmail: Prisma.FieldRef<"Client", 'String'>
+  readonly contactPhone: Prisma.FieldRef<"Client", 'String'>
   readonly platform: Prisma.FieldRef<"Client", 'ClientPlatform'>
   readonly industry: Prisma.FieldRef<"Client", 'String'>
+  readonly timezone: Prisma.FieldRef<"Client", 'String'>
   readonly notes: Prisma.FieldRef<"Client", 'String'>
   readonly isActive: Prisma.FieldRef<"Client", 'Boolean'>
+  readonly managerId: Prisma.FieldRef<"Client", 'String'>
+  readonly departmentId: Prisma.FieldRef<"Client", 'String'>
+  readonly onboardingFolderUrl: Prisma.FieldRef<"Client", 'String'>
+  readonly requiredSkills: Prisma.FieldRef<"Client", 'String[]'>
   readonly createdAt: Prisma.FieldRef<"Client", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Client", 'DateTime'>
-  readonly managerId: Prisma.FieldRef<"Client", 'String'>
-  readonly requiredSkills: Prisma.FieldRef<"Client", 'String[]'>
 }
     
 
@@ -1747,6 +2234,25 @@ export type Client$managerArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * Client.department
+ */
+export type Client$departmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Department
+   */
+  select?: Prisma.DepartmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Department
+   */
+  omit?: Prisma.DepartmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DepartmentInclude<ExtArgs> | null
+  where?: Prisma.DepartmentWhereInput
+}
+
+/**
  * Client.assignments
  */
 export type Client$assignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1768,6 +2274,30 @@ export type Client$assignmentsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.AssignmentScalarFieldEnum | Prisma.AssignmentScalarFieldEnum[]
+}
+
+/**
+ * Client.tickets
+ */
+export type Client$ticketsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Ticket
+   */
+  select?: Prisma.TicketSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Ticket
+   */
+  omit?: Prisma.TicketOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TicketInclude<ExtArgs> | null
+  where?: Prisma.TicketWhereInput
+  orderBy?: Prisma.TicketOrderByWithRelationInput | Prisma.TicketOrderByWithRelationInput[]
+  cursor?: Prisma.TicketWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TicketScalarFieldEnum | Prisma.TicketScalarFieldEnum[]
 }
 
 /**

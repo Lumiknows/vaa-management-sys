@@ -13,7 +13,7 @@ export default async function NewWorkLogPage({
   const user = await getCurrentUser()
 
   const where: Record<string, unknown> = { status: 'ACTIVE' }
-  if (user?.role === 'VA') {
+  if (user?.userType === 'VIRTUAL_ASSISTANT') {
     where.vaProfileId = user.vaProfile?.id
   }
 
@@ -37,7 +37,7 @@ export default async function NewWorkLogPage({
       <WorkLogForm
         assignments={assignments.map((a) => ({
           id: a.id,
-          label: user?.role === 'VA' ? a.client.name : `${a.client.name} — ${a.vaProfile.user.name || a.vaProfile.user.email}`,
+          label: user?.userType === 'VIRTUAL_ASSISTANT' ? a.client.name : `${a.client.name} — ${a.vaProfile.user.firstName || a.vaProfile.user.email}`,
         }))}
         defaultAssignmentId={assignmentId}
       />

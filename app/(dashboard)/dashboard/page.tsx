@@ -29,12 +29,12 @@ export default async function DashboardPage() {
     )
   }
 
-  if (user.role === 'VA') return <VADashboard userId={user.id} vaProfileId={user.vaProfile!.id} />
+  if (user.userType === 'VIRTUAL_ASSISTANT') return <VADashboard userId={user.id} vaProfileId={user.vaProfile!.id} />
 
   return (
     <ManagerDashboard
       managerId={user.id}
-      userName={user.name ?? user.email}
+      userName={`${user.firstName} ${user.lastName}`}
       isDevMode={isDevMode}
     />
   )
@@ -151,7 +151,7 @@ async function ManagerDashboard({
                   <div>
                     <p className="text-sm font-medium">{a.client.name}</p>
                     <p className="text-xs text-muted-foreground">
-                      {a.vaProfile.user.name} — {logged.toFixed(1)}h / {target.toFixed(1)}h ({((logged/target)*100).toFixed(0)}%)
+                      {a.vaProfile.user.firstName} — {logged.toFixed(1)}h / {target.toFixed(1)}h ({((logged/target)*100).toFixed(0)}%)
                     </p>
                   </div>
                   <Badge variant="outline" className="bg-orange-500/15 text-orange-700 border-orange-500/20">
@@ -168,7 +168,7 @@ async function ManagerDashboard({
                   <div>
                     <p className="text-sm font-medium">{a.client.name}</p>
                     <p className="text-xs text-muted-foreground">
-                      {a.vaProfile.user.name} — {logged.toFixed(1)}h / {target.toFixed(1)}h
+                      {a.vaProfile.user.firstName} — {logged.toFixed(1)}h / {target.toFixed(1)}h
                     </p>
                   </div>
                   <Badge variant="outline" className="bg-blue-500/15 text-blue-700 border-blue-500/20">
@@ -222,7 +222,7 @@ async function ManagerDashboard({
                   <div>
                     <p className="text-sm font-medium">{a.client.name}</p>
                     <p className="text-xs text-muted-foreground">
-                      {a.vaProfile.user.name} • {a.type} • {Number(a.agreedHours)}h agreed
+                      {a.vaProfile.user.firstName} • {a.type} • {Number(a.agreedHours)}h agreed
                     </p>
                   </div>
                   <Badge variant={a.status === 'ACTIVE' ? 'default' : 'secondary'}>
@@ -256,7 +256,7 @@ async function VADashboard({
   const [va, assignments, monthLogs, todayLogs] = await Promise.all([
     prisma.vAProfile.findUnique({
       where: { id: vaProfileId },
-      include: { user: true, skills: true },
+      include: { user: true, vaSkills: true },
     }),
     prisma.assignment.findMany({
       where: { vaProfileId, status: 'ACTIVE' },
@@ -290,7 +290,7 @@ async function VADashboard({
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold tracking-tight">
-          Hi {va.user.name?.split(' ')[0] ?? 'there'}
+          Hi {va.user.firstName || 'there'}
         </h2>
         <p className="text-sm text-muted-foreground mt-1">
           {format(now, 'EEEE, MMMM dd, yyyy')}
@@ -343,7 +343,7 @@ async function VADashboard({
             <CardTitle className="text-sm font-medium text-muted-foreground">My Skills</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">{va.skills.length}</p>
+            <p className="text-2xl font-bold">{va.vaSkills.length}</p>
           </CardContent>
         </Card>
       </div>

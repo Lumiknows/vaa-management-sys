@@ -21,10 +21,10 @@ export default async function VAPage() {
   const vas = await prisma.vAProfile.findMany({
     include: {
       user: true,
-      skills: true,
+      vaSkills: { include: { skill: true } },
       assignments: { where: { status: 'ACTIVE' } },
     },
-    orderBy: { user: { name: 'asc' } },
+    orderBy: { user: { firstName: 'asc' } },
   })
 
   return (
@@ -61,7 +61,7 @@ export default async function VAPage() {
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-base font-semibold">
-                      {va.user.name || va.user.email}
+                      {va.user.firstName || va.user.email}
                     </CardTitle>
                     <Badge variant={va.isActive ? 'default' : 'secondary'} className="text-xs">
                       {va.isActive ? 'Active' : 'Inactive'}
@@ -75,16 +75,16 @@ export default async function VAPage() {
                       ${Number(va.hourlyRate).toFixed(2)}/hr
                     </p>
                   )}
-                  {va.skills.length > 0 && (
+                  {va.vaSkills.length > 0 && (
                     <div className="flex flex-wrap gap-1 pt-1">
-                      {va.skills.slice(0, 3).map((s) => (
+                      {va.vaSkills.slice(0, 3).map((s) => (
                         <Badge key={s.id} variant="outline" className="text-xs">
-                          {s.name}
+                          {s.skill.name}
                         </Badge>
                       ))}
-                      {va.skills.length > 3 && (
+                      {va.vaSkills.length > 3 && (
                         <span className="text-xs text-muted-foreground/70">
-                          +{va.skills.length - 3}
+                          +{va.vaSkills.length - 3}
                         </span>
                       )}
                     </div>
