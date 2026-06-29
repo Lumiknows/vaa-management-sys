@@ -5,23 +5,9 @@ import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import {
-  ArrowLeft,
-  Mail,
-  Phone,
-  MapPin,
-  Shield,
-  Briefcase,
-  FileText,
-  DollarSign,
-  Calendar,
-  User,
-  Users,
-  ExternalLink,
-  CheckCircle2,
-  XCircle,
-} from 'lucide-react'
+import { ArrowLeft, Mail } from 'lucide-react'
 import { format } from 'date-fns'
+import { VAProfileEditor } from '@/components/vas/VAProfileEditor'
 
 const hrgRoles = ['SUPER_ADMIN', 'SYSTEM_ADMIN', 'DEPT_MANAGER', 'EXECUTIVE']
 
@@ -61,6 +47,92 @@ export default async function VADetailPage({
   const emp = va.user.employmentRecords?.[0]
   const primaryMem = va.user.memberships?.find((m) => m.isPrimary) ?? va.user.memberships?.[0]
 
+  const editorData = {
+    vaProfile: {
+      id: va.id,
+      isActive: va.isActive,
+      hybrid: va.hybrid,
+      hourlyRate: va.hourlyRate ? Number(va.hourlyRate) : null,
+      baseRate: va.baseRate ? Number(va.baseRate) : null,
+      vaaPosition: va.vaaPosition ?? null,
+      level: va.level ?? null,
+      availabilityStatus: va.availabilityStatus,
+      preferredWorkHours: va.preferredWorkHours ? Number(va.preferredWorkHours) : null,
+      availableSchedule: va.availableSchedule ?? null,
+      notes: va.notes ?? null,
+      contractLink: va.contractLink ?? null,
+      folder201Link: va.folder201Link ?? null,
+      file201Link: va.file201Link ?? null,
+      vaClientFileLink: va.vaClientFileLink ?? null,
+      healthCheckFileLink: va.healthCheckFileLink ?? null,
+      portfolioUrl: va.portfolioUrl ?? null,
+      vaProfileLink: va.vaProfileLink ?? null,
+      payoutSummaryLink: va.payoutSummaryLink ?? null,
+      dept201FolderLink: va.dept201FolderLink ?? null,
+    },
+    user: {
+      id: va.user.id,
+      email: va.user.email,
+      firstName: va.user.firstName,
+      lastName: va.user.lastName,
+    },
+    profile: profile ? {
+      gender: profile.gender ?? null,
+      whatsappNumber: profile.whatsappNumber ?? null,
+      gcashNumber: profile.gcashNumber ?? null,
+      phone: profile.phone ?? null,
+      birthDate: profile.birthDate ? profile.birthDate.toISOString() : null,
+      nonCelebrant: profile.nonCelebrant,
+      barangay: profile.barangay ?? null,
+      cityMunicipality: profile.cityMunicipality ?? null,
+      province: profile.province ?? null,
+      zipCode: profile.zipCode ?? null,
+      landmark: profile.landmark ?? null,
+      emergencyContactName: profile.emergencyContactName ?? null,
+      emergencyContactPhone: profile.emergencyContactPhone ?? null,
+      emergencyContactRelation: profile.emergencyContactRelation ?? null,
+      facebookUrl: profile.facebookUrl ?? null,
+      linkedinUrl: profile.linkedinUrl ?? null,
+      passportNumber: profile.passportNumber ?? null,
+      passportPhoto: profile.passportPhoto ?? null,
+      philhealthNumber: profile.philhealthNumber ?? null,
+      philhealthPhoto: profile.philhealthPhoto ?? null,
+    } : null,
+    membership: primaryMem ? {
+      departmentName: primaryMem.department.name,
+      positionTitle: primaryMem.position?.title ?? null,
+    } : null,
+    employment: emp ? {
+      contractType: emp.contractType,
+      employmentStatus: emp.employmentStatus,
+      startDate: emp.startDate.toISOString(),
+      endDate: emp.endDate ? emp.endDate.toISOString() : null,
+    } : null,
+  }
+
+  const skillsData = va.vaSkills.map((s) => ({
+    id: s.id,
+    name: s.skill.name,
+    proficiency: s.proficiency ?? null,
+  }))
+
+  const assignmentData = va.assignments.map((a) => ({
+    id: a.id,
+    clientName: a.client.name,
+    type: a.type,
+    agreedHours: Number(a.agreedHours),
+    startDate: a.startDate.toISOString(),
+    endDate: a.endDate ? a.endDate.toISOString() : null,
+    status: a.status,
+  }))
+
+  const docData = va.documents.map((d) => ({
+    id: d.id,
+    documentType: d.documentType,
+    fileName: d.fileName,
+    googleDriveUrl: d.googleDriveUrl,
+  }))
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
@@ -79,7 +151,7 @@ export default async function VADetailPage({
                 {va.hybrid && <Badge variant="outline" className="text-xs bg-purple-500/15 text-purple-700 border-purple-500/20">Hybrid</Badge>}
               </div>
               <p className="text-xs text-muted-foreground mt-0.5">
-                {va.user.email}
+                <Mail className="h-3 w-3 inline mr-1" />{va.user.email}
                 {primaryMem && <> • {primaryMem.department.name}{primaryMem.position ? ` (${primaryMem.position.title})` : ''}</>}
               </p>
             </div>
@@ -87,121 +159,36 @@ export default async function VADetailPage({
         </div>
       </div>
 
-      {/* Personal Information */}
-      <Section title="Personal Information" icon={User} canEdit={isHRE} vaId={va.id}>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 text-sm">
-          <Field label="First Name" value={va.user.firstName} />
-          <Field label="Last Name" value={va.user.lastName} />
-          <Field label="Gender" value={profile?.gender} />
-          <Field label="Birthday" value={profile?.birthDate ? format(profile.birthDate, 'MMM dd, yyyy') : null} />
-          <Field label="Non-Celebrant" value={profile?.nonCelebrant ? 'Yes' : null} />
-          <Field label="Work Email" value={va.user.email} />
-          <Field label="WhatsApp" value={profile?.whatsappNumber} link={`https://wa.me/${profile?.whatsappNumber?.replace(/\D/g, '')}`} />
-          <Field label="GCASH" value={profile?.gcashNumber} />
-        </div>
-      </Section>
+      {isHRE ? (
+        <VAProfileEditor
+          data={editorData}
+          skills={skillsData}
+          assignments={assignmentData}
+          documents={docData}
+        />
+      ) : (
+        <>
+          <VAProfileEditor
+            data={editorData}
+            skills={skillsData}
+            assignments={assignmentData}
+            documents={docData}
+          />
 
-      {/* Address */}
-      {profile && (
-        <Section title="Address" icon={MapPin} canEdit={isHRE} vaId={va.id}>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 text-sm">
-            <Field label="Barangay" value={profile.barangay} />
-            <Field label="City / Municipality" value={profile.cityMunicipality} />
-            <Field label="Province" value={profile.province} />
-            <Field label="Zip Code" value={profile.zipCode} />
-            <Field label="Landmark" value={profile.landmark} />
-          </div>
-        </Section>
+          {/* Non-HR just sees read-only; edit buttons are hidden via component props */}
+        </>
       )}
-
-      {/* Employment */}
-      <Section title="Employment" icon={Briefcase} canEdit={isHRE} vaId={va.id}>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 text-sm">
-          <Field label="Contract Type" value={emp?.contractType?.replace(/_/g, ' ')} />
-          <Field label="Employment Status" value={emp?.employmentStatus?.replace(/_/g, ' ')} />
-          <Field label="Hire Date" value={emp?.startDate ? format(emp.startDate, 'MMM dd, yyyy') : null} />
-          <Field label="EOC / End Date" value={emp?.endDate ? format(emp.endDate, 'MMM dd, yyyy') : '—'} />
-          <Field label="VAA Position" value={va.vaaPosition} />
-          <Field label="Level" value={va.level} />
-          <Field label="Base Rate (PHP)" value={va.baseRate ? `₱${Number(va.baseRate).toLocaleString()}/hr` : null} />
-          <Field label="Hourly Rate (USD)" value={va.hourlyRate ? `$${Number(va.hourlyRate).toFixed(2)}/hr` : null} />
-          <Field label="Preferred Hours" value={va.preferredWorkHours ? `${Number(va.preferredWorkHours)}h/week` : null} />
-          <Field label="Available Schedule" value={va.availableSchedule} />
-          <Field label="Availability" value={va.availabilityStatus?.replace(/_/g, ' ')} badge />
-          <Field label="Hybrid" value={va.hybrid ? 'Yes (multiple departments)' : 'No'} />
-        </div>
-      </Section>
-
-      {/* Emergency Contact */}
-      {profile && (profile.emergencyContactName || profile.emergencyContactPhone) && (
-        <Section title="Emergency Contact" icon={Phone} canEdit={isHRE} vaId={va.id}>
-          <div className="grid gap-4 md:grid-cols-3 text-sm">
-            <Field label="Contact Name" value={profile.emergencyContactName} />
-            <Field label="Contact Number" value={profile.emergencyContactPhone} />
-            <Field label="Relationship" value={profile.emergencyContactRelation} />
-          </div>
-        </Section>
-      )}
-
-      {/* Socials */}
-      {profile && (profile.facebookUrl || profile.linkedinUrl) && (
-        <Section title="Socials" icon={Users} canEdit={isHRE} vaId={va.id}>
-          <div className="grid gap-4 md:grid-cols-2 text-sm">
-            <Field label="Facebook" value={profile.facebookUrl} link={profile.facebookUrl} />
-            <Field label="LinkedIn" value={profile.linkedinUrl} link={profile.linkedinUrl} />
-          </div>
-        </Section>
-      )}
-
-      {/* Identification */}
-      {profile && (
-        <Section title="Identification" icon={Shield} canEdit={isHRE} vaId={va.id}>
-          <div className="grid gap-4 md:grid-cols-2 text-sm">
-            <Field label="Passport Number" value={profile.passportNumber} />
-            <Field label="Passport Photo" value={profile.passportPhoto ? 'Uploaded' : null} link={profile.passportPhoto} />
-            <Field label="PhilHealth Number" value={profile.philhealthNumber} />
-            <Field label="PhilHealth Photo" value={profile.philhealthPhoto ? 'Uploaded' : null} link={profile.philhealthPhoto} />
-          </div>
-        </Section>
-      )}
-
-      {/* Documents */}
-      <Section title="Documents" icon={FileText} canEdit={isHRE} vaId={va.id}>
-        <div className="grid gap-2 text-sm">
-          {[
-            { label: 'Contract', link: va.contractLink },
-            { label: '201 Folder', link: va.folder201Link },
-            { label: '201 File', link: va.file201Link },
-            { label: 'VA-Client File', link: va.vaClientFileLink },
-            { label: 'Health Check File', link: va.healthCheckFileLink },
-            { label: 'VA Portfolio', link: va.portfolioUrl },
-            { label: 'VA Profile', link: va.vaProfileLink },
-            { label: 'Payout Summary', link: va.payoutSummaryLink },
-            { label: '201 Dept Folder', link: va.dept201FolderLink },
-          ].filter((d) => d.link).map((doc) => (
-            <DocRow key={doc.label} label={doc.label} link={doc.link!} />
-          ))}
-          {va.documents.length > 0 && (
-            <div className="mt-3 pt-3 border-t">
-              <p className="text-xs font-medium text-muted-foreground mb-2">Uploaded Files</p>
-              {va.documents.map((d) => (
-                <DocRow key={d.id} label={`${d.documentType.replace(/_/g, ' ')} — ${d.fileName}`} link={d.googleDriveUrl} />
-              ))}
-            </div>
-          )}
-        </div>
-      </Section>
 
       {/* Skills */}
       {va.vaSkills.length > 0 && (
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Skills</CardTitle>
+            <CardTitle className="text-base">Skills ({va.vaSkills.length})</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
               {va.vaSkills.map((s) => (
-                <Badge key={s.id} variant="outline">{s.skill.name} {s.proficiency && `(${s.proficiency})`}</Badge>
+                <Badge key={s.id} variant="outline">{s.skill.name} {s.proficiency && `— ${s.proficiency}`}</Badge>
               ))}
             </div>
           </CardContent>
@@ -211,7 +198,7 @@ export default async function VADetailPage({
       {/* Assignments */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">Active Assignments ({va.assignments.length})</CardTitle>
+          <CardTitle className="text-base">Assignments ({va.assignments.length})</CardTitle>
         </CardHeader>
         <CardContent>
           {va.assignments.length === 0 ? (
@@ -224,7 +211,7 @@ export default async function VADetailPage({
                   <div>
                     <p className="text-sm font-medium">{a.client.name}</p>
                     <p className="text-xs text-muted-foreground">
-                      {a.type} • {Number(a.agreedHours)}h agreed • {format(a.startDate, 'MMM dd, yyyy')}
+                      {a.type} • {Number(a.agreedHours)}h • {format(a.startDate, 'MMM dd, yyyy')}
                       {a.endDate && ` → ${format(a.endDate, 'MMM dd, yyyy')}`}
                     </p>
                   </div>
@@ -236,94 +223,11 @@ export default async function VADetailPage({
         </CardContent>
       </Card>
 
-      {/* Notes */}
-      {va.notes && (
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">Notes</CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm text-muted-foreground whitespace-pre-wrap">{va.notes}</CardContent>
-        </Card>
-      )}
-
-      {/* Permission notice */}
       {!isHRE && (
-        <p className="text-xs text-muted-foreground text-center py-2">
-          Read-only view. Contact HR for updates.
+        <p className="text-xs text-muted-foreground text-center py-4">
+          Read-only view. Contact HR for edits.
         </p>
       )}
-    </div>
-  )
-}
-
-function Section({
-  title,
-  icon: Icon,
-  canEdit,
-  vaId,
-  children,
-}: {
-  title: string
-  icon: React.ComponentType<{ className?: string }>
-  canEdit: boolean
-  vaId: string
-  children: React.ReactNode
-}) {
-  return (
-    <Card>
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Icon className="h-4 w-4 text-muted-foreground" />
-            <CardTitle className="text-base">{title}</CardTitle>
-          </div>
-          {canEdit && (
-            <Button variant="ghost" size="sm" className="text-xs text-muted-foreground">
-              Edit
-            </Button>
-          )}
-        </div>
-      </CardHeader>
-      <CardContent>{children}</CardContent>
-    </Card>
-  )
-}
-
-function Field({
-  label,
-  value,
-  link,
-  badge,
-}: {
-  label: string
-  value: string | null | undefined
-  link?: string | null
-  badge?: boolean
-}) {
-  if (!value) return null
-  return (
-    <div>
-      <p className="text-xs text-muted-foreground mb-0.5">{label}</p>
-      {badge ? (
-        <Badge variant="outline" className="text-xs">{value}</Badge>
-      ) : link ? (
-        <a href={link} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline flex items-center gap-1">
-          {value} <ExternalLink className="h-3 w-3" />
-        </a>
-      ) : (
-        <p className="text-sm">{value}</p>
-      )}
-    </div>
-  )
-}
-
-function DocRow({ label, link }: { label: string; link: string }) {
-  return (
-    <div className="flex items-center justify-between py-1.5">
-      <span className="text-sm">{label}</span>
-      <a href={link} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline flex items-center gap-1">
-        <FileText className="h-3 w-3" /> View
-      </a>
     </div>
   )
 }
