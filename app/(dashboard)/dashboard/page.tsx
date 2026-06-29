@@ -17,7 +17,14 @@ import {
 } from 'lucide-react'
 import { startOfMonth, endOfMonth, format, isAfter } from 'date-fns'
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ dept?: string }>
+}) {
+  const params = await searchParams
+  const deptId = params.dept
+
   const user = await getCurrentUser()
   const isDevMode = !process.env.NEXT_PUBLIC_SUPABASE_URL
 
@@ -30,17 +37,23 @@ export default async function DashboardPage() {
     )
   }
 
-  if (['SUPER_ADMIN', 'SYSTEM_ADMIN'].includes(user.systemRole)) {
+  if (['SUPER_ADMIN', 'SYSTEM_ADMIN'].includes(user.systemRole) && !deptId) {
     redirect('/departments')
   }
 
   if (user.userType === 'VIRTUAL_ASSISTANT') return <VADashboard userId={user.id} vaProfileId={user.vaProfile!.id} />
+
+  const department = deptId
+    ? await prisma.department.findUnique({ where: { id: deptId } })
+    : null
 
   return (
     <ManagerDashboard
       managerId={user.id}
       userName={`${user.firstName} ${user.lastName}`}
       isDevMode={isDevMode}
+      deptId={deptId ?? null}
+      departmentName={department?.name ?? null}
     />
   )
 }
@@ -52,32 +65,60 @@ async function ManagerDashboard({
   managerId,
   userName,
   isDevMode,
+  deptId,
+  departmentName,
 }: {
   managerId: string
   userName: string
   isDevMode: boolean
+  deptId: string | null
+  departmentName: string | null
 }) {
   const now = new Date()
   const periodStart = startOfMonth(now)
   const periodEnd = endOfMonth(now)
 
+  const clientWhere = deptId
+    ? { isActive: true, departmentId: deptId }
+    : { isActive: true }
+
   const [clientCount, vaCount, activeAssignments, monthLogs, recentAssignments] = await Promise.all([
-    prisma.client.count({ where: { isActive: true } }),
-    prisma.vAProfile.count({ where: { isActive: true } }),
+    prisma.client.count({ where: clientWhere }),
+    deptId
+      ? prisma.vAProfile.count({
+          where: {
+            isActive: true,
+            user: {
+              memberships: { some: { departmentId: deptId, endedAt: null } },
+            },
+          },
+        })
+      : prisma.vAProfile.count({ where: { isActive: true } }),
     prisma.assignment.findMany({
-      where: { status: 'ACTIVE' },
+      where: {
+        status: 'ACTIVE',
+        ...(deptId ? { client: { departmentId: deptId } } : {}),
+      },
       include: {
         vaProfile: { include: { user: true } },
         client: true,
         workLogs: { where: { workDate: { gte: periodStart, lte: periodEnd } } },
       },
     }),
-    prisma.workLog.findMany({
-      where: { workDate: { gte: periodStart, lte: periodEnd } },
-    }),
+    deptId
+      ? prisma.workLog.findMany({
+          where: {
+            workDate: { gte: periodStart, lte: periodEnd },
+            assignment: { client: { departmentId: deptId } },
+          },
+        })
+      : prisma.workLog.findMany({
+          where: { workDate: { gte: periodStart, lte: periodEnd } },
+        }),
     prisma.assignment.findMany({
       orderBy: { createdAt: 'desc' },
       take: 5,
+      ...(deptId ? { where: { client: { departmentId: deptId } } } : {}),
       include: { client: true, vaProfile: { include: { user: true } } },
     }),
   ])
@@ -101,13 +142,24 @@ async function ManagerDashboard({
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold tracking-tight">
-          Welcome back, {userName.split(' ')[0]}
-        </h2>
-        <p className="text-sm text-muted-foreground mt-1">
-          {format(now, 'EEEE, MMMM dd, yyyy')} — Operations overview
-        </p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">
+            Welcome back, {userName.split(' ')[0]}
+          </h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            {format(now, 'EEEE, MMMM dd, yyyy')}
+            {departmentName ? ` — ${departmentName} department` : ' — Operations overview'}
+          </p>
+        </div>
+        {departmentName && (
+          <Link href="/departments">
+            <Button variant="outline" size="sm">
+              <ArrowRight className="h-4 w-4 mr-2 rotate-180" />
+              Switch department
+            </Button>
+          </Link>
+        )}
       </div>
 
       {/* Stat cards */}
