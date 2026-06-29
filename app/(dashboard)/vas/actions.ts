@@ -9,7 +9,6 @@ export async function createVA(formData: FormData) {
   const nameVal = (formData.get('name') as string) || null
   const firstName = nameVal?.split(' ')[0] || null
   const lastName = nameVal?.split(' ').slice(1).join(' ') || null
-  const phone = (formData.get('phone') as string) || null
   const hourlyRate = formData.get('hourlyRate') as string
   const notes = (formData.get('notes') as string) || null
   const skillIds = formData.getAll('skillIds') as string[]
@@ -23,10 +22,9 @@ export async function createVA(formData: FormData) {
       userType: 'VIRTUAL_ASSISTANT',
       vaProfile: {
         create: {
-          phone,
           hourlyRate: hourlyRate ? Number(hourlyRate) : null,
           notes,
-          skills: { connect: skillIds.map((id) => ({ id })) },
+          vaSkills: { connect: skillIds.map((id) => ({ id })) },
         },
       },
     },

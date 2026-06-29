@@ -47,13 +47,7 @@ export default async function VADetailPage({
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Phone</CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm">{va.phone ?? '-'}</CardContent>
-        </Card>
+      <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Hourly Rate</CardTitle>

@@ -35,10 +35,6 @@ export function VAForm({
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone</Label>
-              <Input id="phone" name="phone" />
-            </div>
-            <div className="space-y-2">
               <Label htmlFor="hourlyRate">Hourly Rate (USD)</Label>
               <Input id="hourlyRate" name="hourlyRate" type="number" step="0.01" />
             </div>

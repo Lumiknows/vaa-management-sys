@@ -23,7 +23,6 @@ async function main() {
       lastName: "Manager",
       systemRole: "DEPT_MANAGER",
       userType: "INTERNAL_STAFF",
-      department: "Operations",
     },
   })
 
@@ -36,10 +35,8 @@ async function main() {
       lastName: "Santos",
       systemRole: "VA",
       userType: "VIRTUAL_ASSISTANT",
-      department: "Amazon Operations",
       vaProfile: {
         create: {
-          phone: "+63-917-555-0101",
           hourlyRate: 8.0,
           notes: "Amazon Expert - trained in Seller Central operations",
         },
@@ -57,10 +54,8 @@ async function main() {
       lastName: "Reyes",
       systemRole: "VA",
       userType: "VIRTUAL_ASSISTANT",
-      department: "PPC & Shopify",
       vaProfile: {
         create: {
-          phone: "+63-917-555-0102",
           hourlyRate: 12.0,
           notes: "Amazon PPC + Shopify specialist",
         },
@@ -78,10 +73,8 @@ async function main() {
       lastName: "Cruz",
       systemRole: "VA",
       userType: "VIRTUAL_ASSISTANT",
-      department: "Walmart",
       vaProfile: {
         create: {
-          phone: "+63-917-555-0103",
           hourlyRate: 10.0,
           notes: "Walmart Marketplace VA - PPC + Social Media",
         },
@@ -119,7 +112,7 @@ async function main() {
   await prisma.vAProfile.update({
     where: { id: va1.vaProfile!.id },
     data: {
-      skills: {
+      vaSkills: {
         connect: [
           { id: findSkill("Amazon Expert").id },
           { id: findSkill("Customer Service").id },
@@ -131,7 +124,7 @@ async function main() {
   await prisma.vAProfile.update({
     where: { id: va2.vaProfile!.id },
     data: {
-      skills: {
+      vaSkills: {
         connect: [
           { id: findSkill("Amazon PPC Specialist").id },
           { id: findSkill("Shopify Virtual Assistant").id },
@@ -142,7 +135,7 @@ async function main() {
   await prisma.vAProfile.update({
     where: { id: va3.vaProfile!.id },
     data: {
-      skills: {
+      vaSkills: {
         connect: [
           { id: findSkill("Walmart Virtual Assistant").id },
           { id: findSkill("Walmart PPC Specialist").id },
