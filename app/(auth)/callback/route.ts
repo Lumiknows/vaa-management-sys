@@ -9,7 +9,12 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get('code')
   const next = searchParams.get('next') ?? '/dashboard'
 
-  if (code) {
+  if (!code) {
+    console.error('[callback] No code provided')
+    return NextResponse.redirect(`${origin}/login?error=auth_failed`)
+  }
+
+  try {
     const cookieStore = await cookies()
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -28,35 +33,44 @@ export async function GET(request: NextRequest) {
       }
     )
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
-    if (!error) {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (user?.email) {
-        const dbUser = await prisma.user.findUnique({ where: { email: user.email } })
-        if (!dbUser) {
-          const admin = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.SUPABASE_SERVICE_ROLE_KEY!,
-            { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
-          )
-          await admin.auth.admin.deleteUser(user.id)
-          await supabase.auth.signOut()
-          return NextResponse.redirect(`${origin}/login?error=unauthorized`)
-        }
-
-        if (!dbUser.isActive) {
-          await supabase.auth.signOut()
-          return NextResponse.redirect(`${origin}/login?error=account_disabled`)
-        }
-
-        const adminRoles = ['SUPER_ADMIN', 'SYSTEM_ADMIN']
-        if (adminRoles.includes(dbUser.systemRole) && next === '/dashboard') {
-          return NextResponse.redirect(`${origin}/departments`)
-        }
-      }
-      return NextResponse.redirect(`${origin}${next}`)
+    const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
+    if (exchangeError) {
+      console.error('[callback] exchangeCodeForSession error:', exchangeError.message, exchangeError)
+      return NextResponse.redirect(
+        `${origin}/login?error=auth_failed&error_description=${encodeURIComponent(exchangeError.message)}`
+      )
     }
-  }
 
-  return NextResponse.redirect(`${origin}/login?error=auth_failed`)
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user?.email) {
+      const dbUser = await prisma.user.findUnique({ where: { email: user.email } })
+      if (!dbUser) {
+        console.warn('[callback] No Prisma user for email:', user.email)
+        const admin = createServerClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.SUPABASE_SERVICE_ROLE_KEY!,
+          { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
+        )
+        await admin.auth.admin.deleteUser(user.id)
+        await supabase.auth.signOut()
+        return NextResponse.redirect(`${origin}/login?error=unauthorized`)
+      }
+
+      if (!dbUser.isActive) {
+        await supabase.auth.signOut()
+        return NextResponse.redirect(`${origin}/login?error=account_disabled`)
+      }
+
+      const adminRoles = ['SUPER_ADMIN', 'SYSTEM_ADMIN']
+      if (adminRoles.includes(dbUser.systemRole) && next === '/dashboard') {
+        return NextResponse.redirect(`${origin}/departments`)
+      }
+    }
+    return NextResponse.redirect(`${origin}${next}`)
+  } catch (err: any) {
+    console.error('[callback] Unhandled error:', err?.message, err)
+    return NextResponse.redirect(
+      `${origin}/login?error=auth_failed&error_description=${encodeURIComponent(err?.message ?? 'unknown')}`
+    )
+  }
 }
