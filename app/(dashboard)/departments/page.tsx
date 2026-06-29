@@ -127,7 +127,7 @@ function DepartmentCard({
 
   return (
     <Link href={`/dashboard?dept=${department.id}`}>
-      <Card className="hover:shadow-md transition-all cursor-pointer group">
+      <Card className="card-hover group">
         <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
           <CardTitle className="text-base font-medium group-hover:text-primary transition-colors">
             {department.name}

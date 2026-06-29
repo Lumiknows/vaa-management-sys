@@ -128,3 +128,32 @@
     @apply font-sans;
   }
 }
+
+/* Button and link click feedback */
+a[href],
+button,
+[role="button"] {
+  transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+}
+a[href]:active:not(.no-animate),
+button:active:not(.no-animate):not([disabled]),
+[role="button"]:active:not(.no-animate) {
+  transform: scale(0.97);
+  opacity: 0.85;
+}
+
+/* Card hover transitions */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.card-hover:active {
+  transform: scale(0.98);
+}
+
+@utility clickable {
+  @apply transition-all duration-150 cursor-pointer active:scale-[0.97] active:opacity-80;
+}

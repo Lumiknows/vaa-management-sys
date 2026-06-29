@@ -471,7 +471,7 @@ function StatCard({
 }) {
   return (
     <Link href={href}>
-      <Card className="hover:shadow-md transition-all cursor-pointer">
+      <Card className="card-hover">
         <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
           <CardTitle className="text-sm font-medium text-muted-foreground">{label}</CardTitle>
           <Icon className="h-4 w-4 text-muted-foreground" />
