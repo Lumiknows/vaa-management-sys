@@ -14,10 +14,9 @@ export async function createServerSupabase() {
       getAll() {
         return cookieStore.getAll()
       },
-      setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value, options }) =>
-          cookieStore.set(name, value, options)
-        )
+      setAll() {
+        // No-op: cookies can only be modified in Server Actions or Route Handlers in Next.js 16+
+        // Session refresh is handled by middleware.ts instead
       },
     },
   })
