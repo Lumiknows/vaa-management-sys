@@ -6,7 +6,12 @@ export async function getCurrentUser() {
   if (!supabase) {
     return prisma.user.findFirst({
       where: { systemRole: 'DEPT_MANAGER' },
-      include: { vaProfile: true, profile: true, memberships: true },
+      include: {
+        vaProfile: true,
+        profile: true,
+        memberships: { include: { department: true, position: true } },
+        roleAssignments: { where: { isActive: true } },
+      },
     })
   }
 
