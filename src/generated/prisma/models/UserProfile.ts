@@ -42,12 +42,16 @@ export type UserProfileMinAggregateOutputType = {
   emergencyContactPhone: string | null
   emergencyContactRelation: string | null
   gcashNumber: string | null
+  personalEmail: string | null
+  facebookName: string | null
   facebookUrl: string | null
   linkedinUrl: string | null
+  payoneerAccount: string | null
   passportNumber: string | null
   passportPhoto: string | null
   philhealthNumber: string | null
   philhealthPhoto: string | null
+  signedContract: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -70,12 +74,16 @@ export type UserProfileMaxAggregateOutputType = {
   emergencyContactPhone: string | null
   emergencyContactRelation: string | null
   gcashNumber: string | null
+  personalEmail: string | null
+  facebookName: string | null
   facebookUrl: string | null
   linkedinUrl: string | null
+  payoneerAccount: string | null
   passportNumber: string | null
   passportPhoto: string | null
   philhealthNumber: string | null
   philhealthPhoto: string | null
+  signedContract: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -98,12 +106,16 @@ export type UserProfileCountAggregateOutputType = {
   emergencyContactPhone: number
   emergencyContactRelation: number
   gcashNumber: number
+  personalEmail: number
+  facebookName: number
   facebookUrl: number
   linkedinUrl: number
+  payoneerAccount: number
   passportNumber: number
   passportPhoto: number
   philhealthNumber: number
   philhealthPhoto: number
+  signedContract: number
   personalityTraits: number
   createdAt: number
   updatedAt: number
@@ -129,12 +141,16 @@ export type UserProfileMinAggregateInputType = {
   emergencyContactPhone?: true
   emergencyContactRelation?: true
   gcashNumber?: true
+  personalEmail?: true
+  facebookName?: true
   facebookUrl?: true
   linkedinUrl?: true
+  payoneerAccount?: true
   passportNumber?: true
   passportPhoto?: true
   philhealthNumber?: true
   philhealthPhoto?: true
+  signedContract?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -157,12 +173,16 @@ export type UserProfileMaxAggregateInputType = {
   emergencyContactPhone?: true
   emergencyContactRelation?: true
   gcashNumber?: true
+  personalEmail?: true
+  facebookName?: true
   facebookUrl?: true
   linkedinUrl?: true
+  payoneerAccount?: true
   passportNumber?: true
   passportPhoto?: true
   philhealthNumber?: true
   philhealthPhoto?: true
+  signedContract?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -185,12 +205,16 @@ export type UserProfileCountAggregateInputType = {
   emergencyContactPhone?: true
   emergencyContactRelation?: true
   gcashNumber?: true
+  personalEmail?: true
+  facebookName?: true
   facebookUrl?: true
   linkedinUrl?: true
+  payoneerAccount?: true
   passportNumber?: true
   passportPhoto?: true
   philhealthNumber?: true
   philhealthPhoto?: true
+  signedContract?: true
   personalityTraits?: true
   createdAt?: true
   updatedAt?: true
@@ -287,12 +311,16 @@ export type UserProfileGroupByOutputType = {
   emergencyContactPhone: string | null
   emergencyContactRelation: string | null
   gcashNumber: string | null
+  personalEmail: string | null
+  facebookName: string | null
   facebookUrl: string | null
   linkedinUrl: string | null
+  payoneerAccount: string | null
   passportNumber: string | null
   passportPhoto: string | null
   philhealthNumber: string | null
   philhealthPhoto: string | null
+  signedContract: string | null
   personalityTraits: string[]
   createdAt: Date
   updatedAt: Date
@@ -337,12 +365,16 @@ export type UserProfileWhereInput = {
   emergencyContactPhone?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   emergencyContactRelation?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   gcashNumber?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  personalEmail?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  facebookName?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   facebookUrl?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   linkedinUrl?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  payoneerAccount?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   passportNumber?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   passportPhoto?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   philhealthNumber?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   philhealthPhoto?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  signedContract?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   personalityTraits?: Prisma.StringNullableListFilter<"UserProfile">
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
@@ -367,12 +399,16 @@ export type UserProfileOrderByWithRelationInput = {
   emergencyContactPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   emergencyContactRelation?: Prisma.SortOrderInput | Prisma.SortOrder
   gcashNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  personalEmail?: Prisma.SortOrderInput | Prisma.SortOrder
+  facebookName?: Prisma.SortOrderInput | Prisma.SortOrder
   facebookUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   linkedinUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  payoneerAccount?: Prisma.SortOrderInput | Prisma.SortOrder
   passportNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   passportPhoto?: Prisma.SortOrderInput | Prisma.SortOrder
   philhealthNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   philhealthPhoto?: Prisma.SortOrderInput | Prisma.SortOrder
+  signedContract?: Prisma.SortOrderInput | Prisma.SortOrder
   personalityTraits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -400,12 +436,16 @@ export type UserProfileWhereUniqueInput = Prisma.AtLeast<{
   emergencyContactPhone?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   emergencyContactRelation?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   gcashNumber?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  personalEmail?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  facebookName?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   facebookUrl?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   linkedinUrl?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  payoneerAccount?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   passportNumber?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   passportPhoto?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   philhealthNumber?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   philhealthPhoto?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  signedContract?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   personalityTraits?: Prisma.StringNullableListFilter<"UserProfile">
   createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
@@ -430,12 +470,16 @@ export type UserProfileOrderByWithAggregationInput = {
   emergencyContactPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   emergencyContactRelation?: Prisma.SortOrderInput | Prisma.SortOrder
   gcashNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  personalEmail?: Prisma.SortOrderInput | Prisma.SortOrder
+  facebookName?: Prisma.SortOrderInput | Prisma.SortOrder
   facebookUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   linkedinUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  payoneerAccount?: Prisma.SortOrderInput | Prisma.SortOrder
   passportNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   passportPhoto?: Prisma.SortOrderInput | Prisma.SortOrder
   philhealthNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   philhealthPhoto?: Prisma.SortOrderInput | Prisma.SortOrder
+  signedContract?: Prisma.SortOrderInput | Prisma.SortOrder
   personalityTraits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -465,12 +509,16 @@ export type UserProfileScalarWhereWithAggregatesInput = {
   emergencyContactPhone?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   emergencyContactRelation?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   gcashNumber?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  personalEmail?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  facebookName?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   facebookUrl?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   linkedinUrl?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  payoneerAccount?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   passportNumber?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   passportPhoto?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   philhealthNumber?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   philhealthPhoto?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  signedContract?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   personalityTraits?: Prisma.StringNullableListFilter<"UserProfile">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
@@ -493,12 +541,16 @@ export type UserProfileCreateInput = {
   emergencyContactPhone?: string | null
   emergencyContactRelation?: string | null
   gcashNumber?: string | null
+  personalEmail?: string | null
+  facebookName?: string | null
   facebookUrl?: string | null
   linkedinUrl?: string | null
+  payoneerAccount?: string | null
   passportNumber?: string | null
   passportPhoto?: string | null
   philhealthNumber?: string | null
   philhealthPhoto?: string | null
+  signedContract?: string | null
   personalityTraits?: Prisma.UserProfileCreatepersonalityTraitsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -523,12 +575,16 @@ export type UserProfileUncheckedCreateInput = {
   emergencyContactPhone?: string | null
   emergencyContactRelation?: string | null
   gcashNumber?: string | null
+  personalEmail?: string | null
+  facebookName?: string | null
   facebookUrl?: string | null
   linkedinUrl?: string | null
+  payoneerAccount?: string | null
   passportNumber?: string | null
   passportPhoto?: string | null
   philhealthNumber?: string | null
   philhealthPhoto?: string | null
+  signedContract?: string | null
   personalityTraits?: Prisma.UserProfileCreatepersonalityTraitsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -551,12 +607,16 @@ export type UserProfileUpdateInput = {
   emergencyContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emergencyContactRelation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gcashNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  personalEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payoneerAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passportPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   philhealthNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   philhealthPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signedContract?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   personalityTraits?: Prisma.UserProfileUpdatepersonalityTraitsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -581,12 +641,16 @@ export type UserProfileUncheckedUpdateInput = {
   emergencyContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emergencyContactRelation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gcashNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  personalEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payoneerAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passportPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   philhealthNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   philhealthPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signedContract?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   personalityTraits?: Prisma.UserProfileUpdatepersonalityTraitsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -610,12 +674,16 @@ export type UserProfileCreateManyInput = {
   emergencyContactPhone?: string | null
   emergencyContactRelation?: string | null
   gcashNumber?: string | null
+  personalEmail?: string | null
+  facebookName?: string | null
   facebookUrl?: string | null
   linkedinUrl?: string | null
+  payoneerAccount?: string | null
   passportNumber?: string | null
   passportPhoto?: string | null
   philhealthNumber?: string | null
   philhealthPhoto?: string | null
+  signedContract?: string | null
   personalityTraits?: Prisma.UserProfileCreatepersonalityTraitsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -638,12 +706,16 @@ export type UserProfileUpdateManyMutationInput = {
   emergencyContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emergencyContactRelation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gcashNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  personalEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payoneerAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passportPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   philhealthNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   philhealthPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signedContract?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   personalityTraits?: Prisma.UserProfileUpdatepersonalityTraitsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -667,12 +739,16 @@ export type UserProfileUncheckedUpdateManyInput = {
   emergencyContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emergencyContactRelation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gcashNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  personalEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payoneerAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passportPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   philhealthNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   philhealthPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signedContract?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   personalityTraits?: Prisma.UserProfileUpdatepersonalityTraitsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -709,12 +785,16 @@ export type UserProfileCountOrderByAggregateInput = {
   emergencyContactPhone?: Prisma.SortOrder
   emergencyContactRelation?: Prisma.SortOrder
   gcashNumber?: Prisma.SortOrder
+  personalEmail?: Prisma.SortOrder
+  facebookName?: Prisma.SortOrder
   facebookUrl?: Prisma.SortOrder
   linkedinUrl?: Prisma.SortOrder
+  payoneerAccount?: Prisma.SortOrder
   passportNumber?: Prisma.SortOrder
   passportPhoto?: Prisma.SortOrder
   philhealthNumber?: Prisma.SortOrder
   philhealthPhoto?: Prisma.SortOrder
+  signedContract?: Prisma.SortOrder
   personalityTraits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -738,12 +818,16 @@ export type UserProfileMaxOrderByAggregateInput = {
   emergencyContactPhone?: Prisma.SortOrder
   emergencyContactRelation?: Prisma.SortOrder
   gcashNumber?: Prisma.SortOrder
+  personalEmail?: Prisma.SortOrder
+  facebookName?: Prisma.SortOrder
   facebookUrl?: Prisma.SortOrder
   linkedinUrl?: Prisma.SortOrder
+  payoneerAccount?: Prisma.SortOrder
   passportNumber?: Prisma.SortOrder
   passportPhoto?: Prisma.SortOrder
   philhealthNumber?: Prisma.SortOrder
   philhealthPhoto?: Prisma.SortOrder
+  signedContract?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -766,12 +850,16 @@ export type UserProfileMinOrderByAggregateInput = {
   emergencyContactPhone?: Prisma.SortOrder
   emergencyContactRelation?: Prisma.SortOrder
   gcashNumber?: Prisma.SortOrder
+  personalEmail?: Prisma.SortOrder
+  facebookName?: Prisma.SortOrder
   facebookUrl?: Prisma.SortOrder
   linkedinUrl?: Prisma.SortOrder
+  payoneerAccount?: Prisma.SortOrder
   passportNumber?: Prisma.SortOrder
   passportPhoto?: Prisma.SortOrder
   philhealthNumber?: Prisma.SortOrder
   philhealthPhoto?: Prisma.SortOrder
+  signedContract?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -834,12 +922,16 @@ export type UserProfileCreateWithoutUserInput = {
   emergencyContactPhone?: string | null
   emergencyContactRelation?: string | null
   gcashNumber?: string | null
+  personalEmail?: string | null
+  facebookName?: string | null
   facebookUrl?: string | null
   linkedinUrl?: string | null
+  payoneerAccount?: string | null
   passportNumber?: string | null
   passportPhoto?: string | null
   philhealthNumber?: string | null
   philhealthPhoto?: string | null
+  signedContract?: string | null
   personalityTraits?: Prisma.UserProfileCreatepersonalityTraitsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -862,12 +954,16 @@ export type UserProfileUncheckedCreateWithoutUserInput = {
   emergencyContactPhone?: string | null
   emergencyContactRelation?: string | null
   gcashNumber?: string | null
+  personalEmail?: string | null
+  facebookName?: string | null
   facebookUrl?: string | null
   linkedinUrl?: string | null
+  payoneerAccount?: string | null
   passportNumber?: string | null
   passportPhoto?: string | null
   philhealthNumber?: string | null
   philhealthPhoto?: string | null
+  signedContract?: string | null
   personalityTraits?: Prisma.UserProfileCreatepersonalityTraitsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -906,12 +1002,16 @@ export type UserProfileUpdateWithoutUserInput = {
   emergencyContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emergencyContactRelation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gcashNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  personalEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payoneerAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passportPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   philhealthNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   philhealthPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signedContract?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   personalityTraits?: Prisma.UserProfileUpdatepersonalityTraitsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -934,12 +1034,16 @@ export type UserProfileUncheckedUpdateWithoutUserInput = {
   emergencyContactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emergencyContactRelation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gcashNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  personalEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payoneerAccount?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passportNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passportPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   philhealthNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   philhealthPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  signedContract?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   personalityTraits?: Prisma.UserProfileUpdatepersonalityTraitsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -965,12 +1069,16 @@ export type UserProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   emergencyContactPhone?: boolean
   emergencyContactRelation?: boolean
   gcashNumber?: boolean
+  personalEmail?: boolean
+  facebookName?: boolean
   facebookUrl?: boolean
   linkedinUrl?: boolean
+  payoneerAccount?: boolean
   passportNumber?: boolean
   passportPhoto?: boolean
   philhealthNumber?: boolean
   philhealthPhoto?: boolean
+  signedContract?: boolean
   personalityTraits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -995,12 +1103,16 @@ export type UserProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   emergencyContactPhone?: boolean
   emergencyContactRelation?: boolean
   gcashNumber?: boolean
+  personalEmail?: boolean
+  facebookName?: boolean
   facebookUrl?: boolean
   linkedinUrl?: boolean
+  payoneerAccount?: boolean
   passportNumber?: boolean
   passportPhoto?: boolean
   philhealthNumber?: boolean
   philhealthPhoto?: boolean
+  signedContract?: boolean
   personalityTraits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1025,12 +1137,16 @@ export type UserProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   emergencyContactPhone?: boolean
   emergencyContactRelation?: boolean
   gcashNumber?: boolean
+  personalEmail?: boolean
+  facebookName?: boolean
   facebookUrl?: boolean
   linkedinUrl?: boolean
+  payoneerAccount?: boolean
   passportNumber?: boolean
   passportPhoto?: boolean
   philhealthNumber?: boolean
   philhealthPhoto?: boolean
+  signedContract?: boolean
   personalityTraits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1055,18 +1171,22 @@ export type UserProfileSelectScalar = {
   emergencyContactPhone?: boolean
   emergencyContactRelation?: boolean
   gcashNumber?: boolean
+  personalEmail?: boolean
+  facebookName?: boolean
   facebookUrl?: boolean
   linkedinUrl?: boolean
+  payoneerAccount?: boolean
   passportNumber?: boolean
   passportPhoto?: boolean
   philhealthNumber?: boolean
   philhealthPhoto?: boolean
+  signedContract?: boolean
   personalityTraits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "phone" | "whatsappNumber" | "gender" | "birthDate" | "nonCelebrant" | "barangay" | "cityMunicipality" | "province" | "zipCode" | "landmark" | "address" | "emergencyContactName" | "emergencyContactPhone" | "emergencyContactRelation" | "gcashNumber" | "facebookUrl" | "linkedinUrl" | "passportNumber" | "passportPhoto" | "philhealthNumber" | "philhealthPhoto" | "personalityTraits" | "createdAt" | "updatedAt", ExtArgs["result"]["userProfile"]>
+export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "phone" | "whatsappNumber" | "gender" | "birthDate" | "nonCelebrant" | "barangay" | "cityMunicipality" | "province" | "zipCode" | "landmark" | "address" | "emergencyContactName" | "emergencyContactPhone" | "emergencyContactRelation" | "gcashNumber" | "personalEmail" | "facebookName" | "facebookUrl" | "linkedinUrl" | "payoneerAccount" | "passportNumber" | "passportPhoto" | "philhealthNumber" | "philhealthPhoto" | "signedContract" | "personalityTraits" | "createdAt" | "updatedAt", ExtArgs["result"]["userProfile"]>
 export type UserProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -1100,12 +1220,16 @@ export type $UserProfilePayload<ExtArgs extends runtime.Types.Extensions.Interna
     emergencyContactPhone: string | null
     emergencyContactRelation: string | null
     gcashNumber: string | null
+    personalEmail: string | null
+    facebookName: string | null
     facebookUrl: string | null
     linkedinUrl: string | null
+    payoneerAccount: string | null
     passportNumber: string | null
     passportPhoto: string | null
     philhealthNumber: string | null
     philhealthPhoto: string | null
+    signedContract: string | null
     personalityTraits: string[]
     createdAt: Date
     updatedAt: Date
@@ -1550,12 +1674,16 @@ export interface UserProfileFieldRefs {
   readonly emergencyContactPhone: Prisma.FieldRef<"UserProfile", 'String'>
   readonly emergencyContactRelation: Prisma.FieldRef<"UserProfile", 'String'>
   readonly gcashNumber: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly personalEmail: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly facebookName: Prisma.FieldRef<"UserProfile", 'String'>
   readonly facebookUrl: Prisma.FieldRef<"UserProfile", 'String'>
   readonly linkedinUrl: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly payoneerAccount: Prisma.FieldRef<"UserProfile", 'String'>
   readonly passportNumber: Prisma.FieldRef<"UserProfile", 'String'>
   readonly passportPhoto: Prisma.FieldRef<"UserProfile", 'String'>
   readonly philhealthNumber: Prisma.FieldRef<"UserProfile", 'String'>
   readonly philhealthPhoto: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly signedContract: Prisma.FieldRef<"UserProfile", 'String'>
   readonly personalityTraits: Prisma.FieldRef<"UserProfile", 'String[]'>
   readonly createdAt: Prisma.FieldRef<"UserProfile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"UserProfile", 'DateTime'>
