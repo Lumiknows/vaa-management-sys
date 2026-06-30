@@ -1,19 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  Dialog,
-  DialogContent,
-  DialogContentLarge,
-  DialogHeader,
-  DialogTitle,
-  DialogBody,
-  DialogFooter,
-  DialogClose,
-} from '@/components/ui/dialog'
+import { Modal } from '@/components/ui/modal'
 import { toast } from 'sonner'
 import {
   Upload,
@@ -33,7 +24,7 @@ import {
   Wallet,
   User,
 } from 'lucide-react'
-import { updateVAProfile, updateUserProfile } from '@/app/(dashboard)/vas/actions'
+import { updateVAProfile, updateUserProfileAction, updateEmployment, updateUserProfileFiles } from '@/app/(dashboard)/vas/actions'
 import { format } from 'date-fns'
 import type { DriveFile } from '@/lib/google/drive'
 
@@ -91,13 +82,12 @@ export function VAProfileEditor({
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-      {/* LEFT COLUMN — Info Sections */}
       <div className="space-y-0 rounded-2xl border bg-card overflow-hidden shadow-sm">
-        {/* Personal */}
         <EditRow
           icon={User}
           label="Personal Information"
-          dialogContent={<PersonalDialog data={data} />}
+          dialogTitle="Personal Information"
+          renderDialog={(close) => <PersonalFormContent data={data} onClose={close} />}
           preview={
             <div className="grid grid-cols-2 gap-x-8 gap-y-1.5">
               <Mini label="Assigned Email" value={data.user.email} />
@@ -114,11 +104,11 @@ export function VAProfileEditor({
 
         <Divider />
 
-        {/* Address */}
         <EditRow
           icon={MapPin}
           label="Complete Address"
-          dialogContent={<AddressDialog data={data} />}
+          dialogTitle="Complete Address"
+          renderDialog={(close) => <AddressFormContent data={data} onClose={close} />}
           preview={
             <div className="grid grid-cols-3 gap-x-4 gap-y-1.5">
               <Mini label="#, Building & Street" value={data.profile?.address} />
@@ -133,11 +123,12 @@ export function VAProfileEditor({
 
         <Divider />
 
-        {/* Employment */}
         <EditRow
           icon={Briefcase}
           label="Employment & Payment"
-          dialogContent={<EmploymentDialog data={data} />}
+          dialogTitle="Employment & Payment"
+          renderDialog={(close) => <EmploymentFormContent data={data} onClose={close} />}
+          size="md"
           preview={
             <div className="grid grid-cols-3 gap-x-4 gap-y-1.5">
               <Mini label="Position" value={data.membership?.positionTitle || data.vaProfile.vaaPosition} />
@@ -154,11 +145,11 @@ export function VAProfileEditor({
 
         <Divider />
 
-        {/* Socials */}
         <EditRow
           icon={Globe}
           label="Socials"
-          dialogContent={<SocialsDialog data={data} />}
+          dialogTitle="Socials"
+          renderDialog={(close) => <SocialsFormContent data={data} onClose={close} />}
           preview={
             <div className="grid grid-cols-2 gap-x-8 gap-y-1.5">
               <Mini label="Facebook Profile" value={data.profile?.facebookName} />
@@ -169,11 +160,12 @@ export function VAProfileEditor({
 
         <Divider />
 
-        {/* 201 Files */}
         <EditRow
           icon={Shield}
           label="201 Files"
-          dialogContent={<Files201Dialog data={data} vaName={vaName} onJustUploaded={handleRecentUpload} />}
+          dialogTitle="201 Files"
+          renderDialog={(close) => <Files201Content data={data} vaName={vaName} onJustUploaded={handleRecentUpload} onClose={close} />}
+          size="lg"
           preview={
             <div className="space-y-3">
               <div className="grid grid-cols-2 gap-x-8 gap-y-1.5">
@@ -190,22 +182,12 @@ export function VAProfileEditor({
         />
       </div>
 
-      {/* RIGHT COLUMN — Documents & Drive */}
       <div className="space-y-4">
-        {/* Quick Stats */}
         <div className="rounded-2xl border bg-card p-4 shadow-sm">
           <p className="text-xs font-medium text-muted-foreground mb-3 uppercase tracking-wider">Overview</p>
           <div className="grid grid-cols-2 gap-3">
-            <StatBox
-              label="Department"
-              value={data.membership?.departmentName}
-              icon={Building2}
-            />
-            <StatBox
-              label="Contract"
-              value={data.employment?.contractType?.replace(/_/g, ' ')}
-              icon={Briefcase}
-            />
+            <StatBox label="Department" value={data.membership?.departmentName} icon={Building2} />
+            <StatBox label="Contract" value={data.employment?.contractType?.replace(/_/g, ' ')} icon={Briefcase} />
             <StatBox
               label="Schedule"
               value={data.vaProfile.availableSchedule ? `${data.vaProfile.preferredWorkHours || '-'}h/wk` : null}
@@ -219,7 +201,6 @@ export function VAProfileEditor({
           </div>
         </div>
 
-        {/* Google Drive Files */}
         {driveFiles.length > 0 && (
           <div className="rounded-2xl border bg-card p-4 shadow-sm">
             <p className="text-xs font-medium text-muted-foreground mb-3 uppercase tracking-wider flex items-center gap-1.5">
@@ -243,7 +224,6 @@ export function VAProfileEditor({
           </div>
         )}
 
-        {/* Notes */}
         {data.vaProfile.notes && (
           <div className="rounded-2xl border bg-muted/20 p-4 shadow-sm">
             <p className="text-xs font-medium text-muted-foreground mb-1.5 uppercase tracking-wider">Notes</p>
@@ -259,17 +239,22 @@ function EditRow({
   icon: Icon,
   label,
   preview,
-  dialogContent,
+  dialogTitle,
+  size,
+  renderDialog,
 }: {
   icon: React.ComponentType<{ className?: string }>
   label: string
   preview: React.ReactNode
-  dialogContent: React.ReactNode
+  dialogTitle: string
+  size?: 'sm' | 'md' | 'lg'
+  renderDialog: (close: () => void) => React.ReactNode
 }) {
   const [open, setOpen] = useState(false)
+  const close = () => setOpen(false)
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <>
       <button
         type="button"
         onClick={() => setOpen(true)}
@@ -288,8 +273,10 @@ function EditRow({
           </div>
         </div>
       </button>
-      {dialogContent}
-    </Dialog>
+      <Modal open={open} onOpenChange={setOpen} title={dialogTitle} size={size}>
+        {renderDialog(close)}
+      </Modal>
+    </>
   )
 }
 
@@ -351,15 +338,7 @@ function DocBadge({
   )
 }
 
-function StatBox({
-  label,
-  value,
-  icon: Icon,
-}: {
-  label: string
-  value: string | null | undefined
-  icon: React.ComponentType<{ className?: string }>
-}) {
+function StatBox({ label, value, icon: Icon }: { label: string; value: string | null | undefined; icon: React.ComponentType<{ className?: string }> }) {
   return (
     <div className="p-2.5 rounded-xl bg-muted/30 border border-transparent hover:border-border/50 transition-colors">
       <div className="flex items-center gap-1.5 mb-0.5">
@@ -386,118 +365,139 @@ function FI({ name, label, defaultValue, type = 'text', placeholder }: { name: s
   )
 }
 
-function DialogForm({ id, action, children }: { id: string; action: (fd: FormData) => Promise<void>; children: React.ReactNode }) {
-  const [saving, setSaving] = useState(false)
+function ModalFormSubmitBtn({ saving }: { saving: boolean }) {
+  return (
+    <Button type="submit" size="sm" className="text-xs h-8" disabled={saving}>
+      {saving ? 'Saving...' : 'Save Changes'}
+    </Button>
+  )
+}
+
+function ModalCancelBtn({ onCancel }: { onCancel: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onCancel}
+      className="inline-flex items-center justify-center rounded-lg border bg-background hover:bg-muted text-xs font-medium h-8 px-3 transition-colors"
+    >
+      Cancel
+    </button>
+  )
+}
+
+function PersonalFormContent({ data, onClose }: { data: VAData; onClose: () => void }) {
   return (
     <form
-      id={id}
-      action={async (fd) => {
-        setSaving(true)
-        await action(fd)
-        setSaving(false)
-      }}
+      action={updateUserProfileAction.bind(null, data.user.id)}
+      className="flex flex-col gap-4 h-full"
     >
-      <DialogHeader>
-        <DialogTitle>{id.replace(/^form-/, '').replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}</DialogTitle>
-        <DialogClose className="rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"><X className="h-4 w-4" /></DialogClose>
-      </DialogHeader>
-      <DialogBody>{children}</DialogBody>
-      <DialogFooter>
-        <DialogClose className="inline-flex items-center justify-center rounded-lg border bg-background hover:bg-muted text-xs font-medium h-8 px-3 transition-colors">Cancel</DialogClose>
-        <Button type="submit" size="sm" className="text-xs h-8" disabled={saving}>
-          {saving ? 'Saving...' : 'Save Changes'}
-        </Button>
-      </DialogFooter>
+      <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 flex-1">
+        <FI name="firstName" label="First Name" defaultValue={data.user.firstName} />
+        <FI name="lastName" label="Last Name" defaultValue={data.user.lastName} />
+        <FI name="personalEmail" label="Personal Email" defaultValue={data.profile?.personalEmail} type="email" placeholder="personal@email.com" />
+        <FI name="whatsappNumber" label="WhatsApp Number" defaultValue={data.profile?.whatsappNumber} placeholder="09000000000" />
+        <FI name="emergencyContactName" label="Emergency Contact Name" defaultValue={data.profile?.emergencyContactName} />
+        <FI name="emergencyContactPhone" label="Emergency Contact Number" defaultValue={data.profile?.emergencyContactPhone} placeholder="09000000000" />
+      </div>
+      <div className="flex items-center justify-end gap-2 pt-2 border-t">
+        <button type="button" onClick={onClose}
+          className="inline-flex items-center justify-center rounded-lg border bg-background hover:bg-muted text-xs font-medium h-8 px-3 transition-colors">
+          Cancel
+        </button>
+        <Button type="submit" size="sm" className="text-xs h-8">Save Changes</Button>
+      </div>
     </form>
   )
 }
 
-function PersonalDialog({ data }: { data: VAData }) {
+function AddressFormContent({ data, onClose }: { data: VAData; onClose: () => void }) {
   return (
-    <DialogContent>
-      <DialogForm id="form-personal" action={async (fd) => { await updateUserProfile(data.user.id, fd) }}>
-        <div className="grid gap-3">
-          <FI name="firstName" label="First Name" defaultValue={data.user.firstName} />
-          <FI name="lastName" label="Last Name" defaultValue={data.user.lastName} />
-          <FI name="personalEmail" label="Personal Email" defaultValue={data.profile?.personalEmail} type="email" placeholder="personal@email.com" />
-          <FI name="whatsappNumber" label="WhatsApp Number" defaultValue={data.profile?.whatsappNumber} placeholder="09000000000" />
-          <FI name="emergencyContactName" label="Emergency Contact Name" defaultValue={data.profile?.emergencyContactName} />
-          <FI name="emergencyContactPhone" label="Emergency Contact Number" defaultValue={data.profile?.emergencyContactPhone} placeholder="09000000000" />
-        </div>
-      </DialogForm>
-    </DialogContent>
+    <form
+      action={updateUserProfileAction.bind(null, data.user.id)}
+      className="flex flex-col gap-4 h-full"
+    >
+      <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 flex-1">
+        <FI name="address" label="House #, Building & Street Name" defaultValue={data.profile?.address} placeholder="123 Main St, Building A" />
+        <FI name="province" label="Province" defaultValue={data.profile?.province} />
+        <FI name="cityMunicipality" label="City / Municipality" defaultValue={data.profile?.cityMunicipality} />
+        <FI name="barangay" label="Barangay" defaultValue={data.profile?.barangay} />
+        <FI name="zipCode" label="Zip Code" defaultValue={data.profile?.zipCode} placeholder="1000" />
+        <FI name="landmark" label="Landmark" defaultValue={data.profile?.landmark} />
+      </div>
+      <div className="flex items-center justify-end gap-2 pt-2 border-t">
+        <button type="button" onClick={onClose}
+          className="inline-flex items-center justify-center rounded-lg border bg-background hover:bg-muted text-xs font-medium h-8 px-3 transition-colors">
+          Cancel
+        </button>
+        <Button type="submit" size="sm" className="text-xs h-8">Save Changes</Button>
+      </div>
+    </form>
   )
 }
 
-function AddressDialog({ data }: { data: VAData }) {
+function EmploymentFormContent({ data, onClose }: { data: VAData; onClose: () => void }) {
   return (
-    <DialogContent>
-      <DialogForm id="form-address" action={async (fd) => { await updateUserProfile(data.user.id, fd) }}>
-        <div className="grid gap-3">
-          <FI name="address" label="House #, Building & Street Name" defaultValue={data.profile?.address} placeholder="123 Main St, Building A" />
-          <FI name="province" label="Province" defaultValue={data.profile?.province} />
-          <FI name="cityMunicipality" label="City / Municipality" defaultValue={data.profile?.cityMunicipality} />
-          <FI name="barangay" label="Barangay" defaultValue={data.profile?.barangay} />
-          <div className="grid grid-cols-2 gap-3">
-            <FI name="zipCode" label="Zip Code" defaultValue={data.profile?.zipCode} placeholder="1000" />
-            <FI name="landmark" label="Landmark" defaultValue={data.profile?.landmark} />
-          </div>
+    <form
+      action={updateEmployment.bind(null, data.vaProfile.id, data.user.id)}
+      className="flex flex-col gap-4 h-full"
+    >
+      <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 flex-1">
+        <FI name="vaaPosition" label="VAA Position" defaultValue={data.vaProfile.vaaPosition} />
+        <FI name="level" label="Level" defaultValue={data.vaProfile.level} />
+        <FI name="baseRate" label="Base Rate (PHP)" defaultValue={data.vaProfile.baseRate?.toString()} type="number" />
+        <FI name="hourlyRate" label="Hourly Rate (USD)" defaultValue={data.vaProfile.hourlyRate?.toString()} type="number" />
+        <FI name="preferredWorkHours" label="Preferred Hours (Weekly)" defaultValue={data.vaProfile.preferredWorkHours?.toString()} type="number" />
+        <FI name="birthDate" label="Birth Date" defaultValue={data.profile?.birthDate} type="date" />
+        <div className="flex items-center gap-2 col-span-1 sm:col-span-2">
+          <input type="checkbox" id="nonCelebrant" name="nonCelebrant" value="true" defaultChecked={data.profile?.nonCelebrant} className="rounded" />
+          <Label htmlFor="nonCelebrant" className="text-xs cursor-pointer">I don&apos;t celebrate birthdays</Label>
         </div>
-      </DialogForm>
-    </DialogContent>
+        <FI name="gcashNumber" label="GCash Number" defaultValue={data.profile?.gcashNumber} placeholder="09000000000" />
+        <FI name="payoneerAccount" label="Payoneer Account" defaultValue={data.profile?.payoneerAccount} type="email" placeholder="email@example.com" />
+        <FI name="notes" label="Notes" defaultValue={data.vaProfile.notes} />
+      </div>
+      <div className="flex items-center justify-end gap-2 pt-2 border-t">
+        <button type="button" onClick={onClose}
+          className="inline-flex items-center justify-center rounded-lg border bg-background hover:bg-muted text-xs font-medium h-8 px-3 transition-colors">
+          Cancel
+        </button>
+        <Button type="submit" size="sm" className="text-xs h-8">Save Changes</Button>
+      </div>
+    </form>
   )
 }
 
-function EmploymentDialog({ data }: { data: VAData }) {
+function SocialsFormContent({ data, onClose }: { data: VAData; onClose: () => void }) {
   return (
-    <DialogContent>
-      <DialogForm id="form-employment" action={async (fd) => {
-        await updateVAProfile(data.vaProfile.id, fd)
-        await updateUserProfile(data.user.id, fd)
-      }}>
-        <div className="grid gap-3">
-          <FI name="vaaPosition" label="VAA Position" defaultValue={data.vaProfile.vaaPosition} />
-          <FI name="level" label="Level" defaultValue={data.vaProfile.level} />
-          <div className="grid grid-cols-2 gap-3">
-            <FI name="baseRate" label="Base Rate (PHP)" defaultValue={data.vaProfile.baseRate?.toString()} type="number" />
-            <FI name="hourlyRate" label="Hourly Rate (USD)" defaultValue={data.vaProfile.hourlyRate?.toString()} type="number" />
-          </div>
-          <FI name="preferredWorkHours" label="Preferred Hours (Weekly)" defaultValue={data.vaProfile.preferredWorkHours?.toString()} type="number" />
-          <FI name="birthDate" label="Birth Date" defaultValue={data.profile?.birthDate} type="date" />
-          <div className="flex items-center gap-2">
-            <input type="checkbox" id="nonCelebrant" name="nonCelebrant" value="true" defaultChecked={data.profile?.nonCelebrant} className="rounded" />
-            <Label htmlFor="nonCelebrant" className="text-xs cursor-pointer">I don&apos;t celebrate birthdays</Label>
-          </div>
-          <FI name="gcashNumber" label="GCash Number" defaultValue={data.profile?.gcashNumber} placeholder="09000000000" />
-          <FI name="payoneerAccount" label="Payoneer Account" defaultValue={data.profile?.payoneerAccount} type="email" placeholder="email@example.com" />
-          <FI name="notes" label="Notes" defaultValue={data.vaProfile.notes} />
-        </div>
-      </DialogForm>
-    </DialogContent>
+    <form
+      action={updateUserProfileAction.bind(null, data.user.id)}
+      className="flex flex-col gap-4 h-full"
+    >
+      <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 flex-1">
+        <FI name="facebookName" label="Facebook Name" defaultValue={data.profile?.facebookName} />
+        <FI name="facebookUrl" label="Facebook URL" defaultValue={data.profile?.facebookUrl} placeholder="https://facebook.com/..." />
+      </div>
+      <div className="flex items-center justify-end gap-2 pt-2 border-t">
+        <button type="button" onClick={onClose}
+          className="inline-flex items-center justify-center rounded-lg border bg-background hover:bg-muted text-xs font-medium h-8 px-3 transition-colors">
+          Cancel
+        </button>
+        <Button type="submit" size="sm" className="text-xs h-8">Save Changes</Button>
+      </div>
+    </form>
   )
 }
 
-function SocialsDialog({ data }: { data: VAData }) {
-  return (
-    <DialogContent>
-      <DialogForm id="form-socials" action={async (fd) => { await updateUserProfile(data.user.id, fd) }}>
-        <div className="grid gap-3">
-          <FI name="facebookName" label="Facebook Name" defaultValue={data.profile?.facebookName} />
-          <FI name="facebookUrl" label="Facebook URL" defaultValue={data.profile?.facebookUrl} placeholder="https://facebook.com/..." />
-        </div>
-      </DialogForm>
-    </DialogContent>
-  )
-}
-
-function Files201Dialog({
+function Files201Content({
   data,
   vaName,
   onJustUploaded,
+  onClose,
 }: {
   data: VAData
   vaName: string
   onJustUploaded?: (field: string) => void
+  onClose: () => void
 }) {
   const [passportPhoto, setPassportPhoto] = useState(data.profile?.passportPhoto ?? null)
   const [philhealthPhoto, setPhilhealthPhoto] = useState(data.profile?.philhealthPhoto ?? null)
@@ -508,76 +508,42 @@ function Files201Dialog({
     onJustUploaded?.(field)
   }
 
+  const handleSave = async () => {
+    setSaving(true)
+    await updateUserProfileFiles(data.user.id, passportPhoto, philhealthPhoto, signedContract)
+    setSaving(false)
+    onClose()
+  }
+
   return (
-    <DialogContentLarge>
-      <form
-        id="form-201-files"
-        action={async (fd) => {
-          setSaving(true)
-          if (passportPhoto) fd.set('passportPhoto', passportPhoto)
-          if (philhealthPhoto) fd.set('philhealthPhoto', philhealthPhoto)
-          if (signedContract) fd.set('signedContract', signedContract)
-          await updateUserProfile(data.user.id, fd)
-          setSaving(false)
-        }}
-      >
-        <DialogHeader>
-          <DialogTitle>201 Files</DialogTitle>
-          <DialogClose><X className="h-4 w-4" /></DialogClose>
-        </DialogHeader>
-        <DialogBody>
-          <div className="space-y-5">
-            <div className="grid grid-cols-2 gap-3">
-              <FI name="passportNumber" label="Passport Number" defaultValue={data.profile?.passportNumber} />
-              <FI name="philhealthNumber" label="PhilHealth Number" defaultValue={data.profile?.philhealthNumber} />
-            </div>
-            <div className="border-t pt-4">
-              <p className="text-xs font-semibold text-muted-foreground mb-3 uppercase tracking-wider flex items-center gap-1.5">
-                <Upload className="h-3 w-3" /> Upload Documents
-              </p>
-              <div className="space-y-4">
-                <UploadRow
-                  label="Passport Photo"
-                  icon={IdCard}
-                  currentUrl={passportPhoto}
-                  fieldName="passportPhoto"
-                  vaName={vaName}
-                  profileId={data.user.id}
-                  onUploaded={setPassportPhoto}
-                  onJustUploaded={handleJustUploaded}
-                />
-                <UploadRow
-                  label="PhilHealth Photo"
-                  icon={Camera}
-                  currentUrl={philhealthPhoto}
-                  fieldName="philhealthPhoto"
-                  vaName={vaName}
-                  profileId={data.user.id}
-                  onUploaded={setPhilhealthPhoto}
-                  onJustUploaded={handleJustUploaded}
-                />
-                <UploadRow
-                  label="Signed Contract"
-                  icon={FileText}
-                  currentUrl={signedContract}
-                  fieldName="signedContract"
-                  vaName={vaName}
-                  profileId={data.user.id}
-                  onUploaded={setSignedContract}
-                  onJustUploaded={handleJustUploaded}
-                />
-              </div>
-            </div>
-          </div>
-        </DialogBody>
-        <DialogFooter>
-          <DialogClose className="inline-flex items-center justify-center rounded-lg border bg-background hover:bg-muted text-xs font-medium h-8 px-3 transition-colors">Cancel</DialogClose>
-          <Button type="submit" size="sm" className="text-xs h-8" disabled={saving}>
-            {saving ? 'Saving...' : 'Save Changes'}
-          </Button>
-        </DialogFooter>
-      </form>
-    </DialogContentLarge>
+    <div className="flex flex-col gap-4 h-full">
+      <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
+        <FI name="passportNumber" label="Passport Number" defaultValue={data.profile?.passportNumber} />
+        <FI name="philhealthNumber" label="PhilHealth Number" defaultValue={data.profile?.philhealthNumber} />
+      </div>
+      <div className="border-t pt-4 flex-1 overflow-y-auto">
+        <p className="text-xs font-semibold text-muted-foreground mb-3 uppercase tracking-wider flex items-center gap-1.5">
+          <Upload className="h-3 w-3" /> Upload Documents
+        </p>
+        <div className="space-y-4">
+          <UploadRow label="Passport Photo" icon={IdCard} currentUrl={passportPhoto} fieldName="passportPhoto" vaName={vaName} profileId={data.user.id} onUploaded={setPassportPhoto} onJustUploaded={handleJustUploaded} />
+          <UploadRow label="PhilHealth Photo" icon={Camera} currentUrl={philhealthPhoto} fieldName="philhealthPhoto" vaName={vaName} profileId={data.user.id} onUploaded={setPhilhealthPhoto} onJustUploaded={handleJustUploaded} />
+          <UploadRow label="Signed Contract" icon={FileText} currentUrl={signedContract} fieldName="signedContract" vaName={vaName} profileId={data.user.id} onUploaded={setSignedContract} onJustUploaded={handleJustUploaded} />
+        </div>
+      </div>
+      <div className="flex items-center justify-end gap-2 pt-2 border-t">
+        <button
+          type="button"
+          onClick={onClose}
+          className="inline-flex items-center justify-center rounded-lg border bg-background hover:bg-muted text-xs font-medium h-8 px-3 transition-colors"
+        >
+          Cancel
+        </button>
+        <Button onClick={handleSave} type="button" size="sm" className="text-xs h-8" disabled={saving}>
+          {saving ? 'Saving...' : 'Save Changes'}
+        </Button>
+      </div>
+    </div>
   )
 }
 
@@ -606,12 +572,6 @@ function UploadRow({
   const [error, setError] = useState<string | null>(null)
   const [uploadedUrl, setUploadedUrl] = useState(currentUrl)
   const [justUploaded, setJustUploaded] = useState(false)
-
-  useEffect(() => {
-    if (!justUploaded) return
-    const t = setTimeout(() => setJustUploaded(false), 8000)
-    return () => clearTimeout(t)
-  }, [justUploaded])
 
   const handleFile = (file: File) => {
     setFileName(file.name)
@@ -642,10 +602,7 @@ function UploadRow({
           toast.success(`${label} uploaded successfully!`, {
             description: `Saved to Drive: ${res.fullPath || fieldName}`,
             duration: 6000,
-            action: {
-              label: 'View Document here',
-              onClick: () => window.open(res.url, '_blank'),
-            },
+            action: { label: 'View Document here', onClick: () => window.open(res.url, '_blank') },
           })
         } else {
           const message = res.error || 'Upload failed'
@@ -657,24 +614,16 @@ function UploadRow({
         toast.error('Upload failed', { description: `Server returned ${xhr.status}` })
       }
     })
-    xhr.addEventListener('error', () => {
-      setUploading(false)
-      setError('Network error')
-      toast.error('Network error', { description: 'Could not reach the upload server.' })
-    })
+    xhr.addEventListener('error', () => { setUploading(false); setError('Network error'); toast.error('Network error', { description: 'Could not reach the upload server.' }) })
     xhr.open('POST', '/api/upload')
     xhr.send(formData)
   }
 
   return (
-    <div
-      className={cn(
-        'flex items-center gap-3 p-3 rounded-xl border transition-all duration-300',
-        justUploaded
-          ? 'border-green-500/50 bg-green-500/5 ring-2 ring-green-500/20'
-          : 'border bg-muted/10 hover:bg-muted/20'
-      )}
-    >
+    <div className={cn(
+      'flex items-center gap-3 p-3 rounded-xl border transition-all duration-300',
+      justUploaded ? 'border-green-500/50 bg-green-500/5 ring-2 ring-green-500/20' : 'border bg-muted/10 hover:bg-muted/20'
+    )}>
       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
         <Icon className="h-4 w-4 text-primary" />
       </div>
@@ -713,13 +662,8 @@ function UploadRow({
         )}
       </div>
       <label className="cursor-pointer shrink-0 inline-flex items-center justify-center rounded-lg border bg-background hover:bg-muted text-xs font-medium h-7 px-2.5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-        <input
-          type="file"
-          accept="image/*,.pdf"
-          disabled={uploading}
-          className="hidden"
-          onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f) }}
-        />
+        <input type="file" accept="image/*,.pdf" disabled={uploading} className="hidden"
+          onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f) }} />
         <Upload className="h-3 w-3 mr-1" />
         {uploadedUrl ? 'Replace' : 'Upload'}
       </label>

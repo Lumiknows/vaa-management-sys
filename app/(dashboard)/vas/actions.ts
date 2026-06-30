@@ -114,3 +114,38 @@ export async function updateUserProfile(userId: string, formData: FormData) {
   revalidatePath(`/vas/${userId}`)
   revalidatePath('/vas')
 }
+
+export async function updateEmployment(vaProfileId: string, userId: string, formData: FormData) {
+  await requireRole('SUPER_ADMIN', 'SYSTEM_ADMIN', 'EXECUTIVE', 'DEPT_MANAGER')
+  await updateVAProfile(vaProfileId, formData)
+  await updateUserProfile(userId, formData)
+}
+
+export { updateUserProfile as updateUserProfileAction }
+
+export async function updateUserProfileFiles(
+  userId: string,
+  passportPhoto: string | null,
+  philhealthPhoto: string | null,
+  signedContract: string | null
+) {
+  await requireRole('SUPER_ADMIN', 'SYSTEM_ADMIN', 'EXECUTIVE', 'DEPT_MANAGER')
+
+  await prisma.userProfile.upsert({
+    where: { userId },
+    create: {
+      userId,
+      passportPhoto: passportPhoto,
+      philhealthPhoto: philhealthPhoto,
+      signedContract: signedContract,
+    },
+    update: {
+      passportPhoto: passportPhoto,
+      philhealthPhoto: philhealthPhoto,
+      signedContract: signedContract,
+    },
+  })
+
+  revalidatePath(`/vas/${userId}`)
+  revalidatePath('/vas')
+}
