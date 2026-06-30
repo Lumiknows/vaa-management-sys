@@ -4,81 +4,67 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Badge } from '@/components/ui/badge'
 import {
-  Pencil,
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogContentLarge,
+  DialogHeader,
+  DialogTitle,
+  DialogBody,
+  DialogFooter,
+  DialogClose,
+} from '@/components/ui/dialog'
+import {
+  Upload,
+  FileText,
   Check,
   X,
-  FileText,
-  Mail,
-  Phone,
+  AlertCircle,
+  ChevronRight,
+  Shield,
+  ExternalLink,
+  Globe,
+  IdCard,
+  Camera,
   MapPin,
   Briefcase,
-  Users,
-  User,
-  Cake,
-  Wallet,
   Building2,
+  Wallet,
+  User,
 } from 'lucide-react'
 import { updateVAProfile, updateUserProfile } from '@/app/(dashboard)/vas/actions'
-import { FileUploadField } from '@/components/vas/FileUploadField'
 import { format } from 'date-fns'
 import type { DriveFile } from '@/lib/google/drive'
 
 type VAData = {
   vaProfile: {
-    id: string
-    isActive: boolean
-    hybrid: boolean
-    hourlyRate: number | null
-    baseRate: number | null
-    vaaPosition: string | null
-    level: string | null
-    availabilityStatus: string
-    preferredWorkHours: number | null
-    availableSchedule: string | null
-    notes: string | null
-    contractLink: string | null
-    folder201Link: string | null
-    file201Link: string | null
-    vaClientFileLink: string | null
-    healthCheckFileLink: string | null
-    portfolioUrl: string | null
-    vaProfileLink: string | null
-    payoutSummaryLink: string | null
+    id: string; isActive: boolean; hybrid: boolean
+    hourlyRate: number | null; baseRate: number | null
+    vaaPosition: string | null; level: string | null
+    availabilityStatus: string; preferredWorkHours: number | null
+    availableSchedule: string | null; notes: string | null
+    contractLink: string | null; folder201Link: string | null
+    file201Link: string | null; vaClientFileLink: string | null
+    healthCheckFileLink: string | null; portfolioUrl: string | null
+    vaProfileLink: string | null; payoutSummaryLink: string | null
     dept201FolderLink: string | null
   }
-  user: {
-    id: string
-    email: string
-    firstName: string
-    lastName: string
-  }
+  user: { id: string; email: string; firstName: string; lastName: string }
   profile: {
-    gender: string | null
-    whatsappNumber: string | null
-    gcashNumber: string | null
-    phone: string | null
-    personalEmail: string | null
-    payoneerAccount: string | null
-    birthDate: string | null
-    nonCelebrant: boolean
-    address: string | null
-    barangay: string | null
-    cityMunicipality: string | null
-    province: string | null
-    zipCode: string | null
-    landmark: string | null
-    emergencyContactName: string | null
-    emergencyContactPhone: string | null
+    gender: string | null; whatsappNumber: string | null
+    gcashNumber: string | null; phone: string | null
+    personalEmail: string | null; payoneerAccount: string | null
+    birthDate: string | null; nonCelebrant: boolean
+    address: string | null; barangay: string | null
+    cityMunicipality: string | null; province: string | null
+    zipCode: string | null; landmark: string | null
+    emergencyContactName: string | null; emergencyContactPhone: string | null
     emergencyContactRelation: string | null
-    facebookName: string | null
-    facebookUrl: string | null
+    facebookName: string | null; facebookUrl: string | null
     linkedinUrl: string | null
-    passportNumber: string | null
-    passportPhoto: string | null
-    philhealthNumber: string | null
-    philhealthPhoto: string | null
+    passportNumber: string | null; passportPhoto: string | null
+    philhealthNumber: string | null; philhealthPhoto: string | null
     signedContract: string | null
   } | null
   membership: { departmentName: string; positionTitle: string | null } | null
@@ -95,256 +81,292 @@ export function VAProfileEditor({
   documents: { id: string; documentType: string; fileName: string; googleDriveUrl: string }[]
   driveFiles: DriveFile[]
 }) {
-  const [editSection, setEditSection] = useState<string | null>(null)
-  const [saving, setSaving] = useState(false)
-
-  const closeEdit = () => setEditSection(null)
-  const isEditing = (s: string) => editSection === s
+  const vaName = `${data.user.firstName} ${data.user.lastName}`.trim()
 
   return (
-    <div className="space-y-6">
-      {/* Personal Information */}
-      <SectionCard
-        title="Personal Information"
-        icon={User}
-        isEditing={isEditing('personal')}
-        onEdit={() => setEditSection('personal')}
-        onCancel={closeEdit}
-        saving={saving}
-      >
-        {isEditing('personal') ? (
-          <PersonalForm data={data} onSaved={closeEdit} setSaving={setSaving} />
-        ) : (
-          <div className="grid gap-x-6 gap-y-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            <FV label="Assigned Email" value={data.user.email} icon={Mail} />
-            <FV label="Personal Email" value={data.profile?.personalEmail} icon={Mail} />
-            <FV label="WhatsApp" value={data.profile?.whatsappNumber} icon={Phone} />
-            <FV label="Emergency Contact" value={data.profile?.emergencyContactName || data.profile?.emergencyContactPhone ? `${data.profile?.emergencyContactName || ''}${data.profile?.emergencyContactPhone ? ` — ${data.profile.emergencyContactPhone}` : ''}` : null} />
-          </div>
-        )}
-      </SectionCard>
-
-      {/* Address */}
-      <SectionCard
-        title="Complete Address"
-        icon={MapPin}
-        isEditing={isEditing('address')}
-        onEdit={() => setEditSection('address')}
-        onCancel={closeEdit}
-        saving={saving}
-      >
-        {isEditing('address') ? (
-          <AddressForm data={data} onSaved={closeEdit} setSaving={setSaving} />
-        ) : (
-          <div className="grid gap-x-6 gap-y-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            <FV label="House #, Building & Street" value={data.profile?.address} />
-            <FV label="Province" value={data.profile?.province} />
-            <FV label="City / Municipality" value={data.profile?.cityMunicipality} />
-            <FV label="Barangay" value={data.profile?.barangay} />
-            <FV label="Zip Code" value={data.profile?.zipCode} />
-            <FV label="Landmark" value={data.profile?.landmark} />
-          </div>
-        )}
-      </SectionCard>
-
-      {/* Employment */}
-      <SectionCard
-        title="Employment"
-        icon={Briefcase}
-        isEditing={isEditing('employment')}
-        onEdit={() => setEditSection('employment')}
-        onCancel={closeEdit}
-        saving={saving}
-      >
-        {isEditing('employment') ? (
-          <EmploymentForm data={data} onSaved={closeEdit} setSaving={setSaving} />
-        ) : (
-          <div className="space-y-4">
-            <div className="grid gap-x-6 gap-y-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-              <FV label="Contract Type" value={data.employment?.contractType?.replace(/_/g, ' ')} />
-              <FV label="Employment Status" value={data.employment?.employmentStatus?.replace(/_/g, ' ')} badge />
-              <FV label="Hire Date" value={data.employment?.startDate ? format(new Date(data.employment.startDate), 'MMM dd, yyyy') : null} />
-              <FV label="Position" value={data.membership?.positionTitle || data.vaProfile.vaaPosition} />
-              <FV label="Base Rate (PHP)" value={data.vaProfile.baseRate ? `₱${Number(data.vaProfile.baseRate).toLocaleString()}/hr` : null} />
-              <FV label="Hourly Rate (USD)" value={data.vaProfile.hourlyRate ? `$${Number(data.vaProfile.hourlyRate).toFixed(2)}/hr` : null} />
+    <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+      {/* LEFT COLUMN — Info Sections */}
+      <div className="space-y-0 rounded-2xl border bg-card overflow-hidden shadow-sm">
+        {/* Personal */}
+        <EditRow
+          icon={User}
+          label="Personal Information"
+          onClickTrigger={
+            <PersonalDialog data={data} />
+          }
+          preview={
+            <div className="grid grid-cols-2 gap-x-8 gap-y-1.5">
+              <Mini label="Assigned Email" value={data.user.email} />
+              <Mini label="Personal Email" value={data.profile?.personalEmail} />
+              <Mini label="WhatsApp" value={data.profile?.whatsappNumber} />
+              <Mini label="Emergency" value={
+                data.profile?.emergencyContactName
+                  ? `${data.profile.emergencyContactName}${data.profile?.emergencyContactPhone ? ` — ${data.profile.emergencyContactPhone}` : ''}`
+                  : null
+              } />
             </div>
-            <div className="border-t pt-4 mt-2">
-              <p className="text-xs font-medium text-muted-foreground mb-3">Payment Details</p>
-              <div className="grid gap-x-6 gap-y-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                <FV
-                  label="Birth Date"
-                  value={
-                    data.profile?.birthDate
-                      ? `${format(new Date(data.profile.birthDate), 'MMM dd, yyyy')}${data.profile.nonCelebrant ? ' (non-celebrant)' : ''}`
-                      : null
-                  }
-                  icon={Cake}
-                />
-                <FV label="GCash" value={data.profile?.gcashNumber} icon={Wallet} />
-                <FV label="Payoneer" value={data.profile?.payoneerAccount} icon={Building2} />
+          }
+        />
+
+        <Divider />
+
+        {/* Address */}
+        <EditRow
+          icon={MapPin}
+          label="Complete Address"
+          onClickTrigger={
+            <AddressDialog data={data} />
+          }
+          preview={
+            <div className="grid grid-cols-3 gap-x-4 gap-y-1.5">
+              <Mini label="#, Building & Street" value={data.profile?.address} />
+              <Mini label="Province" value={data.profile?.province} />
+              <Mini label="City / Municipality" value={data.profile?.cityMunicipality} />
+              <Mini label="Barangay" value={data.profile?.barangay} />
+              <Mini label="Zip Code" value={data.profile?.zipCode} />
+              <Mini label="Landmark" value={data.profile?.landmark} />
+            </div>
+          }
+        />
+
+        <Divider />
+
+        {/* Employment */}
+        <EditRow
+          icon={Briefcase}
+          label="Employment & Payment"
+          onClickTrigger={
+            <EmploymentDialog data={data} />
+          }
+          preview={
+            <div className="grid grid-cols-3 gap-x-4 gap-y-1.5">
+              <Mini label="Position" value={data.membership?.positionTitle || data.vaProfile.vaaPosition} />
+              <Mini label="Status" value={data.employment?.employmentStatus?.replace(/_/g, ' ')} />
+              <Mini label="Base Rate" value={data.vaProfile.baseRate ? `₱${Number(data.vaProfile.baseRate).toLocaleString()}/hr` : null} />
+              <Mini label="Hourly Rate" value={data.vaProfile.hourlyRate ? `$${Number(data.vaProfile.hourlyRate).toFixed(2)}/hr` : null} />
+              <Mini label="Birth Date" value={data.profile?.birthDate ? format(new Date(data.profile.birthDate), 'MMM dd, yyyy') + (data.profile.nonCelebrant ? ' (NC)' : '') : null} />
+              <Mini label="GCash" value={data.profile?.gcashNumber} />
+              <Mini label="Payoneer" value={data.profile?.payoneerAccount} />
+              <Mini label="Hired" value={data.employment?.startDate ? format(new Date(data.employment.startDate), 'MMM dd, yyyy') : null} />
+            </div>
+          }
+        />
+
+        <Divider />
+
+        {/* Socials */}
+        <EditRow
+          icon={Globe}
+          label="Socials"
+          onClickTrigger={
+            <SocialsDialog data={data} />
+          }
+          preview={
+            <div className="grid grid-cols-2 gap-x-8 gap-y-1.5">
+              <Mini label="Facebook Profile" value={data.profile?.facebookName} />
+              <Mini label="Facebook URL" value={data.profile?.facebookUrl} link />
+            </div>
+          }
+        />
+
+        <Divider />
+
+        {/* 201 Files */}
+        <EditRow
+          icon={Shield}
+          label="201 Files"
+          onClickTrigger={
+            <Files201Dialog data={data} vaName={vaName} />
+          }
+          preview={
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-x-8 gap-y-1.5">
+                <Mini label="Passport Number" value={data.profile?.passportNumber} />
+                <Mini label="PhilHealth Number" value={data.profile?.philhealthNumber} />
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <DocBadge icon={IdCard} label="Passport" url={data.profile?.passportPhoto} />
+                <DocBadge icon={Camera} label="PhilHealth" url={data.profile?.philhealthPhoto} />
+                <DocBadge icon={FileText} label="Contract" url={data.profile?.signedContract} />
               </div>
             </div>
-          </div>
-        )}
-      </SectionCard>
+          }
+        />
+      </div>
 
-      {/* Socials */}
-      <SectionCard
-        title="Socials"
-        icon={Users}
-        isEditing={isEditing('socials')}
-        onEdit={() => setEditSection('socials')}
-        onCancel={closeEdit}
-        saving={saving}
-      >
-        {isEditing('socials') ? (
-          <SocialsForm data={data} onSaved={closeEdit} setSaving={setSaving} />
-        ) : (
-          <div className="grid gap-x-6 gap-y-3 grid-cols-1 sm:grid-cols-2">
-            <FV label="Facebook Name" value={data.profile?.facebookName} />
-            <FV label="Facebook URL" value={data.profile?.facebookUrl} link={data.profile?.facebookUrl} />
+      {/* RIGHT COLUMN — Documents & Drive */}
+      <div className="space-y-4">
+        {/* Quick Stats */}
+        <div className="rounded-2xl border bg-card p-4 shadow-sm">
+          <p className="text-xs font-medium text-muted-foreground mb-3 uppercase tracking-wider">Overview</p>
+          <div className="grid grid-cols-2 gap-3">
+            <StatBox
+              label="Department"
+              value={data.membership?.departmentName}
+              icon={Building2}
+            />
+            <StatBox
+              label="Contract"
+              value={data.employment?.contractType?.replace(/_/g, ' ')}
+              icon={Briefcase}
+            />
+            <StatBox
+              label="Schedule"
+              value={data.vaProfile.availableSchedule ? `${data.vaProfile.preferredWorkHours || '-'}h/wk` : null}
+              icon={Wallet}
+            />
+            <StatBox
+              label="Availability"
+              value={data.vaProfile.availabilityStatus?.replace(/_/g, ' ')}
+              icon={User}
+            />
           </div>
-        )}
-      </SectionCard>
-
-      {/* 201 Files (Identification + Documents merged) */}
-      <SectionCard
-        title="201 Files"
-        icon={FileText}
-        isEditing={isEditing('201files')}
-        onEdit={() => setEditSection('201files')}
-        onCancel={closeEdit}
-        saving={saving}
-      >
-        {isEditing('201files') ? (
-          <Files201Form data={data} onSaved={closeEdit} setSaving={setSaving} />
-        ) : (
-          <div className="space-y-4">
-            <div className="grid gap-x-6 gap-y-3 grid-cols-1 sm:grid-cols-2">
-              <FV label="Passport Number" value={data.profile?.passportNumber} />
-              <FV label="PhilHealth Number" value={data.profile?.philhealthNumber} />
-            </div>
-            <div className="border-t pt-3">
-              <p className="text-xs font-medium text-muted-foreground mb-2">Uploaded Documents</p>
-              <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                <DocView label="Passport Photo" url={data.profile?.passportPhoto} />
-                <DocView label="PhilHealth Photo" url={data.profile?.philhealthPhoto} />
-                <DocView label="Signed Contract" url={data.profile?.signedContract} />
-              </div>
-            </div>
-            {driveFiles.length > 0 && (
-              <div className="border-t pt-3">
-                <p className="text-xs font-medium text-muted-foreground mb-2">Google Drive Files</p>
-                <div className="grid gap-1">
-                  {driveFiles.map((f) => (
-                    <a
-                      key={f.id}
-                      href={f.webViewLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-xs text-primary hover:underline py-1"
-                    >
-                      <FileText className="h-3 w-3 shrink-0" />
-                      <span className="truncate">{f.name}</span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </SectionCard>
-    </div>
-  )
-}
-
-function SectionCard({
-  title,
-  icon: Icon,
-  isEditing,
-  onEdit,
-  onCancel,
-  saving,
-  children,
-}: {
-  title: string
-  icon: React.ComponentType<{ className?: string }>
-  isEditing: boolean
-  onEdit: () => void
-  onCancel: () => void
-  saving: boolean
-  children: React.ReactNode
-}) {
-  return (
-    <div className="rounded-xl border bg-card shadow-sm">
-      <div className="flex items-center justify-between px-5 py-3 border-b bg-muted/30">
-        <div className="flex items-center gap-2">
-          <Icon className="h-4 w-4 text-muted-foreground" />
-          <h3 className="text-sm font-semibold">{title}</h3>
         </div>
-        {isEditing ? (
-          <div className="flex gap-1">
-            <Button form={`form-${title.toLowerCase().replace(/\s+/g, '-')}`} type="submit" size="sm" className="text-xs h-7" disabled={saving}>
-              <Check className="h-3 w-3 mr-1" /> Save
-            </Button>
-            <Button variant="ghost" size="sm" className="text-xs h-7" onClick={onCancel} disabled={saving}>
-              <X className="h-3 w-3" />
-            </Button>
+
+        {/* Google Drive Files */}
+        {driveFiles.length > 0 && (
+          <div className="rounded-2xl border bg-card p-4 shadow-sm">
+            <p className="text-xs font-medium text-muted-foreground mb-3 uppercase tracking-wider flex items-center gap-1.5">
+              <Upload className="h-3 w-3" /> Drive Files
+            </p>
+            <div className="space-y-1 max-h-[300px] overflow-y-auto">
+              {driveFiles.map((f) => (
+                <a
+                  key={f.id}
+                  href={f.webViewLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs hover:bg-muted transition-colors group"
+                >
+                  <FileText className="h-3.5 w-3.5 shrink-0 text-muted-foreground group-hover:text-primary transition-colors" />
+                  <span className="truncate group-hover:text-primary transition-colors">{f.name}</span>
+                  <ExternalLink className="h-3 w-3 shrink-0 ml-auto opacity-0 group-hover:opacity-100 text-muted-foreground transition-all" />
+                </a>
+              ))}
+            </div>
           </div>
-        ) : (
-          <Button variant="ghost" size="sm" className="text-xs text-muted-foreground h-7" onClick={onEdit}>
-            <Pencil className="h-3 w-3 mr-1" /> Edit
-          </Button>
+        )}
+
+        {/* Notes */}
+        {data.vaProfile.notes && (
+          <div className="rounded-2xl border bg-muted/20 p-4 shadow-sm">
+            <p className="text-xs font-medium text-muted-foreground mb-1.5 uppercase tracking-wider">Notes</p>
+            <p className="text-xs text-muted-foreground leading-relaxed whitespace-pre-wrap">{data.vaProfile.notes}</p>
+          </div>
         )}
       </div>
-      <div className="px-5 py-4">{children}</div>
     </div>
   )
 }
 
-function FV({
-  label,
-  value,
+function EditRow({
   icon: Icon,
-  link,
-  badge,
+  label,
+  preview,
+  onClickTrigger,
 }: {
+  icon: React.ComponentType<{ className?: string }>
   label: string
-  value: string | null | undefined
-  icon?: React.ComponentType<{ className?: string }>
-  link?: string | null
-  badge?: boolean
+  preview: React.ReactNode
+  onClickTrigger: React.ReactNode
 }) {
+  return (
+    <Dialog>
+      <DialogTrigger
+        render={
+          <button className="w-full text-left px-5 py-4 hover:bg-muted/30 transition-colors group cursor-pointer">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-center gap-3 shrink-0 min-w-[160px]">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary/15 transition-colors">
+                  <Icon className="h-4 w-4 text-primary" />
+                </div>
+                <p className="text-sm font-semibold">{label}</p>
+              </div>
+              <div className="flex-1 min-w-0 flex items-center justify-end gap-3">
+                <div className="flex-1 min-w-0">{preview}</div>
+                <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground/40 group-hover:text-muted-foreground transition-colors" />
+              </div>
+            </div>
+          </button>
+        }
+      />
+      {onClickTrigger}
+    </Dialog>
+  )
+}
+
+function Mini({ label, value, link }: { label: string; value: string | null | undefined; link?: boolean }) {
   if (!value) return null
   return (
     <div className="min-w-0">
-      <p className="text-[11px] text-muted-foreground mb-0.5 flex items-center gap-1">
-        {Icon && <Icon className="h-3 w-3 shrink-0" />}
-        {label}
-      </p>
-      {badge ? (
-        <Badge variant="outline" className="text-xs">{value}</Badge>
-      ) : link ? (
-        <a href={link} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline block truncate">
+      <span className="text-[10px] text-muted-foreground/70 block truncate">{label}</span>
+      {link ? (
+        <a href={value} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline truncate block">
           {value}
         </a>
       ) : (
-        <p className="text-sm truncate">{value}</p>
+        <span className="text-xs font-medium truncate block">{value}</span>
       )}
     </div>
   )
 }
 
-function DocView({ label, url }: { label: string; url: string | null | undefined }) {
-  if (!url) return null
+function DocBadge({
+  icon: Icon,
+  label,
+  url,
+}: {
+  icon: React.ComponentType<{ className?: string }>
+  label: string
+  url: string | null | undefined
+}) {
+  if (!url) {
+    return (
+      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-muted/50 border border-dashed border-muted-foreground/20 text-[10px] text-muted-foreground/50">
+        <Icon className="h-3 w-3" />
+        {label}
+      </div>
+    )
+  }
   return (
-    <div className="flex items-center justify-between py-1 px-3 rounded-lg border bg-muted/20">
-      <span className="text-xs">{label}</span>
-      <a href={url} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline flex items-center gap-1">
-        <FileText className="h-3 w-3" /> View
-      </a>
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-xs text-green-700 hover:bg-green-500/20 transition-colors"
+    >
+      <Check className="h-3 w-3" />
+      <Icon className="h-3 w-3" />
+      {label}
+      <ExternalLink className="h-2.5 w-2.5" />
+    </a>
+  )
+}
+
+function StatBox({
+  label,
+  value,
+  icon: Icon,
+}: {
+  label: string
+  value: string | null | undefined
+  icon: React.ComponentType<{ className?: string }>
+}) {
+  return (
+    <div className="p-2.5 rounded-xl bg-muted/30 border border-transparent hover:border-border/50 transition-colors">
+      <div className="flex items-center gap-1.5 mb-0.5">
+        <Icon className="h-3 w-3 text-muted-foreground" />
+        <span className="text-[10px] text-muted-foreground/60 uppercase tracking-wider">{label}</span>
+      </div>
+      <p className="text-sm font-semibold truncate">
+        {value || <span className="text-muted-foreground/40 font-normal">—</span>}
+      </p>
     </div>
   )
+}
+
+function Divider() {
+  return <div className="border-t mx-5" />
 }
 
 function FI({ name, label, defaultValue, type = 'text', placeholder }: { name: string; label: string; defaultValue?: string | null; type?: string; placeholder?: string }) {
@@ -356,124 +378,281 @@ function FI({ name, label, defaultValue, type = 'text', placeholder }: { name: s
   )
 }
 
-function PersonalForm({ data, onSaved, setSaving }: { data: VAData; onSaved: () => void; setSaving: (v: boolean) => void }) {
+function DialogForm({ id, action, children }: { id: string; action: (fd: FormData) => Promise<void>; children: React.ReactNode }) {
+  const [saving, setSaving] = useState(false)
   return (
-    <form id="form-personal-information" action={async (fd) => {
-      setSaving(true)
-      await updateUserProfile(data.user.id, fd)
-      setSaving(false)
-      onSaved()
-    }} className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-      <FI name="firstName" label="First Name" defaultValue={data.user.firstName} />
-      <FI name="lastName" label="Last Name" defaultValue={data.user.lastName} />
-      <FI name="personalEmail" label="Personal Email" defaultValue={data.profile?.personalEmail} type="email" placeholder="personal@email.com" />
-      <FI name="whatsappNumber" label="WhatsApp Number" defaultValue={data.profile?.whatsappNumber} placeholder="09000000000" />
-      <FI name="emergencyContactName" label="Emergency Contact Name" defaultValue={data.profile?.emergencyContactName} />
-      <FI name="emergencyContactPhone" label="Emergency Contact Number" defaultValue={data.profile?.emergencyContactPhone} placeholder="09000000000" />
+    <form
+      id={id}
+      action={async (fd) => {
+        setSaving(true)
+        await action(fd)
+        setSaving(false)
+      }}
+    >
+      <DialogHeader>
+        <DialogTitle>{id.replace(/^form-/, '').replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}</DialogTitle>
+        <DialogClose><X className="h-4 w-4" /></DialogClose>
+      </DialogHeader>
+      <DialogBody>{children}</DialogBody>
+      <DialogFooter>
+        <DialogClose render={<Button variant="outline" size="sm" className="text-xs h-8">Cancel</Button>} />
+        <Button type="submit" size="sm" className="text-xs h-8" disabled={saving}>
+          {saving ? 'Saving...' : 'Save Changes'}
+        </Button>
+      </DialogFooter>
     </form>
   )
 }
 
-function AddressForm({ data, onSaved, setSaving }: { data: VAData; onSaved: () => void; setSaving: (v: boolean) => void }) {
+function PersonalDialog({ data }: { data: VAData }) {
   return (
-    <form id="form-complete-address" action={async (fd) => { setSaving(true); await updateUserProfile(data.user.id, fd); setSaving(false); onSaved() }} className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-      <FI name="address" label="House #, Building & Street Name" defaultValue={data.profile?.address} placeholder="123 Main St, Building A" />
-      <FI name="province" label="Province" defaultValue={data.profile?.province} />
-      <FI name="cityMunicipality" label="City / Municipality" defaultValue={data.profile?.cityMunicipality} />
-      <FI name="barangay" label="Barangay" defaultValue={data.profile?.barangay} />
-      <FI name="zipCode" label="Zip Code" defaultValue={data.profile?.zipCode} placeholder="1000" />
-      <FI name="landmark" label="Landmark" defaultValue={data.profile?.landmark} />
-    </form>
+    <DialogContent>
+      <DialogForm id="form-personal" action={async (fd) => { await updateUserProfile(data.user.id, fd) }}>
+        <div className="grid gap-3">
+          <FI name="firstName" label="First Name" defaultValue={data.user.firstName} />
+          <FI name="lastName" label="Last Name" defaultValue={data.user.lastName} />
+          <FI name="personalEmail" label="Personal Email" defaultValue={data.profile?.personalEmail} type="email" placeholder="personal@email.com" />
+          <FI name="whatsappNumber" label="WhatsApp Number" defaultValue={data.profile?.whatsappNumber} placeholder="09000000000" />
+          <FI name="emergencyContactName" label="Emergency Contact Name" defaultValue={data.profile?.emergencyContactName} />
+          <FI name="emergencyContactPhone" label="Emergency Contact Number" defaultValue={data.profile?.emergencyContactPhone} placeholder="09000000000" />
+        </div>
+      </DialogForm>
+    </DialogContent>
   )
 }
 
-function EmploymentForm({ data, onSaved, setSaving }: { data: VAData; onSaved: () => void; setSaving: (v: boolean) => void }) {
+function AddressDialog({ data }: { data: VAData }) {
   return (
-    <form id="form-employment" action={async (fd) => {
-      setSaving(true)
-      await updateVAProfile(data.vaProfile.id, fd)
-      await updateUserProfile(data.user.id, fd)
-      setSaving(false)
-      onSaved()
-    }} className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-      <FI name="vaaPosition" label="VAA Position" defaultValue={data.vaProfile.vaaPosition} />
-      <FI name="level" label="Level" defaultValue={data.vaProfile.level} />
-      <FI name="baseRate" label="Base Rate (PHP)" defaultValue={data.vaProfile.baseRate?.toString()} type="number" />
-      <FI name="hourlyRate" label="Hourly Rate (USD)" defaultValue={data.vaProfile.hourlyRate?.toString()} type="number" />
-      <FI name="preferredWorkHours" label="Preferred Hours (Weekly)" defaultValue={data.vaProfile.preferredWorkHours?.toString()} type="number" />
-      <FI name="birthDate" label="Birth Date" defaultValue={data.profile?.birthDate} type="date" />
-      <div className="flex items-center gap-2 pt-5">
-        <input type="checkbox" id="nonCelebrant" name="nonCelebrant" value="true" defaultChecked={data.profile?.nonCelebrant} className="rounded" />
-        <Label htmlFor="nonCelebrant" className="text-xs cursor-pointer">I don&apos;t celebrate birthdays</Label>
-      </div>
-      <FI name="gcashNumber" label="GCash Number" defaultValue={data.profile?.gcashNumber} placeholder="09000000000" />
-      <FI name="payoneerAccount" label="Payoneer Account" defaultValue={data.profile?.payoneerAccount} type="email" placeholder="email@example.com" />
-      <FI name="notes" label="Notes" defaultValue={data.vaProfile.notes} />
-    </form>
+    <DialogContent>
+      <DialogForm id="form-address" action={async (fd) => { await updateUserProfile(data.user.id, fd) }}>
+        <div className="grid gap-3">
+          <FI name="address" label="House #, Building & Street Name" defaultValue={data.profile?.address} placeholder="123 Main St, Building A" />
+          <FI name="province" label="Province" defaultValue={data.profile?.province} />
+          <FI name="cityMunicipality" label="City / Municipality" defaultValue={data.profile?.cityMunicipality} />
+          <FI name="barangay" label="Barangay" defaultValue={data.profile?.barangay} />
+          <div className="grid grid-cols-2 gap-3">
+            <FI name="zipCode" label="Zip Code" defaultValue={data.profile?.zipCode} placeholder="1000" />
+            <FI name="landmark" label="Landmark" defaultValue={data.profile?.landmark} />
+          </div>
+        </div>
+      </DialogForm>
+    </DialogContent>
   )
 }
 
-function SocialsForm({ data, onSaved, setSaving }: { data: VAData; onSaved: () => void; setSaving: (v: boolean) => void }) {
+function EmploymentDialog({ data }: { data: VAData }) {
   return (
-    <form id="form-socials" action={async (fd) => { setSaving(true); await updateUserProfile(data.user.id, fd); setSaving(false); onSaved() }} className="grid gap-3 grid-cols-1 sm:grid-cols-2">
-      <FI name="facebookName" label="Facebook Name" defaultValue={data.profile?.facebookName} />
-      <FI name="facebookUrl" label="Facebook URL" defaultValue={data.profile?.facebookUrl} placeholder="https://facebook.com/..." />
-    </form>
+    <DialogContent>
+      <DialogForm id="form-employment" action={async (fd) => {
+        await updateVAProfile(data.vaProfile.id, fd)
+        await updateUserProfile(data.user.id, fd)
+      }}>
+        <div className="grid gap-3">
+          <FI name="vaaPosition" label="VAA Position" defaultValue={data.vaProfile.vaaPosition} />
+          <FI name="level" label="Level" defaultValue={data.vaProfile.level} />
+          <div className="grid grid-cols-2 gap-3">
+            <FI name="baseRate" label="Base Rate (PHP)" defaultValue={data.vaProfile.baseRate?.toString()} type="number" />
+            <FI name="hourlyRate" label="Hourly Rate (USD)" defaultValue={data.vaProfile.hourlyRate?.toString()} type="number" />
+          </div>
+          <FI name="preferredWorkHours" label="Preferred Hours (Weekly)" defaultValue={data.vaProfile.preferredWorkHours?.toString()} type="number" />
+          <FI name="birthDate" label="Birth Date" defaultValue={data.profile?.birthDate} type="date" />
+          <div className="flex items-center gap-2">
+            <input type="checkbox" id="nonCelebrant" name="nonCelebrant" value="true" defaultChecked={data.profile?.nonCelebrant} className="rounded" />
+            <Label htmlFor="nonCelebrant" className="text-xs cursor-pointer">I don&apos;t celebrate birthdays</Label>
+          </div>
+          <FI name="gcashNumber" label="GCash Number" defaultValue={data.profile?.gcashNumber} placeholder="09000000000" />
+          <FI name="payoneerAccount" label="Payoneer Account" defaultValue={data.profile?.payoneerAccount} type="email" placeholder="email@example.com" />
+          <FI name="notes" label="Notes" defaultValue={data.vaProfile.notes} />
+        </div>
+      </DialogForm>
+    </DialogContent>
   )
 }
 
-function Files201Form({ data, onSaved, setSaving }: { data: VAData; onSaved: () => void; setSaving: (v: boolean) => void }) {
-  const vaName = `${data.user.firstName} ${data.user.lastName}`.trim()
+function SocialsDialog({ data }: { data: VAData }) {
+  return (
+    <DialogContent>
+      <DialogForm id="form-socials" action={async (fd) => { await updateUserProfile(data.user.id, fd) }}>
+        <div className="grid gap-3">
+          <FI name="facebookName" label="Facebook Name" defaultValue={data.profile?.facebookName} />
+          <FI name="facebookUrl" label="Facebook URL" defaultValue={data.profile?.facebookUrl} placeholder="https://facebook.com/..." />
+        </div>
+      </DialogForm>
+    </DialogContent>
+  )
+}
+
+function Files201Dialog({ data, vaName }: { data: VAData; vaName: string }) {
   const [passportPhoto, setPassportPhoto] = useState(data.profile?.passportPhoto ?? null)
   const [philhealthPhoto, setPhilhealthPhoto] = useState(data.profile?.philhealthPhoto ?? null)
   const [signedContract, setSignedContract] = useState(data.profile?.signedContract ?? null)
+  const [saving, setSaving] = useState(false)
 
   return (
-    <form id="form-201-files" action={async (fd) => {
-      setSaving(true)
-      if (passportPhoto) fd.set('passportPhoto', passportPhoto)
-      if (philhealthPhoto) fd.set('philhealthPhoto', philhealthPhoto)
-      if (signedContract) fd.set('signedContract', signedContract)
-      await updateUserProfile(data.user.id, fd)
-      setSaving(false)
-      onSaved()
-    }} className="space-y-4">
-      <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
-        <FI name="passportNumber" label="Passport Number" defaultValue={data.profile?.passportNumber} />
-        <FI name="philhealthNumber" label="PhilHealth Number" defaultValue={data.profile?.philhealthNumber} />
+    <DialogContentLarge>
+      <form
+        id="form-201-files"
+        action={async (fd) => {
+          setSaving(true)
+          if (passportPhoto) fd.set('passportPhoto', passportPhoto)
+          if (philhealthPhoto) fd.set('philhealthPhoto', philhealthPhoto)
+          if (signedContract) fd.set('signedContract', signedContract)
+          await updateUserProfile(data.user.id, fd)
+          setSaving(false)
+        }}
+      >
+        <DialogHeader>
+          <DialogTitle>201 Files</DialogTitle>
+          <DialogClose><X className="h-4 w-4" /></DialogClose>
+        </DialogHeader>
+        <DialogBody>
+          <div className="space-y-5">
+            <div className="grid grid-cols-2 gap-3">
+              <FI name="passportNumber" label="Passport Number" defaultValue={data.profile?.passportNumber} />
+              <FI name="philhealthNumber" label="PhilHealth Number" defaultValue={data.profile?.philhealthNumber} />
+            </div>
+            <div className="border-t pt-4">
+              <p className="text-xs font-semibold text-muted-foreground mb-3 uppercase tracking-wider flex items-center gap-1.5">
+                <Upload className="h-3 w-3" /> Upload Documents
+              </p>
+              <div className="space-y-4">
+                <UploadRow
+                  label="Passport Photo"
+                  icon={IdCard}
+                  currentUrl={passportPhoto}
+                  fieldName="passport_photo"
+                  vaName={vaName}
+                  profileId={data.user.id}
+                  onUploaded={setPassportPhoto}
+                />
+                <UploadRow
+                  label="PhilHealth Photo"
+                  icon={Camera}
+                  currentUrl={philhealthPhoto}
+                  fieldName="philhealth_photo"
+                  vaName={vaName}
+                  profileId={data.user.id}
+                  onUploaded={setPhilhealthPhoto}
+                />
+                <UploadRow
+                  label="Signed Contract"
+                  icon={FileText}
+                  currentUrl={signedContract}
+                  fieldName="signed_contract"
+                  vaName={vaName}
+                  profileId={data.user.id}
+                  onUploaded={setSignedContract}
+                />
+              </div>
+            </div>
+          </div>
+        </DialogBody>
+        <DialogFooter>
+          <DialogClose render={<Button variant="outline" size="sm" className="text-xs h-8">Cancel</Button>} />
+          <Button type="submit" size="sm" className="text-xs h-8" disabled={saving}>
+            {saving ? 'Saving...' : 'Save Changes'}
+          </Button>
+        </DialogFooter>
+      </form>
+    </DialogContentLarge>
+  )
+}
+
+function UploadRow({
+  label,
+  icon: Icon,
+  currentUrl,
+  fieldName,
+  vaName,
+  profileId,
+  onUploaded,
+}: {
+  label: string
+  icon: React.ComponentType<{ className?: string }>
+  currentUrl: string | null
+  fieldName: string
+  vaName: string
+  profileId: string
+  onUploaded: (url: string) => void
+}) {
+  const [uploading, setUploading] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [fileName, setFileName] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [uploadedUrl, setUploadedUrl] = useState(currentUrl)
+
+  const handleFile = (file: File) => {
+    setFileName(file.name)
+    setUploading(true)
+    setProgress(0)
+    setError(null)
+
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('vaName', vaName)
+    formData.append('fieldName', fieldName)
+    formData.append('profileId', profileId)
+
+    const xhr = new XMLHttpRequest()
+    xhr.upload.addEventListener('progress', (e) => {
+      if (e.lengthComputable) setProgress(Math.round((e.loaded / e.total) * 100))
+    })
+    xhr.addEventListener('load', () => {
+      setUploading(false)
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const res = JSON.parse(xhr.responseText)
+        if (res.success) { setUploadedUrl(res.url); onUploaded(res.url); setProgress(100) }
+        else { setError(res.error || 'Upload failed') }
+      } else { setError('Upload failed') }
+    })
+    xhr.addEventListener('error', () => { setUploading(false); setError('Network error') })
+    xhr.open('POST', '/api/upload')
+    xhr.send(formData)
+  }
+
+  return (
+    <div className="flex items-center gap-3 p-3 rounded-xl border bg-muted/10 hover:bg-muted/20 transition-colors">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+        <Icon className="h-4 w-4 text-primary" />
       </div>
-      <div className="border-t pt-4">
-        <p className="text-xs font-medium text-muted-foreground mb-3">Upload Documents to Google Drive</p>
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          <FileUploadField
-            label="Passport Photo"
-            currentUrl={passportPhoto}
-            fieldName="passport_photo"
-            vaName={vaName}
-            profileId={data.user.id}
-            onUploaded={setPassportPhoto}
-            accept="image/*,.pdf"
-          />
-          <FileUploadField
-            label="PhilHealth Photo"
-            currentUrl={philhealthPhoto}
-            fieldName="philhealth_photo"
-            vaName={vaName}
-            profileId={data.user.id}
-            onUploaded={setPhilhealthPhoto}
-            accept="image/*,.pdf"
-          />
-          <FileUploadField
-            label="Signed Contract"
-            currentUrl={signedContract}
-            fieldName="signed_contract"
-            vaName={vaName}
-            profileId={data.user.id}
-            onUploaded={setSignedContract}
-            accept="image/*,.pdf"
-          />
-        </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-xs font-medium">{label}</p>
+        {uploading ? (
+          <div className="mt-1">
+            <div className="flex items-center gap-2 mb-1">
+              <FileText className="h-3 w-3 shrink-0 text-muted-foreground" />
+              <span className="text-[10px] text-muted-foreground truncate">{fileName}</span>
+              <span className="text-[10px] text-primary font-medium ml-auto">{progress}%</span>
+            </div>
+            <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+              <div className="h-full bg-primary rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+            </div>
+          </div>
+        ) : uploadedUrl ? (
+          <div className="flex items-center gap-2 mt-0.5">
+            <Check className="h-3 w-3 text-green-600 shrink-0" />
+            <a href={uploadedUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline truncate">View file</a>
+          </div>
+        ) : (
+          <p className="text-[10px] text-muted-foreground/50 mt-0.5">No file uploaded</p>
+        )}
+        {error && (
+          <p className="text-[10px] text-red-500 mt-0.5 flex items-center gap-1">
+            <AlertCircle className="h-3 w-3" /> {error}
+          </p>
+        )}
       </div>
-    </form>
+      <label className="cursor-pointer shrink-0 inline-flex items-center justify-center rounded-lg border bg-background hover:bg-muted text-xs font-medium h-7 px-2.5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        <input
+          type="file"
+          accept="image/*,.pdf"
+          disabled={uploading}
+          className="hidden"
+          onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f) }}
+        />
+        <Upload className="h-3 w-3 mr-1" />
+        {uploadedUrl ? 'Replace' : 'Upload'}
+      </label>
+    </div>
   )
 }
