@@ -14,7 +14,7 @@ function getAuth() {
       client_email: email,
       private_key: key,
     },
-    scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+    scopes: ['https://www.googleapis.com/auth/drive'],
   })
 }
 

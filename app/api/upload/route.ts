@@ -11,7 +11,7 @@ function getDriveAuth() {
   if (!email || !key) throw new Error('Google credentials not configured')
   return new google.auth.GoogleAuth({
     credentials: { client_email: email, private_key: key },
-    scopes: ['https://www.googleapis.com/auth/drive.file'],
+    scopes: ['https://www.googleapis.com/auth/drive'],
   })
 }
 
